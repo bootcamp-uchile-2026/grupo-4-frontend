@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Del Campo — Productos campesinos</title>
+<link rel="stylesheet" href="style/estilos.css" />
+</head>
+<body>
+
+  <header class="navbar-marca">
+    <div class="contenedor flex-entre">
+      <button class="navbar-marca__boton" aria-label="Abrir menú">
+        <svg class="icono icono--grande" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <a href="index.html" class="navbar-marca__brand">LA SOBREMESA</a>
+
+      <div class="flex-fila">
+        <a href="#" class="navbar-marca__icono" aria-label="Buscar">
+          <svg class="icono" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <a href="#" class="navbar-marca__icono" aria-label="Favoritos">
+          <svg class="icono" viewBox="0 0 24 24"><path d="M12 20s-7-4.35-9.5-8.5C.7 8.2 2 4.5 5.5 4c2-.3 3.7.8 4.5 2.2C10.8 4.8 12.5 3.7 14.5 4c3.5.5 4.8 4.2 3 7.5C19 15.65 12 20 12 20z"/></svg>
+        </a>
+        <a href="#" class="navbar-marca__icono" aria-label="Mi cuenta">
+          <svg class="icono" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+        </a>
+        <a href="carrito.html" class="navbar-marca__icono" aria-label="Carrito de compras">
+          <svg class="icono" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/><path d="M2 3h2l2.4 12.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H5.2"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="hero__eyebrow">Directo del productor a tu mesa</p>
+    <h1>Productos campesinos frescos</h1>
+    <p class="hero__sub"> Productos gourmet de pequeños productores locales. Busca lo que necesitas.</p>
+
+    <div class="buscador">
+      <svg class="buscador__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input type="text" id="buscador" placeholder="Busca por producto, ej: vinos,miel, queso..." autocomplete="off" />
+      <button class="buscador__limpiar" id="limpiar" type="button" aria-label="Limpiar busqueda">✕</button>
+    </div>
+
+    <div class="filtros" id="filtros">
+      <button class="filtro activo">Todos</button>
+      <button class="filtro">Quesos</button>
+      <button class="filtro">Bebidas</button>
+      <button class="filtro">Mermeladas</button>
+      <button class="filtro">Conservas</button>
+      <button class="filtro">Vinos</button>
+    </div>
+  </section>
+
+  <main>
+    <p class="resultados__info" id="info"></p>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="vacio oculto" id="vacio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <h2>Sin resultados</h2>
+      <p>No encontramos productos que coincidan con tu búsqueda.</p>
+    </div>
+  </main>
+
+  <footer class="footer-marca">
+    <div class="contenedor">
+      <div class="grid-footer">
+        <div>
+          <span class="footer-marca__marca">LA SOBREMESA</span>
+          <p class="footer-marca__descripcion">Sabores artesanales con historia, directo desde la zona central de Chile hasta tu mesa.</p>
+        </div>
+        <div>
+          <span class="footer-marca__titulo-columna">Tienda</span>
+          <ul class="footer-marca__enlaces">
+            <li><a href="#categorias">Categorías</a></li>
+            <li><a href="#favoritos">Favoritos</a></li>
+            <li><a href="#caja-gourmet">Caja gourmet</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer-marca__titulo-columna">Ayuda</span>
+          <ul class="footer-marca__enlaces">
+            <li><a href="#">Despacho</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-marca__linea">
+      <p class="footer-marca__copy">&copy; 2026 La Sobremesa. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="productos.js"></script>
+</body>
+</html>
