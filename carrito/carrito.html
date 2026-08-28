@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Sobremesa - Tu Carrito</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header Global -->
+  <header class="header-principal">
+    <div class="contenedor-header">
+      <div class="menu-hamburguesa">☰</div>
+      <a href="index.html" class="logo">LA SOBREMESA</a>
+      
+      <nav class="menu-navegacion">
+        <a href="productos.html" class="nav-link">Productos</a>
+        <a href="historias.html" class="nav-link">Historias</a>
+        <a href="suscripcion.html" class="nav-link">Suscripción</a>
+      </nav>
+
+      <div class="buscador-iconos">
+        <form action="buscar.html" class="form-busqueda">
+          <input type="search" placeholder="Buscar productos..." class="input-busqueda">
+        </form>
+        <a href="favoritos.html" class="icono-link" aria-label="Favoritos">♡</a>
+        <a href="cuenta.html" class="icono-link" aria-label="Mi Cuenta">👤</a>
+        <a href="carrito.html" class="icono-link" aria-label="Carrito">🛒</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor-principal-dos-columnas">
+    
+    <!-- Columna Izquierda: Listado de Productos -->
+    <section class="columna-principal">
+      <h1 class="titulo-seccion">Tu carrito <span class="contador-productos">(2 productos)</span></h1>
+
+      <!-- Producto 1 -->
+      <article class="tarjeta-producto-carrito">
+        <a href="producto-detail.html" class="link-imagen">
+          <div class="imagen-placeholder">
+            <div class="placeholder-cross"></div>
+          </div>
+        </a>
+        <div class="info-producto">
+          <div class="encabezado-producto">
+            <div class="detalles-titulo">
+              <h2><a href="producto-detail.html" class="link-titulo">Queso Maduro Artesanal</a></h2>
+              <p class="marca-autor">Don Pedro</p>
+            </div>
+            <span class="precio">$12.990</span>
+          </div>
+
+          <p class="meta-info">Refrigerado</p>
+          <p class="meta-info">Entrega 22-24 ago</p>
+
+          <div class="acciones-producto">
+            <div class="control-cantidad">
+              <button type="button" class="btn-cantidad">-</button>
+              <input type="text" value="1" readonly class="input-cantidad">
+              <button type="button" class="btn-cantidad">+</button>
+            </div>
+            <a href="#eliminar" class="link-eliminar">Eliminar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 2 -->
+      <article class="tarjeta-producto-carrito">
+        <a href="producto-detail.html" class="link-imagen">
+          <div class="imagen-placeholder">
+            <div class="placeholder-cross"></div>
+          </div>
+        </a>
+        <div class="info-producto">
+          <div class="encabezado-producto">
+            <div class="detalles-titulo">
+              <h2><a href="producto-detail.html" class="link-titulo">Mermelada de Frambuesa</a></h2>
+              <p class="marca-autor">La Emilia</p>
+            </div>
+            <span class="precio">$6.990</span>
+          </div>
+
+          <p class="meta-info">Ambiente</p>
+          <p class="meta-info">Entrega 21-23 ago</p>
+
+          <div class="acciones-producto">
+            <div class="control-cantidad">
+              <button type="button" class="btn-cantidad">-</button>
+              <input type="text" value="2" readonly class="input-cantidad">
+              <button type="button" class="btn-cantidad">+</button>
+            </div>
+            <a href="#eliminar" class="link-eliminar">Eliminar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sugerencias / También te puede interesar -->
+      <section class="seccion-interes">
+        <h3 class="subtitulo-interes">También te puede interesar</h3>
+        <div class="grid-sugerencias">
+          <a href="producto-detail.html" class="tarjeta-sugerencia">
+            <div class="imagen-placeholder">
+              <div class="placeholder-cross"></div>
+            </div>
+          </a>
+          <a href="producto-detail.html" class="tarjeta-sugerencia">
+            <div class="imagen-placeholder">
+              <div class="placeholder-cross"></div>
+            </div>
+          </a>
+          <a href="producto-detail.html" class="tarjeta-sugerencia">
+            <div class="imagen-placeholder">
+              <div class="placeholder-cross"></div>
+            </div>
+          </a>
+          <a href="producto-detail.html" class="tarjeta-sugerencia">
+            <div class="imagen-placeholder">
+              <div class="placeholder-cross"></div>
+            </div>
+          </a>
+        </div>
+      </section>
+    </section>
+
+    <!-- Columna Derecha: Resumen de Compra -->
+    <aside class="columna-lateral">
+      <div class="tarjeta-resumen-compra">
+        <h3>Resumen de compra</h3>
+        <div class="linea-resumen">
+          <span>Productos</span>
+          <span class="monto">$26.970</span>
+        </div>
+        <div class="linea-resumen">
+          <span>Despacho</span>
+          <span class="monto-subtexto">Se calcula en el checkout</span>
+        </div>
+        <hr class="divisor-resumen">
+        <div class="linea-resumen total">
+          <span>Total</span>
+          <span class="monto-total">$26.970</span>
+        </div>
+        <a href="checkout.html" class="btn-principal-bloque">IR AL CHECKOUT</a>
+        <p class="nota-seguridad">🔒 Compra 100% segura</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Footer Global -->
+  <footer class="footer-principal">
+    <div class="contenedor-footer">
+      <div class="columna-footer">
+        <h4>Información</h4>
+        <ul>
+          <li><a href="nosotros.html">Sobre Nosotros</a></li>
+          <li><a href="productores.html">Nuestros Productores</a></li>
+          <li><a href="sustentabilidad.html">Sustentabilidad</a></li>
+        </ul>
+      </div>
+
+      <div class="columna-footer">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="faq.html">Preguntas Frecuentes</a></li>
+          <li><a href="envios.html">Envíos y Despachos</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="columna-footer">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="terminos.html">Términos y Condiciones</a></li>
+          <li><a href="privacidad.html">Políticas de Privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="columna-footer">
+        <h4>Síguenos</h4>
+        <p class="texto-boletin">Suscríbete a nuestro boletín para recibir novedades artesanales.</p>
+        <form action="suscripcion.html" class="form-boletin">
+          <input type="email" placeholder="Tu e-mail" required class="input-boletin">
+          <button type="submit" class="btn-boletin">OK</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="barra-copyright">
+      <p>&copy; 2026 La Sobremesa. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
