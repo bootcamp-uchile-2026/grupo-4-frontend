@@ -1,0 +1,394 @@
+/* ===================================================
+   1. RESET BASE Y ESTILOS GENERALES
+   =================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #111111;
+  padding-top: 70px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+/* ===================================================
+   2. ENCABEZADO / NAVBAR
+   =================================================== */
+.encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+}
+
+.menu-navegacion {
+  display: flex;
+  gap: 25px;
+}
+
+.menu-navegacion a {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.menu-navegacion a:hover {
+  text-decoration: underline;
+}
+
+.buscador-iconos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.caja-busqueda {
+  padding: 8px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 13px;
+  outline: none;
+}
+
+.iconos-usuario {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+}
+
+.item-icono.activo {
+  font-weight: bold;
+}
+
+/* ===================================================
+   3. LAYOUT PRINCIPAL DE LA CUENTA (PERFIL)
+   =================================================== */
+.seccion-contenido {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.contenedor-perfil {
+  display: flex;
+  gap: 30px;
+}
+
+/* MENÚ LATERAL IZQUIERDO */
+.menu-lateral {
+  width: 240px;
+  flex-shrink: 0;
+  border-right: 1px solid #eeeeee;
+  padding-right: 20px;
+}
+
+.lista-menu-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item-menu-lateral {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #444444;
+  width: 100%;
+}
+
+.item-menu-lateral:hover {
+  background-color: #f5f5f5;
+}
+
+.item-menu-lateral.activo {
+  background-color: #ececec;
+  font-weight: bold;
+  color: #000000;
+}
+
+.icono-menu {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* PANEL DERECHO DE CONTENIDO */
+.panel-contenido {
+  flex-grow: 1;
+}
+
+/* GRILLA Y TARJETAS SUPERIORES */
+.grilla-resumen {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.tarjeta-resumen {
+  flex: 1;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.tarjeta-resumen h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.etiqueta-secundaria {
+  font-size: 12px;
+  color: #777777;
+  margin-bottom: 4px;
+}
+
+.destacado-fecha {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.codigo-pedido {
+  font-size: 12px;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.boton-gris {
+  background-color: #e8e8e8;
+  color: #000000;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.boton-gris:hover {
+  background-color: #dcdcdc;
+}
+
+.boton-bloque {
+  display: block;
+  width: 100%;
+}
+
+/* ACCESOS RÁPIDOS */
+.seccion-accesos-rapidos {
+  margin-bottom: 40px;
+}
+
+.seccion-accesos-rapidos h2 {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.grilla-accesos {
+  display: flex;
+  gap: 15px;
+}
+
+.tarjeta-acceso-rapido {
+  flex: 1;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #333333;
+  text-align: center;
+}
+
+.tarjeta-acceso-rapido:hover {
+  border-color: #000000;
+  background-color: #fafafa;
+}
+
+.icono-acceso {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* SECCIÓN VUELVE A TU MESA */
+.seccion-vuelve-mesa {
+  border-top: 1px solid #eeeeee;
+  padding-top: 25px;
+}
+
+.cabecera-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cabecera-seccion h2 {
+  font-size: 16px;
+}
+
+.enlace-flecha {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.grilla-productos-mini {
+  display: flex;
+  gap: 15px;
+}
+
+.tarjeta-producto-mini {
+  flex: 1;
+  display: block;
+}
+
+.foto-producto-mini {
+  width: 100%;
+  height: 110px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.tarjeta-producto-mini:hover .foto-producto-mini {
+  background-color: #cccccc;
+}
+
+.nombre-producto {
+  font-size: 12px;
+  color: #333333;
+  margin-bottom: 2px;
+}
+
+.precio-producto {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+}
+
+/* GENERAL PLACEHOLDERS */
+.imagen-placeholder {
+  background-color: #e0e0e0;
+  color: #555555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===================================================
+   4. PIE DE PÁGINA / FOOTER
+   =================================================== */
+.pie-pagina {
+  background-color: #f9f9f9;
+  border-top: 1px solid #eeeeee;
+  padding: 40px 40px 20px 40px;
+  margin-top: 60px;
+}
+
+.columnas-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.columna-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.columna-footer h4 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.columna-footer a {
+  color: #555555;
+}
+
+.columna-footer a:hover {
+  color: #000000;
+}
+
+.iconos-redes {
+  display: flex;
+  gap: 8px;
+}
+
+.icono-red {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.label-boletin {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #666666;
+}
+
+.formulario-boletin {
+  display: flex;
+  gap: 5px;
+}
+
+.formulario-boletin input {
+  padding: 6px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.formulario-boletin button {
+  padding: 6px 12px;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.copyright {
+  text-align: center;
+  border-top: 1px solid #eeeeee;
+  padding-top: 20px;
+  font-size: 12px;
+  color: #888888;
+}
