@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Sobremesa - Checkout</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header Global -->
+  <header class="header-principal">
+    <div class="contenedor-header">
+      <div class="menu-hamburguesa">☰</div>
+      <a href="index.html" class="logo">LA SOBREMESA</a>
+      
+      <nav class="menu-navegacion">
+        <a href="productos.html" class="nav-link">Productos</a>
+        <a href="historias.html" class="nav-link">Historias</a>
+        <a href="suscripcion.html" class="nav-link">Suscripción</a>
+      </nav>
+
+      <div class="buscador-iconos">
+        <form action="buscar.html" class="form-busqueda">
+          <input type="search" placeholder="Buscar productos..." class="input-busqueda">
+        </form>
+        <a href="favoritos.html" class="icono-link" aria-label="Favoritos">♡</a>
+        <a href="cuenta.html" class="icono-link" aria-label="Mi Cuenta">👤</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor-principal-centrado">
+    
+    <section class="seccion-checkout">
+      <h1 class="titulo-checkout">Checkout</h1>
+
+      <!-- Stepper / Pasos -->
+      <div class="pasos-checkout">
+        <div class="paso activo">
+          <div class="circulo-paso">1</div>
+          <span>Datos</span>
+        </div>
+        <div class="linea-conector"></div>
+        <div class="paso">
+          <div class="circulo-paso">2</div>
+          <span>Entrega</span>
+        </div>
+        <div class="linea-conector"></div>
+        <div class="paso">
+          <div class="circulo-paso">3</div>
+          <span>Pago</span>
+        </div>
+        <div class="linea-conector"></div>
+        <div class="paso">
+          <div class="circulo-paso">4</div>
+          <span>Resumen</span>
+        </div>
+      </div>
+
+      <!-- Pregunta de Identificación -->
+      <h2 class="pregunta-cuenta">¿Tienes cuenta?</h2>
+      <div class="opciones-acceso">
+        <a href="#login" class="tarjeta-opcion-acceso">
+          <strong>Iniciar sesión</strong>
+          <p>Accede a tu cuenta para comprar más rápido</p>
+        </a>
+        <a href="#invitado" class="tarjeta-opcion-acceso">
+          <strong>Continuar como invitado</strong>
+          <p>No necesitas registrarte</p>
+        </a>
+      </div>
+
+      <!-- Formulario Crear Cuenta / Identificación -->
+      <div class="seccion-registro">
+        <h2>Crear cuenta</h2>
+        <form action="registro.html" method="POST" class="formulario-cuenta">
+          <div class="campo-form">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+          </div>
+          
+          <div class="campo-form">
+            <label for="password">Contraseña</label>
+            <div class="contenedor-password">
+              <input type="password" id="password" name="password" required>
+              <span class="icono-revelar">👁</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-principal-bloque">CREAR CUENTA</button>
+        </form>
+
+        <div class="separador-o">
+          <span>O continuar con</span>
+        </div>
+
+        <div class="botones-sociales">
+          <a href="auth/google.html" class="btn-social">
+            <span class="icono-social">G</span> Google
+          </a>
+          <a href="auth/apple.html" class="btn-social">
+            <span class="icono-social"></span> Apple
+          </a>
+          <a href="auth/facebook.html" class="btn-social">
+            <span class="icono-social">f</span> Facebook
+          </a>
+        </div>
+
+        <p class="texto-login-link">
+          ¿Ya tienes cuenta? <a href="login.html" class="link-inline">Inicia sesión</a>
+        </p>
+      </div>
+
+      <div class="footer-volver-carrito">
+        <a href="carrito.html" class="link-inline">← Volver al carrito</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Global -->
+  <footer class="footer-principal">
+    <div class="contenedor-footer">
+      <div class="columna-footer">
+        <h4>Información</h4>
+        <ul>
+          <li><a href="nosotros.html">Sobre Nosotros</a></li>
+          <li><a href="productores.html">Nuestros Productores</a></li>
+          <li><a href="sustentabilidad.html">Sustentabilidad</a></li>
+        </ul>
+      </div>
+
+      <div class="columna-footer">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="faq.html">Preguntas Frecuentes</a></li>
+          <li><a href="envios.html">Envíos y Despachos</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="columna-footer">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="terminos.html">Términos y Condiciones</a></li>
+          <li><a href="privacidad.html">Políticas de Privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="columna-footer">
+        <h4>Síguenos</h4>
+        <p class="texto-boletin">Suscríbete a nuestro boletín para recibir novedades artesanales.</p>
+        <form action="suscripcion.html" class="form-boletin">
+          <input type="email" placeholder="Tu e-mail" required class="input-boletin">
+          <button type="submit" class="btn-boletin">OK</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="barra-copyright">
+      <p>&copy; 2026 La Sobremesa. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
