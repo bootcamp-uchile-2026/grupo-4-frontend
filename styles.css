@@ -9,6 +9,8 @@
 .logo {
     font-size: 18px;
     font-weight: bold;
+    text-decoration: none;
+    color: #000;
 }
 
 .iconos-usuario span {
