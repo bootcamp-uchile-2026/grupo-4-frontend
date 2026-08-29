@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>La Sobremesa - Mi Cuenta</title>
+  <link rel="stylesheet" href="stylescuenta.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO / NAVBAR -->
+  <header class="encabezado">
+    <a href="../Home/index.html" class="logo">La Sobremesa</a>
+    <nav class="menu-navegacion">
+      <a href="../PLP/catalogo.html">Productos</a>
+      <a href="../historias.html">Historias</a>
+      <a href="../suscripcion.html">Suscripción</a>
+    </nav>
+    <div class="buscador-iconos">
+      <input type="text" placeholder="Buscar productos..." class="caja-busqueda">
+      <div class="iconos-usuario">
+        <a href="favoritos.html" class="item-icono">Favoritos</a>
+        <a href="cuenta.html" class="item-icono activo">Cuenta</a>
+        <a href="../carrito.html" class="item-icono">Carrito</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL PERFIL -->
+  <main class="seccion-contenido contenedor-perfil">
+    
+    <!-- MENÚ LATERAL DE NAVEGACIÓN -->
+    <aside class="menu-lateral">
+      <nav class="lista-menu-lateral">
+        <a href="cuenta.html" class="item-menu-lateral activo">
+          <span class="imagen-placeholder icono-menu">[R]</span>
+          <span>Resumen</span>
+        </a>
+        <a href="mis-pedidos.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[P]</span>
+          <span>Mis pedidos</span>
+        </a>
+        <a href="mi-suscripcion.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[S]</span>
+          <span>Mi suscripción</span>
+        </a>
+        <a href="favoritos.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[F]</span>
+          <span>Favoritos</span>
+        </a>
+        <a href="direcciones.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[D]</span>
+          <span>Direcciones</span>
+        </a>
+        <a href="metodos-pago.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[M]</span>
+          <span>Métodos de pago</span>
+        </a>
+        <a href="mis-datos.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[U]</span>
+          <span>Mis datos</span>
+        </a>
+        <a href="ayuda.html" class="item-menu-lateral">
+          <span class="imagen-placeholder icono-menu">[?]</span>
+          <span>Ayuda</span>
+        </a>
+        <a href="login.html" class="item-menu-lateral cerrar-sesion">
+          <span class="imagen-placeholder icono-menu">[X]</span>
+          <span>Cerrar sesión</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- PANEL PRINCIPAL DE INFORMACIÓN -->
+    <section class="panel-contenido">
+      
+      <!-- SECCIÓN SUPERIOR: RESUMEN Y TARJETAS PRÓXIMAS -->
+      <div class="grilla-resumen">
+        
+        <!-- TARJETA: TU PRÓXIMO PEDIDO -->
+        <div class="tarjeta-resumen">
+          <h3>Tu próximo pedido</h3>
+          <p class="etiqueta-secundaria">Llega entre</p>
+          <p class="destacado-fecha">22 – 24 ago</p>
+          <p class="codigo-pedido">Pedido #48201</p>
+          <a href="seguimiento-pedido.html" class="boton-gris boton-bloque">Seguir pedido</a>
+        </div>
+
+        <!-- TARJETA: TU SUSCRIPCIÓN -->
+        <div class="tarjeta-resumen">
+          <h3>Tu suscripción</h3>
+          <p class="etiqueta-secundaria">Próxima caja</p>
+          <p class="destacado-fecha">24 – 26 ago</p>
+          <p class="codigo-pedido">Próximo cobro: 20 ago</p>
+          <a href="mi-suscripcion.html" class="boton-gris boton-bloque">Gestionar suscripción</a>
+        </div>
+
+      </div>
+
+      <!-- SECCIÓN: ACCESOS RÁPIDOS -->
+      <section class="seccion-accesos-rapidos">
+        <h2>Accesos rápidos</h2>
+        <div class="grilla-accesos">
+          <a href="mis-pedidos.html" class="tarjeta-acceso-rapido">
+            <span class="imagen-placeholder icono-acceso">P</span>
+            <span>Mis pedidos</span>
+          </a>
+          <a href="favoritos.html" class="tarjeta-acceso-rapido">
+            <span class="imagen-placeholder icono-acceso">F</span>
+            <span>Favoritos</span>
+          </a>
+          <a href="direcciones.html" class="tarjeta-acceso-rapido">
+            <span class="imagen-placeholder icono-acceso">D</span>
+            <span>Direcciones</span>
+          </a>
+          <a href="metodos-pago.html" class="tarjeta-acceso-rapido">
+            <span class="imagen-placeholder icono-acceso">M</span>
+            <span>Métodos de pago</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- SECCIÓN: VUELVE A TU MESA -->
+      <section class="seccion-vuelve-mesa">
+        <div class="cabecera-seccion">
+          <h2>Vuelve a tu mesa</h2>
+          <a href="../productos.html" class="enlace-flecha">Ver todos &rarr;</a>
+        </div>
+
+        <div class="grilla-productos-mini">
+          
+          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini">X</div>
+            <p class="nombre-producto">Producto 1</p>
+            <p class="precio-producto">$0.000</p>
+          </a>
+
+          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini">X</div>
+            <p class="nombre-producto">Producto 2</p>
+            <p class="precio-producto">$0.000</p>
+          </a>
+
+          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini">X</div>
+            <p class="nombre-producto">Producto 3</p>
+            <p class="precio-producto">$0.000</p>
+          </a>
+
+          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini">X</div>
+            <p class="nombre-producto">Producto 4</p>
+            <p class="precio-producto">$0.000</p>
+          </a>
+
+          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini">X</div>
+            <p class="nombre-producto">Producto 5</p>
+            <p class="precio-producto">$0.000</p>
+          </a>
+
+        </div>
+      </section>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER / PIE DE PÁGINA -->
+  <footer class="pie-pagina">
+    <div class="columnas-footer">
+      <div class="columna-footer">
+        <h4>La Sobremesa</h4>
+        <p>Conectamos productores artesanales con tu mesa.</p>
+      </div>
+      <div class="columna-footer">
+        <h4>Ayuda</h4>
+        <a href="faq.html">Preguntas frecuentes</a>
+        <a href="envios.html">Envíos y entregas</a>
+        <a href="devoluciones.html">Devoluciones</a>
+      </div>
+      <div class="columna-footer">
+        <h4>Legal</h4>
+        <a href="terminos.html">Términos y condiciones</a>
+        <a href="privacidad.html">Política de privacidad</a>
+        <a href="cambios.html">Política de cambios y devoluciones</a>
+      </div>
+      <div class="columna-footer">
+        <h4>Síguenos</h4>
+        <div class="iconos-redes">
+          <a href="https://instagram.com" class="imagen-placeholder icono-red" target="_blank">IG</a>
+          <a href="https://facebook.com" class="imagen-placeholder icono-red" target="_blank">FB</a>
+          <a href="https://twitter.com" class="imagen-placeholder icono-red" target="_blank">TW</a>
+        </div>
+        <p class="label-boletin">Recibe novedades y ofertas</p>
+        <form action="#" class="formulario-boletin">
+          <input type="email" placeholder="Tu email" required>
+          <button type="submit">&rarr;</button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>© 2026 La Sobremesa. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
