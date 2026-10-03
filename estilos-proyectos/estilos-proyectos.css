@@ -6,10 +6,10 @@
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
-     <link rel="stylesheet" href="../design-system/design-system.css">
+     <link rel="stylesheet" href="../estilos-proyectos/estilos-proyectos.css">
      <link rel="stylesheet" href="estilos-de-la-pagina.css">   <- siempre después
 
-   En React (futuro): import './design-system/design-system.css' en main.jsx
+   En React (futuro): import './estilos-proyectos/estilos-proyectos.css' en main.jsx
    ========================================================= */
 
 /* ---------------------------------------------------------
