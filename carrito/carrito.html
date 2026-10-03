@@ -4,134 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Sobremesa - Tu Carrito</title>
+
+  <!-- Tipografía del design system: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
+  <!-- Design system global (tokens, base, botones, encabezado y pie) -->
+  <link rel="stylesheet" href="../design-system/design-system.css">
+  <!-- Estilos propios de la página -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <!-- Header Global -->
-  <header class="header-principal">
-    <div class="contenedor-header">
-      <div class="menu-hamburguesa">☰</div>
-      <a href="../Home/index.html" class="logo">LA SOBREMESA</a>
-      
-      <nav class="menu-navegacion">
-        <a href="../PLP/catalogo.html" class="nav-link">Productos</a>
-        <a href="historias.html" class="nav-link">Historias</a>
-        <a href="../suscripcion.html" class="nav-link">Suscripción</a>
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+      <a href="../Home/index.html" class="logo">La Sobremesa</a>
+
+      <nav class="menu-navegacion" aria-label="Principal">
+        <a href="../PLP/catalogo.html">Productos</a>
+        <a href="../Home/productores.html">Productores</a>
+        <a href="../suscripcion.html">Suscripción</a>
       </nav>
 
-      <div class="buscador-iconos">
-        <form action="buscar.html" class="form-busqueda">
-          <input type="search" placeholder="Buscar productos..." class="input-busqueda">
-        </form>
-        <a href="favoritos.html" class="icono-link" aria-label="Favoritos">♡</a>
-        <a href="cuenta.html" class="icono-link" aria-label="Mi Cuenta">👤</a>
-        <a href="carrito.html" class="icono-link" aria-label="Carrito">🛒</a>
+      <div class="iconos-usuario">
+        <a href="../PLP/catalogo.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </a>
+        <a href="../Home/favoritos.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+        </a>
+        <a href="../Cuenta Usuario/cuenta.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Mi cuenta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        </a>
+        <a href="../carrito/carrito.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Carrito" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
       </div>
     </div>
   </header>
 
-  <main class="contenedor-principal-dos-columnas">
-    
+  <main class="contenedor contenedor-principal-dos-columnas">
+
     <!-- Columna Izquierda: Listado de Productos -->
     <section class="columna-principal">
       <h1 class="titulo-seccion">Tu carrito <span class="contador-productos">(2 productos)</span></h1>
 
-      <!-- Producto 1 -->
-      <article class="tarjeta-producto-carrito">
-        <a href="producto-detail.html" class="link-imagen">
-          <div class="imagen-placeholder">
-            <div class="placeholder-cross"></div>
-          </div>
-        </a>
+      <article class="tarjeta-base tarjeta-producto-carrito">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-carrito" aria-label="Queso Maduro Artesanal"></a>
         <div class="info-producto">
           <div class="encabezado-producto">
-            <div class="detalles-titulo">
-              <h2><a href="producto-detail.html" class="link-titulo">Queso Maduro Artesanal</a></h2>
+            <div>
+              <h2><a href="../PDP/PDP.html">Queso Maduro Artesanal</a></h2>
               <p class="marca-autor">Don Pedro</p>
             </div>
             <span class="precio">$12.990</span>
           </div>
 
-          <p class="meta-info">Refrigerado</p>
-          <p class="meta-info">Entrega 22-24 ago</p>
+          <p class="meta-info">❄️ Refrigerado · Entrega 22-24 ago</p>
 
           <div class="acciones-producto">
             <div class="control-cantidad">
-              <button type="button" class="btn-cantidad">-</button>
-              <input type="text" value="1" readonly class="input-cantidad">
-              <button type="button" class="btn-cantidad">+</button>
+              <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Quitar uno">−</button>
+              <input type="text" value="1" readonly class="input-cantidad" aria-label="Cantidad">
+              <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Agregar uno">+</button>
             </div>
-            <a href="#eliminar" class="link-eliminar">Eliminar</a>
+            <button type="button" class="boton boton-terciario boton-sm">Eliminar</button>
           </div>
         </div>
       </article>
 
-      <!-- Producto 2 -->
-      <article class="tarjeta-producto-carrito">
-        <a href="producto-detail.html" class="link-imagen">
-          <div class="imagen-placeholder">
-            <div class="placeholder-cross"></div>
-          </div>
-        </a>
+      <article class="tarjeta-base tarjeta-producto-carrito">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-carrito" aria-label="Mermelada de Frambuesa"></a>
         <div class="info-producto">
           <div class="encabezado-producto">
-            <div class="detalles-titulo">
-              <h2><a href="producto-detail.html" class="link-titulo">Mermelada de Frambuesa</a></h2>
+            <div>
+              <h2><a href="../PDP/PDP.html">Mermelada de Frambuesa</a></h2>
               <p class="marca-autor">La Emilia</p>
             </div>
             <span class="precio">$6.990</span>
           </div>
 
-          <p class="meta-info">Ambiente</p>
-          <p class="meta-info">Entrega 21-23 ago</p>
+          <p class="meta-info">🌡️ Ambiente · Entrega 21-23 ago</p>
 
           <div class="acciones-producto">
             <div class="control-cantidad">
-              <button type="button" class="btn-cantidad">-</button>
-              <input type="text" value="2" readonly class="input-cantidad">
-              <button type="button" class="btn-cantidad">+</button>
+              <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Quitar uno">−</button>
+              <input type="text" value="2" readonly class="input-cantidad" aria-label="Cantidad">
+              <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Agregar uno">+</button>
             </div>
-            <a href="#eliminar" class="link-eliminar">Eliminar</a>
+            <button type="button" class="boton boton-terciario boton-sm">Eliminar</button>
           </div>
         </div>
       </article>
 
       <!-- Sugerencias / También te puede interesar -->
       <section class="seccion-interes">
-        <h3 class="subtitulo-interes">También te puede interesar</h3>
+        <h2>También te puede interesar</h2>
         <div class="grid-sugerencias">
-          <a href="producto-detail.html" class="tarjeta-sugerencia">
-            <div class="imagen-placeholder">
-              <div class="placeholder-cross"></div>
-            </div>
-          </a>
-          <a href="producto-detail.html" class="tarjeta-sugerencia">
-            <div class="imagen-placeholder">
-              <div class="placeholder-cross"></div>
-            </div>
-          </a>
-          <a href="producto-detail.html" class="tarjeta-sugerencia">
-            <div class="imagen-placeholder">
-              <div class="placeholder-cross"></div>
-            </div>
-          </a>
-          <a href="producto-detail.html" class="tarjeta-sugerencia">
-            <div class="imagen-placeholder">
-              <div class="placeholder-cross"></div>
-            </div>
-          </a>
+          <a href="../PDP/PDP.html" class="imagen-placeholder tarjeta-sugerencia">Producto</a>
+          <a href="../PDP/PDP.html" class="imagen-placeholder tarjeta-sugerencia">Producto</a>
+          <a href="../PDP/PDP.html" class="imagen-placeholder tarjeta-sugerencia">Producto</a>
+          <a href="../PDP/PDP.html" class="imagen-placeholder tarjeta-sugerencia">Producto</a>
         </div>
       </section>
     </section>
 
     <!-- Columna Derecha: Resumen de Compra -->
     <aside class="columna-lateral">
-      <div class="tarjeta-resumen-compra">
-        <h3>Resumen de compra</h3>
+      <div class="tarjeta-base tarjeta-resumen-compra">
+        <h2>Resumen de compra</h2>
         <div class="linea-resumen">
           <span>Productos</span>
-          <span class="monto">$26.970</span>
+          <span>$26.970</span>
         </div>
         <div class="linea-resumen">
           <span>Despacho</span>
@@ -140,56 +126,50 @@
         <hr class="divisor-resumen">
         <div class="linea-resumen total">
           <span>Total</span>
-          <span class="monto-total">$26.970</span>
+          <span>$26.970</span>
         </div>
-        <a href="checkout.html" class="btn-principal-bloque">IR AL CHECKOUT</a>
+        <a href="checkout.html" class="boton boton-primario boton-lg boton-bloque">Ir al checkout</a>
+        <a href="../PLP/catalogo.html" class="boton boton-terciario boton-bloque">Seguir comprando</a>
         <p class="nota-seguridad">🔒 Compra 100% segura</p>
       </div>
     </aside>
 
   </main>
 
-  <!-- Footer Global -->
-  <footer class="footer-principal">
-    <div class="contenedor-footer">
-      <div class="columna-footer">
-        <h4>Información</h4>
-        <ul>
-          <li><a href="nosotros.html">Sobre Nosotros</a></li>
-          <li><a href="productores.html">Nuestros Productores</a></li>
-          <li><a href="sustentabilidad.html">Sustentabilidad</a></li>
-        </ul>
-      </div>
-
+  <footer class="pie-pagina">
+    <div class="contenedor columnas-footer">
       <div class="columna-footer">
         <h4>Ayuda</h4>
-        <ul>
-          <li><a href="faq.html">Preguntas Frecuentes</a></li>
-          <li><a href="envios.html">Envíos y Despachos</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-        </ul>
+        <a href="../Home/faq.html">Preguntas frecuentes</a>
+        <a href="../Home/envios.html">Envíos</a>
+        <a href="../Home/devoluciones.html">Devoluciones</a>
+        <a href="../Home/contacto.html">Contacto</a>
       </div>
-
       <div class="columna-footer">
         <h4>Legal</h4>
-        <ul>
-          <li><a href="terminos.html">Términos y Condiciones</a></li>
-          <li><a href="privacidad.html">Políticas de Privacidad</a></li>
-        </ul>
+        <a href="../Home/terminos.html">Términos y condiciones</a>
+        <a href="../Home/privacidad.html">Política de privacidad</a>
       </div>
-
       <div class="columna-footer">
         <h4>Síguenos</h4>
-        <p class="texto-boletin">Suscríbete a nuestro boletín para recibir novedades artesanales.</p>
-        <form action="suscripcion.html" class="form-boletin">
-          <input type="email" placeholder="Tu e-mail" required class="input-boletin">
-          <button type="submit" class="btn-boletin">OK</button>
+        <div class="iconos-redes">
+          <a href="https://instagram.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://facebook.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        </div>
+      </div>
+      <div class="columna-footer">
+        <h4>Recibe novedades</h4>
+        <form action="#" class="formulario-boletin">
+          <label for="email-boletin" class="sr-only">Tu email</label>
+          <input id="email-boletin" type="email" class="campo" placeholder="Tu email" required>
+          <button type="submit" class="boton boton-primario boton-icono" aria-label="Suscribirme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
         </form>
       </div>
     </div>
-
-    <div class="barra-copyright">
-      <p>&copy; 2026 La Sobremesa. Todos los derechos reservados.</p>
+    <div class="contenedor copyright">
+      <p>© 2026 La Sobremesa. Todos los derechos reservados.</p>
     </div>
   </footer>
 

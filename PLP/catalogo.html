@@ -1,194 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo</title>
-    <link rel="stylesheet" href="style-catalogo.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Sobremesa - Catálogo</title>
+
+  <!-- Tipografía del design system: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
+  <!-- Design system global (tokens, base, botones, encabezado y pie) -->
+  <link rel="stylesheet" href="../design-system/design-system.css">
+  <!-- Estilos propios de la página -->
+  <link rel="stylesheet" href="style-catalogo.css">
 </head>
 <body>
     
 <!-- ENCABEZADO / NAVBAR -->
 <header class="encabezado">
-    <a href="../Home/index.html" class="logo">La Sobremesa</a>
-    <nav class="menu-navegacion">
-      <a href="catalogo.html">Productos</a>
-      <a href="historias.html">Historias</a>
-      <a href="suscripcion.html">Suscripción</a>
-    </nav>
-    <div class="buscador-iconos">
-      <input type="text" placeholder="Buscar productos..." class="caja-busqueda">
+    <div class="contenedor encabezado-interior">
+      <a href="../Home/index.html" class="logo">La Sobremesa</a>
+
+      <nav class="menu-navegacion" aria-label="Principal">
+        <a href="../PLP/catalogo.html" aria-current="page">Productos</a>
+        <a href="../Home/productores.html">Productores</a>
+        <a href="../suscripcion.html">Suscripción</a>
+      </nav>
+
       <div class="iconos-usuario">
-        <a href="favoritos.html">Favoritos</a>
-        <a href="../Cuenta Usuario/cuenta.html">Cuenta</a>
-        <a href="../carrito/carrito.html">Carrito</a>
+        <a href="../PLP/catalogo.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </a>
+        <a href="../Home/favoritos.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+        </a>
+        <a href="../Cuenta Usuario/cuenta.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Mi cuenta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        </a>
+        <a href="../carrito/carrito.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
       </div>
     </div>
   </header>
 
-  <div class="titulo">
-    <h1>Quesos Artesanales</h1>
-</div>
+  <main class="contenedor">
 
-<div class="botones">
-    <button>Filtros</button>
-    <button>Ordenar por destacados</button>
-</div>
+    <div class="cabecera-catalogo">
+      <div>
+        <p class="texto-eyebrow">Productos</p>
+        <h1>Quesos Artesanales</h1>
+      </div>
+      <div class="acciones-catalogo">
+        <button type="button" class="boton boton-secundario">Filtros</button>
+        <button type="button" class="boton boton-secundario">Ordenar por destacados</button>
+      </div>
+    </div>
 
-<main class="contenedor_principal">
-    <section class="categorias">
-        <label class="segundotitulo">Categorías</label>
-        <label class="categoriaCheckbox">
-            <input type="checkbox" value="quesos" id="">Quesos
+    <div class="contenedor-catalogo">
+      <aside class="filtros" aria-label="Filtros">
+        <fieldset class="grupo-filtros">
+          <legend>Categorías</legend>
+        <label class="filtro-opcion">
+          <input type="checkbox" name="categoria" value="quesos"> Quesos
         </label>
-        <label class="categoriaCheckbox">
-            <input type="checkbox" value="conservas" id="">Conservas
+        <label class="filtro-opcion">
+          <input type="checkbox" name="categoria" value="conservas"> Conservas
         </label>
-        <label class="categoriaCheckbox">
-            <input type="checkbox" value="dulces" id="">Dulces
+        <label class="filtro-opcion">
+          <input type="checkbox" name="categoria" value="dulces"> Dulces
         </label>
-        <label class="categoriaCheckbox">
-            <input type="checkbox" value="aceites" id="">Aceites
+        <label class="filtro-opcion">
+          <input type="checkbox" name="categoria" value="aceites"> Aceites
         </label>
-        <label class="categoriaCheckbox">
-            <input type="checkbox" value="otros" id="">Otros
+        <label class="filtro-opcion">
+          <input type="checkbox" name="categoria" value="otros"> Otros
         </label>
-        <section class="productores">
-            <label class="segundotitulo">Productores</label>
-            <label class="categoriaCheckbox">
-                <input type="checkbox" value="Pepito" id="">Pepito
-            </label>
-            <label class="categoriaCheckbox">
-                <input type="checkbox" value="Juanito" id="">Juanito
-            </label>
-            <label class="categoriaCheckbox">
-                <input type="checkbox" value="dieguito" id="">Dieguito
-            </label>
-        </section>    
-    </section>
+        </fieldset>
+        <fieldset class="grupo-filtros">
+          <legend>Productores</legend>
+        <label class="filtro-opcion">
+          <input type="checkbox" name="productor" value="Pepito"> Pepito
+        </label>
+        <label class="filtro-opcion">
+          <input type="checkbox" name="productor" value="Juanito"> Juanito
+        </label>
+        <label class="filtro-opcion">
+          <input type="checkbox" name="productor" value="Dieguito"> Dieguito
+        </label>
+        </fieldset>
+      </aside>
 
-<div class="cards">
-    <div class="card">
-        <div class="content">
-            <img src="https://placehold.co/600x400" alt="place holder">
-           <h3>Queso Maduro</h3>
-            <p>Don Pedro</p>
-            <P>$12.990</P>
-            <P>Envío: 2 a 3 días</P>
+      <section class="grilla-productos" aria-label="Productos">
+      <article class="tarjeta-base tarjeta-producto">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-producto">Imagen producto</a>
+        <div class="tarjeta-producto-cuerpo">
+          <h3><a href="../PDP/PDP.html">Queso Maduro</a></h3>
+          <p class="productor">Don Pedro</p>
+          <p class="envio">Envío: 2 a 3 días</p>
+          <div class="pie-tarjeta-producto">
+            <p class="precio">$12.990</p>
+            <a href="../carrito/carrito.html" class="boton boton-primario boton-sm">Agregar</a>
+          </div>
         </div>
-        <div class="cardfooter">
-            <button>Agregar</button>
+      </article>
+      <article class="tarjeta-base tarjeta-producto">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-producto">Imagen producto</a>
+        <div class="tarjeta-producto-cuerpo">
+          <h3><a href="../PDP/PDP.html">Queso Maduro</a></h3>
+          <p class="productor">Don Pedro</p>
+          <p class="envio">Envío: 2 a 3 días</p>
+          <div class="pie-tarjeta-producto">
+            <p class="precio">$12.990</p>
+            <a href="../carrito/carrito.html" class="boton boton-primario boton-sm">Agregar</a>
+          </div>
         </div>
+      </article>
+      <article class="tarjeta-base tarjeta-producto">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-producto">Imagen producto</a>
+        <div class="tarjeta-producto-cuerpo">
+          <h3><a href="../PDP/PDP.html">Queso Maduro</a></h3>
+          <p class="productor">Don Pedro</p>
+          <p class="envio">Envío: 2 a 3 días</p>
+          <div class="pie-tarjeta-producto">
+            <p class="precio">$12.990</p>
+            <a href="../carrito/carrito.html" class="boton boton-primario boton-sm">Agregar</a>
+          </div>
+        </div>
+      </article>
+      <article class="tarjeta-base tarjeta-producto">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-producto">Imagen producto</a>
+        <div class="tarjeta-producto-cuerpo">
+          <h3><a href="../PDP/PDP.html">Queso Maduro</a></h3>
+          <p class="productor">Don Pedro</p>
+          <p class="envio">Envío: 2 a 3 días</p>
+          <div class="pie-tarjeta-producto">
+            <p class="precio">$12.990</p>
+            <a href="../carrito/carrito.html" class="boton boton-primario boton-sm">Agregar</a>
+          </div>
+        </div>
+      </article>
+      <article class="tarjeta-base tarjeta-producto">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-producto">Imagen producto</a>
+        <div class="tarjeta-producto-cuerpo">
+          <h3><a href="../PDP/PDP.html">Queso Maduro</a></h3>
+          <p class="productor">Don Pedro</p>
+          <p class="envio">Envío: 2 a 3 días</p>
+          <div class="pie-tarjeta-producto">
+            <p class="precio">$12.990</p>
+            <a href="../carrito/carrito.html" class="boton boton-primario boton-sm">Agregar</a>
+          </div>
+        </div>
+      </article>
+      <article class="tarjeta-base tarjeta-producto">
+        <a href="../PDP/PDP.html" class="imagen-placeholder foto-producto">Imagen producto</a>
+        <div class="tarjeta-producto-cuerpo">
+          <h3><a href="../PDP/PDP.html">Queso Maduro</a></h3>
+          <p class="productor">Don Pedro</p>
+          <p class="envio">Envío: 2 a 3 días</p>
+          <div class="pie-tarjeta-producto">
+            <p class="precio">$12.990</p>
+            <a href="../carrito/carrito.html" class="boton boton-primario boton-sm">Agregar</a>
+          </div>
+        </div>
+      </article>
+      </section>
     </div>
-    
-    <div class="card">
-        <div class="content">
-            <img src="https://placehold.co/600x400" alt="place holder">
-           <h3>Queso Maduro</h3>
-            <p>Don Pedro</p>
-            <P>$12.990</P>
-            <P>Envío: 2 a 3 días</P>
-        </div>
-        <div class="cardfooter">
-            <button>Agregar</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="content">
-            <img src="https://placehold.co/600x400" alt="place holder">
-           <h3>Queso Maduro</h3>
-            <p>Don Pedro</p>
-            <P>$12.990</P>
-            <P>Envío: 2 a 3 días</P>
-        </div>
-        <div class="cardfooter">
-            <button>Agregar</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="content">
-            <img src="https://placehold.co/600x400" alt="place holder">
-           <h3>Queso Maduro</h3>
-            <p>Don Pedro</p>
-            <P>$12.990</P>
-            <P>Envío: 2 a 3 días</P>
-        </div>
-        <div class="cardfooter">
-            <button>Agregar</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="content">
-            <img src="https://placehold.co/600x400" alt="place holder">
-           <h3>Queso Maduro</h3>
-            <p>Don Pedro</p>
-            <P>$12.990</P>
-            <P>Envío: 2 a 3 días</P>
-        </div>
-        <div class="cardfooter">
-            <button>Agregar</button>
-        </div>
-    </div>
-  
-    <div class="card">
-        <div class="content">
-            <img src="https://placehold.co/600x400" alt="place holder">
-           <h3>Queso Maduro</h3>
-            <p>Don Pedro</p>
-            <P>$12.990</P>
-            <P>Envío: 2 a 3 días</P>
-        </div>
-        <div class="cardfooter">
-            <button>Agregar</button>
-        </div>
-    </div>
-</div>
 
-</main>
+  </main>
 
 <!-- FOOTER / PIE DE PÁGINA -->
 <footer class="pie-pagina">
-    <div class="columnas-footer">
-      <div class="columna-footer">
-        <h4>La Sobremesa</h4>
-        <p>Conectamos productores artesanales con tu mesa.</p>
-      </div>
+    <div class="contenedor columnas-footer">
       <div class="columna-footer">
         <h4>Ayuda</h4>
-        <a href="faq.html">Preguntas frecuentes</a>
-        <a href="envios.html">Envíos y entregas</a>
-        <a href="devoluciones.html">Devoluciones</a>
+        <a href="../Home/faq.html">Preguntas frecuentes</a>
+        <a href="../Home/envios.html">Envíos</a>
+        <a href="../Home/devoluciones.html">Devoluciones</a>
+        <a href="../Home/contacto.html">Contacto</a>
       </div>
       <div class="columna-footer">
         <h4>Legal</h4>
-        <a href="terminos.html">Términos y condiciones</a>
-        <a href="privacidad.html">Política de privacidad</a>
-        <a href="cambios.html">Política de cambios y devoluciones</a>
+        <a href="../Home/terminos.html">Términos y condiciones</a>
+        <a href="../Home/privacidad.html">Política de privacidad</a>
       </div>
       <div class="columna-footer">
         <h4>Síguenos</h4>
         <div class="iconos-redes">
-          <a href="https://instagram.com" class="imagen-placeholder icono-red" target="_blank">IG</a>
-          <a href="https://facebook.com" class="imagen-placeholder icono-red" target="_blank">FB</a>
-          <a href="https://twitter.com" class="imagen-placeholder icono-red" target="_blank">TW</a>
+          <a href="https://instagram.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://facebook.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
         </div>
-        <p class="label-boletin">Recibe novedades y ofertas</p>
+      </div>
+      <div class="columna-footer">
+        <h4>Recibe novedades</h4>
         <form action="#" class="formulario-boletin">
-          <input type="email" placeholder="Tu email" required>
-          <button type="submit">&rarr;</button>
+          <label for="email-boletin" class="sr-only">Tu email</label>
+          <input id="email-boletin" type="email" class="campo" placeholder="Tu email" required>
+          <button type="submit" class="boton boton-primario boton-icono" aria-label="Suscribirme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
         </form>
       </div>
     </div>
-    <div class="copyright">
-      <p>© 2025 La Sobremesa. Todos los derechos reservados.</p>
+    <div class="contenedor copyright">
+      <p>© 2026 La Sobremesa. Todos los derechos reservados.</p>
     </div>
   </footer>
-
-
-
-
-
-
 
 </body>
 </html>
