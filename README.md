@@ -1,47 +1,75 @@
-# Grupo 4 — Frontend
+# React + TypeScript + Vite
 
-### Nombre del ecommerce:La Sobremesa.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### Qué tipo de e-commerce desarrollará el equipo: B2C
+Currently, two official plugins are available:
 
-La Sobremesa es una tienda online ficticia de 6 productores artesanales de la zona central de Chile. Cada productor tiene entre 5 y 15 productos únicos. El público objetivo es el consumidor gourmet: personas que valoran la calidad, la procedencia y la historia de lo que comen.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
+## React Compiler
 
-Un desafío clave de este proyecto es el manejo de productos perecederos: fechas de vencimiento, necesidades de frío y productos frágiles. La experiencia de compra debe informar esto claramente para evitar frustraciones al recibir el pedido.
-Adicionalmente, la tienda quiere ofrecer una suscripción mensual: una 'caja gourmet' curada que llega a domicilio con una selección de productos de temporada.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
+## Expanding the ESLint configuration
 
- ### Qué funcionalidades generales formarán parte del producto: 
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-Catálogo,
-Ficha de producto,
-Productos perecederos,
-Carrito / Checkout,
-Despacho,
-Suscripción,
-Cuenta (comunidad),
-Panel de admin.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-### Desarrollo de hito 1:
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-Trabajaremos en el hito 1, para desarrollar algunas de las funcionalidades según los wireframe de baja fidelidad enviado por UX/UI.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 
-Encontraremos archivos HTML con las siguientes páginas:
+```
 
-Home como index.html
+You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
 
-Productos como prductos.html
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-Buscador como buscador.html
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 
-Suscripción como suscripción.html
-
-Carrito como carrito.html
-
-Tambien encontraremos una carpeta Style con los archivos de estilos de CSS.
-
-
-
-
-
-
+```
