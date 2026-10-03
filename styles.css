@@ -1,129 +1,108 @@
-.encabezado {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:15px 20px;
-    border-bottom:1px solid #ccc;
-}
+/* =========================================================
+   SUSCRIPCIÓN — estilos propios de suscripcion.html.
+   Tokens, base, botones, encabezado y pie vienen de
+   design-system/design-system.css. Usar siempre var(--token).
+   ========================================================= */
 
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #000;
-}
-
-.iconos-usuario span {
-    margin-left: 10px;
-}
-
+/* TÍTULO */
 .titulo-seccion {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
+  margin-block: var(--space-7) var(--space-6);
+  text-align: center;
 }
 
-.titulo-seccion h2 {
-    font-size: 24px;
-    margin-bottom:30px;
+.titulo-seccion h1 {
+  margin-block: var(--space-2) var(--space-3);
+  font-size: var(--font-size-2xl);
 }
 
-.titulo-seccion p {
-    color: #666;
-    font-size: 14px;
+.titulo-seccion p:last-child {
+  color: var(--color-text-muted);
 }
 
+/* TARJETAS DE PLANES */
 .contenedor-tarjetas-suscripcion {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: var(--space-5);
+  max-width: 880px;
+  margin-inline: auto;
 }
 
-.tarjeta {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 25px 20px;
-    width: 200px;
-    text-align: center;
-    background-color: #d1d1d1;
-    position: relative;
+.tarjeta-plan {
+  position: relative;
+  padding: var(--space-6) var(--space-5);
+  overflow: visible;
+  text-align: center;
 }
 
-.tarjeta-destacada {
-    border: 2px solid #333;
+.tarjeta-plan-destacada {
+  padding-block: var(--space-7);
+  border: 2px solid var(--color-primary);
 }
 
 .insignia {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #eee;
-    border: 1px solid #ccc;
-    padding: 2px 10px;
-    font-size: 11px;
-    border-radius: 5px;}
-
-.tarjeta h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  color: var(--color-on-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
 }
 
-.description {
-    font-size: 13px;
-    color: #555;
-    margin-bottom: 25px;
+.tarjeta-plan h2 {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-lg);
 }
 
-.precio {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 25px;
+.descripcion {
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
 }
 
-.boton-elegir {
-    background-color: #000;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
+.precio-plan {
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
 }
 
+.precio-plan span {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+/* BENEFICIOS */
 .contenedor-beneficios {
-    display: flex;
-    justify-content: left;
-    margin-top: 30px;
-    margin-bottom: 40px;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+  max-width: 880px;
+  margin: var(--space-7) auto 0;
+}
+
+.contenedor-beneficios h2 {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-lg);
 }
 
 .lista-beneficios {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    margin-left: 220px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3) var(--space-5);
+  margin-bottom: var(--space-5);
 }
 
-.lista-beneficios li{
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 12px;
-}
+/* RESPONSIVE */
+@media (max-width: 760px) {
+  .contenedor-tarjetas-suscripcion {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
 
-.enlace-como-funciona {
-    margin-left:220px;
-    margin-top: 25px;
-    margin-bottom: 50px;
-}
-
-.enlace-como-funciona a{
-    color: #000;
-    font-weight: bold;
-    font-size: 20px;
-    text-decoration: none;
+  .lista-beneficios {
+    grid-template-columns: 1fr;
+  }
 }

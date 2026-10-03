@@ -2,69 +2,89 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Sobremesa - Mi Cuenta</title>
+
+  <!-- Tipografía del design system: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
+  <!-- Design system global (tokens, base, botones, encabezado y pie) -->
+  <link rel="stylesheet" href="../design-system/design-system.css">
+  <!-- Estilos propios de la página -->
   <link rel="stylesheet" href="stylescuenta.css">
 </head>
 <body>
 
   <!-- ENCABEZADO / NAVBAR -->
   <header class="encabezado">
-    <a href="../Home/index.html" class="logo">La Sobremesa</a>
-    <nav class="menu-navegacion">
-      <a href="../PLP/catalogo.html">Productos</a>
-      <a href="../historias.html">Historias</a>
-      <a href="../suscripcion.html">Suscripción</a>
-    </nav>
-    <div class="buscador-iconos">
-      <input type="text" placeholder="Buscar productos..." class="caja-busqueda">
+    <div class="contenedor encabezado-interior">
+      <a href="../Home/index.html" class="logo">La Sobremesa</a>
+
+      <nav class="menu-navegacion" aria-label="Principal">
+        <a href="../PLP/catalogo.html">Productos</a>
+        <a href="../Home/productores.html">Productores</a>
+        <a href="../suscripcion.html">Suscripción</a>
+      </nav>
+
       <div class="iconos-usuario">
-        <a href="favoritos.html" class="item-icono">Favoritos</a>
-        <a href="cuenta.html" class="item-icono activo">Cuenta</a>
-        <a href="../carrito.html" class="item-icono">Carrito</a>
+        <a href="../PLP/catalogo.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </a>
+        <a href="../Home/favoritos.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+        </a>
+        <a href="../Cuenta Usuario/cuenta.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Mi cuenta" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        </a>
+        <a href="../carrito/carrito.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
       </div>
     </div>
   </header>
 
   <!-- CONTENEDOR PRINCIPAL PERFIL -->
-  <main class="seccion-contenido contenedor-perfil">
-    
+  <main class="contenedor contenedor-perfil">
+
     <!-- MENÚ LATERAL DE NAVEGACIÓN -->
     <aside class="menu-lateral">
-      <nav class="lista-menu-lateral">
-        <a href="cuenta.html" class="item-menu-lateral activo">
-          <span class="imagen-placeholder icono-menu">[R]</span>
+      <nav class="lista-menu-lateral" aria-label="Mi cuenta">
+        <a href="cuenta.html" class="item-menu-lateral activo" aria-current="page">
+          <span class="icono-menu" aria-hidden="true">📋</span>
           <span>Resumen</span>
         </a>
         <a href="mis-pedidos.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[P]</span>
+          <span class="icono-menu" aria-hidden="true">📦</span>
           <span>Mis pedidos</span>
         </a>
         <a href="mi-suscripcion.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[S]</span>
+          <span class="icono-menu" aria-hidden="true">🧺</span>
           <span>Mi suscripción</span>
         </a>
-        <a href="favoritos.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[F]</span>
+        <a href="../Home/favoritos.html" class="item-menu-lateral">
+          <span class="icono-menu" aria-hidden="true">♡</span>
           <span>Favoritos</span>
         </a>
         <a href="direcciones.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[D]</span>
+          <span class="icono-menu" aria-hidden="true">📍</span>
           <span>Direcciones</span>
         </a>
         <a href="metodos-pago.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[M]</span>
+          <span class="icono-menu" aria-hidden="true">💳</span>
           <span>Métodos de pago</span>
         </a>
         <a href="mis-datos.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[U]</span>
+          <span class="icono-menu" aria-hidden="true">👤</span>
           <span>Mis datos</span>
         </a>
         <a href="ayuda.html" class="item-menu-lateral">
-          <span class="imagen-placeholder icono-menu">[?]</span>
+          <span class="icono-menu" aria-hidden="true">❓</span>
           <span>Ayuda</span>
         </a>
         <a href="login.html" class="item-menu-lateral cerrar-sesion">
-          <span class="imagen-placeholder icono-menu">[X]</span>
+          <span class="icono-menu" aria-hidden="true">↩</span>
           <span>Cerrar sesión</span>
         </a>
       </nav>
@@ -72,92 +92,87 @@
 
     <!-- PANEL PRINCIPAL DE INFORMACIÓN -->
     <section class="panel-contenido">
-      
+      <h1>Mi cuenta</h1>
+
       <!-- SECCIÓN SUPERIOR: RESUMEN Y TARJETAS PRÓXIMAS -->
       <div class="grilla-resumen">
-        
+
         <!-- TARJETA: TU PRÓXIMO PEDIDO -->
-        <div class="tarjeta-resumen">
-          <h3>Tu próximo pedido</h3>
+        <div class="tarjeta-base tarjeta-resumen">
+          <h2>Tu próximo pedido</h2>
           <p class="etiqueta-secundaria">Llega entre</p>
           <p class="destacado-fecha">22 – 24 ago</p>
           <p class="codigo-pedido">Pedido #48201</p>
-          <a href="seguimiento-pedido.html" class="boton-gris boton-bloque">Seguir pedido</a>
+          <a href="seguimiento-pedido.html" class="boton boton-primario boton-bloque">Seguir pedido</a>
         </div>
 
         <!-- TARJETA: TU SUSCRIPCIÓN -->
-        <div class="tarjeta-resumen">
-          <h3>Tu suscripción</h3>
+        <div class="tarjeta-suave tarjeta-resumen">
+          <h2>Tu suscripción</h2>
           <p class="etiqueta-secundaria">Próxima caja</p>
           <p class="destacado-fecha">24 – 26 ago</p>
           <p class="codigo-pedido">Próximo cobro: 20 ago</p>
-          <a href="mi-suscripcion.html" class="boton-gris boton-bloque">Gestionar suscripción</a>
+          <a href="mi-suscripcion.html" class="boton boton-secundario boton-bloque">Gestionar suscripción</a>
         </div>
 
       </div>
 
       <!-- SECCIÓN: ACCESOS RÁPIDOS -->
-      <section class="seccion-accesos-rapidos">
+      <section class="seccion-cuenta">
         <h2>Accesos rápidos</h2>
         <div class="grilla-accesos">
-          <a href="mis-pedidos.html" class="tarjeta-acceso-rapido">
-            <span class="imagen-placeholder icono-acceso">P</span>
+          <a href="mis-pedidos.html" class="tarjeta-base tarjeta-acceso-rapido">
+            <span class="icono-acceso" aria-hidden="true">📦</span>
             <span>Mis pedidos</span>
           </a>
-          <a href="favoritos.html" class="tarjeta-acceso-rapido">
-            <span class="imagen-placeholder icono-acceso">F</span>
+          <a href="../Home/favoritos.html" class="tarjeta-base tarjeta-acceso-rapido">
+            <span class="icono-acceso" aria-hidden="true">♡</span>
             <span>Favoritos</span>
           </a>
-          <a href="direcciones.html" class="tarjeta-acceso-rapido">
-            <span class="imagen-placeholder icono-acceso">D</span>
+          <a href="direcciones.html" class="tarjeta-base tarjeta-acceso-rapido">
+            <span class="icono-acceso" aria-hidden="true">📍</span>
             <span>Direcciones</span>
           </a>
-          <a href="metodos-pago.html" class="tarjeta-acceso-rapido">
-            <span class="imagen-placeholder icono-acceso">M</span>
+          <a href="metodos-pago.html" class="tarjeta-base tarjeta-acceso-rapido">
+            <span class="icono-acceso" aria-hidden="true">💳</span>
             <span>Métodos de pago</span>
           </a>
         </div>
       </section>
 
       <!-- SECCIÓN: VUELVE A TU MESA -->
-      <section class="seccion-vuelve-mesa">
+      <section class="seccion-cuenta">
         <div class="cabecera-seccion">
           <h2>Vuelve a tu mesa</h2>
-          <a href="../productos.html" class="enlace-flecha">Ver todos &rarr;</a>
+          <a href="../PLP/catalogo.html" class="enlace-texto">Ver todos</a>
         </div>
 
         <div class="grilla-productos-mini">
-          
-          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
-            <div class="imagen-placeholder foto-producto-mini">X</div>
+          <a href="../PDP/PDP.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini" aria-hidden="true"></div>
             <p class="nombre-producto">Producto 1</p>
             <p class="precio-producto">$0.000</p>
           </a>
-
-          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
-            <div class="imagen-placeholder foto-producto-mini">X</div>
+          <a href="../PDP/PDP.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini" aria-hidden="true"></div>
             <p class="nombre-producto">Producto 2</p>
             <p class="precio-producto">$0.000</p>
           </a>
-
-          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
-            <div class="imagen-placeholder foto-producto-mini">X</div>
+          <a href="../PDP/PDP.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini" aria-hidden="true"></div>
             <p class="nombre-producto">Producto 3</p>
             <p class="precio-producto">$0.000</p>
           </a>
-
-          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
-            <div class="imagen-placeholder foto-producto-mini">X</div>
+          <a href="../PDP/PDP.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini" aria-hidden="true"></div>
             <p class="nombre-producto">Producto 4</p>
             <p class="precio-producto">$0.000</p>
           </a>
-
-          <a href="../PDP/producto.html" class="tarjeta-producto-mini">
-            <div class="imagen-placeholder foto-producto-mini">X</div>
+          <a href="../PDP/PDP.html" class="tarjeta-producto-mini">
+            <div class="imagen-placeholder foto-producto-mini" aria-hidden="true"></div>
             <p class="nombre-producto">Producto 5</p>
             <p class="precio-producto">$0.000</p>
           </a>
-
         </div>
       </section>
 
@@ -167,38 +182,38 @@
 
   <!-- FOOTER / PIE DE PÁGINA -->
   <footer class="pie-pagina">
-    <div class="columnas-footer">
-      <div class="columna-footer">
-        <h4>La Sobremesa</h4>
-        <p>Conectamos productores artesanales con tu mesa.</p>
-      </div>
+    <div class="contenedor columnas-footer">
       <div class="columna-footer">
         <h4>Ayuda</h4>
-        <a href="faq.html">Preguntas frecuentes</a>
-        <a href="envios.html">Envíos y entregas</a>
-        <a href="devoluciones.html">Devoluciones</a>
+        <a href="../Home/faq.html">Preguntas frecuentes</a>
+        <a href="../Home/envios.html">Envíos</a>
+        <a href="../Home/devoluciones.html">Devoluciones</a>
+        <a href="../Home/contacto.html">Contacto</a>
       </div>
       <div class="columna-footer">
         <h4>Legal</h4>
-        <a href="terminos.html">Términos y condiciones</a>
-        <a href="privacidad.html">Política de privacidad</a>
-        <a href="cambios.html">Política de cambios y devoluciones</a>
+        <a href="../Home/terminos.html">Términos y condiciones</a>
+        <a href="../Home/privacidad.html">Política de privacidad</a>
       </div>
       <div class="columna-footer">
         <h4>Síguenos</h4>
         <div class="iconos-redes">
-          <a href="https://instagram.com" class="imagen-placeholder icono-red" target="_blank">IG</a>
-          <a href="https://facebook.com" class="imagen-placeholder icono-red" target="_blank">FB</a>
-          <a href="https://twitter.com" class="imagen-placeholder icono-red" target="_blank">TW</a>
+          <a href="https://instagram.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://facebook.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
         </div>
-        <p class="label-boletin">Recibe novedades y ofertas</p>
+      </div>
+      <div class="columna-footer">
+        <h4>Recibe novedades</h4>
         <form action="#" class="formulario-boletin">
-          <input type="email" placeholder="Tu email" required>
-          <button type="submit">&rarr;</button>
+          <label for="email-boletin" class="sr-only">Tu email</label>
+          <input id="email-boletin" type="email" class="campo" placeholder="Tu email" required>
+          <button type="submit" class="boton boton-primario boton-icono" aria-label="Suscribirme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
         </form>
       </div>
     </div>
-    <div class="copyright">
+    <div class="contenedor copyright">
       <p>© 2026 La Sobremesa. Todos los derechos reservados.</p>
     </div>
   </footer>

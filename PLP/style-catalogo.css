@@ -1,240 +1,135 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-  }
-  
-  body {
-    color: #333333;
-    background-color: #ffffff;
-  }
+/* =========================================================
+   PLP / CATÁLOGO — estilos propios de la página.
+   Tokens, base, botones, encabezado y pie vienen de
+   ../design-system/design-system.css. Usar siempre var(--token).
+   ========================================================= */
 
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-
-/* ENCABEZADO */
-.encabezado {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    border-bottom: 1px solid #eeeeee;
-  }
-  
-  .logo {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .menu-navegacion a {
-    margin: 0 15px;
-    font-size: 14px;
-  }
-  
-  .buscador-iconos {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .caja-busqueda {
-    padding: 6px 12px;
-    border: 1px solid #cccccc;
-    border-radius: 20px;
-    font-size: 13px;
-  }
-  
-  .iconos-usuario {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .iconos-usuario a {
-    font-size: 13px;
-  }
-
-  
-
-
-.cards{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.card{
-    margin:5px;
-    border:1px solid lightgrey;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    height: 370px;
-    width: 300px;
-    justify-content: center;
-    align-items: center;
+/* CABECERA DEL CATÁLOGO */
+.cabecera-catalogo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-block: var(--space-7) var(--space-6);
 }
 
-.cardfooter{
-    text-align: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
+.cabecera-catalogo h1 {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-2xl);
 }
 
-button{
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    border: none;
-    border-radius: 3px;
-    padding: 10px 16px;
+.acciones-catalogo {
+  display: flex;
+  gap: var(--space-3);
 }
 
-
-.categorias{
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    align-items: flex-start;
-    border-right:2px solid black ;
-    width: 300px;
-    margin-left: 20px;
-} 
-
-.contenedor_principal{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 20px;
+/* LAYOUT: FILTROS + GRILLA */
+.contenedor-catalogo {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: start;
+  gap: var(--space-6);
 }
 
-img{
-    width:230px;
-    border-radius: 10px;
+/* FILTROS */
+.filtros {
+  position: sticky;
+  top: 88px;
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
-
-.botones{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
+.grupo-filtros {
+  border: none;
 }
 
-.titulo{
-    margin-left: 20px;
-    margin-top: 20px;
+.grupo-filtros + .grupo-filtros {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--color-border);
 }
 
-.categoriaCheckbox {
-    display: flex;
-    margin-bottom: 20px;
+.grupo-filtros legend {
+  margin-bottom: var(--space-3);
+  font-weight: var(--font-weight-semibold);
 }
 
-.segundotitulo {
-    font-weight: bold;
+.filtro-opcion {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
 }
 
-
-
-.tienda{
-    display: flex;
-    flex-direction: column;
+.filtro-opcion input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
 }
 
-.tienda a{
-    text-decoration: none;
-    color: black;
+/* TARJETAS DE PRODUCTO */
+.grilla-productos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
 }
 
-.ayuda{
-    display: flex;
-    flex-direction: column;
+.foto-producto {
+  aspect-ratio: 4 / 3;
 }
 
-.ayuda a{
-    text-decoration: none;
-    color: black;
+.tarjeta-producto-cuerpo {
+  padding: var(--space-4);
 }
 
+.tarjeta-producto h3 {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
 
-/* FOOTER */
-.pie-pagina {
-    background-color: #f9f9f9;
-    border-top: 1px solid #eeeeee;
-    padding: 40px 0 20px 0;
-    margin-top: 60px;
+.tarjeta-producto h3 a:hover {
+  color: var(--color-primary);
+}
+
+.productor,
+.envio {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.pie-tarjeta-producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.precio {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .contenedor-catalogo {
+    grid-template-columns: 1fr;
   }
-  
-  .columnas-footer {
-    display: flex;
-    justify-content: space-between;
-    width: 85%;
-    max-width: 1100px;
-    margin: 0 auto;
+
+  .filtros {
+    position: static;
   }
-  
-  .columna-footer {
-    width: 22%;
+
+  .grilla-productos {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .columna-footer h4 {
-    font-size: 14px;
-    margin-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+  .grilla-productos {
+    grid-template-columns: 1fr;
   }
-  
-  .columna-footer p, 
-  .columna-footer a {
-    display: block;
-    font-size: 12px;
-    color: #555555;
-    margin-bottom: 8px;
-  }
-  
-  .iconos-redes {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  
-  .icono-red {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-  }
-  
-  .label-boletin {
-    margin-top: 15px;
-    margin-bottom: 8px;
-  }
-  
-  .formulario-boletin {
-    display: flex;
-  }
-  
-  .formulario-boletin input {
-    padding: 6px;
-    border: 1px solid #cccccc;
-    font-size: 12px;
-    width: 80%;
-  }
-  
-  .formulario-boletin button {
-    background-color: #888888;
-    color: #ffffff;
-    border: none;
-    padding: 6px 10px;
-    cursor: pointer;
-  }
-  
-  .copyright {
-    text-align: center;
-    font-size: 11px;
-    color: #888888;
-    margin-top: 30px;
-    padding-top: 15px;
-    border-top: 1px solid #eeeeee;
-  }
+}

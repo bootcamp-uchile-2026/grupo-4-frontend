@@ -2,63 +2,87 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Sobremesa - Queso Madurado Artesanal</title>
+
+  <!-- Tipografía del design system: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
+  <!-- Design system global (tokens, base, botones, encabezado y pie) -->
+  <link rel="stylesheet" href="../design-system/design-system.css">
+  <!-- Estilos propios de la página -->
   <link rel="stylesheet" href="stylespdp.css">
 </head>
 <body>
 
   <!-- ENCABEZADO / NAVBAR -->
   <header class="encabezado">
-    <a href="../Home/index.html" class="logo">La Sobremesa</a>
-    <nav class="menu-navegacion">
-      <a href="../PLP/catalogo.html">Productos</a>
-      <a href="historias.html">Historias</a>
-      <a href="suscripcion.html">Suscripción</a>
-    </nav>
-    <div class="buscador-iconos">
-      <input type="text" placeholder="Buscar productos..." class="caja-busqueda">
+    <div class="contenedor encabezado-interior">
+      <a href="../Home/index.html" class="logo">La Sobremesa</a>
+
+      <nav class="menu-navegacion" aria-label="Principal">
+        <a href="../PLP/catalogo.html" aria-current="page">Productos</a>
+        <a href="../Home/productores.html">Productores</a>
+        <a href="../suscripcion.html">Suscripción</a>
+      </nav>
+
       <div class="iconos-usuario">
-        <a href="favoritos.html">Favoritos</a>
-        <a href="../Cuenta Usuario/cuenta.html">Cuenta</a>
-        <a href="../carrito/carrito.html">Carrito</a>
+        <a href="../PLP/catalogo.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </a>
+        <a href="../Home/favoritos.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+        </a>
+        <a href="../Cuenta Usuario/cuenta.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Mi cuenta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        </a>
+        <a href="../carrito/carrito.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- CONTENEDOR PRINCIPAL DE PRODUCTO -->
-  <main class="seccion-contenido">
-    
+  <main class="contenedor">
+
     <!-- RUTA DE NAVEGACIÓN (BREADCRUMBS) -->
-    <nav class="miga-de-pan">
-      <a href="../index.html">Inicio</a> / 
-      <a href="productos.html">Productos</a> / 
-      <a href="categoria-quesos.html">Quesos</a> / 
-      <span>Queso Madurado</span>
+    <nav class="miga-de-pan" aria-label="Ruta de navegación">
+      <a href="../Home/index.html">Inicio</a> /
+      <a href="../PLP/catalogo.html">Productos</a> /
+      <a href="../PLP/catalogo.html">Quesos</a> /
+      <span aria-current="page">Queso Madurado</span>
     </nav>
 
     <!-- BLOQUE SUPERIOR: GALERÍA Y DETALLES -->
     <section class="contenedor-producto">
-      
+
       <!-- GALERÍA DE IMÁGENES -->
       <div class="galeria-producto">
-        <div class="imagen-placeholder imagen-principal-producto">Imagen Principal</div>
+        <div class="imagen-placeholder imagen-principal-producto">Imagen principal</div>
         <div class="carrusel-miniaturas">
-          <button type="button" class="flecha-carrusel">&lt;</button>
-          <a href="#" class="imagen-placeholder miniatura activa">X</a>
-          <a href="#" class="imagen-placeholder miniatura">X</a>
-          <a href="#" class="imagen-placeholder miniatura">X</a>
-          <a href="#" class="imagen-placeholder miniatura">X</a>
-          <button type="button" class="flecha-carrusel">&gt;</button>
+          <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Imagen anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <a href="#" class="imagen-placeholder miniatura activa" aria-label="Imagen 1"></a>
+          <a href="#" class="imagen-placeholder miniatura" aria-label="Imagen 2"></a>
+          <a href="#" class="imagen-placeholder miniatura" aria-label="Imagen 3"></a>
+          <a href="#" class="imagen-placeholder miniatura" aria-label="Imagen 4"></a>
+          <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Imagen siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
 
       <!-- INFORMACIÓN Y COMPRA -->
       <div class="info-compra-producto">
+        <p class="texto-eyebrow">Quesos</p>
         <h1>Queso Madurado Artesanal</h1>
         <p class="subtitulo-productor">Don Pedro · Curicó</p>
-        
+
         <div class="valoracion">
-          <span class="estrellas">★★★★★</span>
+          <span class="estrellas" aria-hidden="true">★★★★★</span>
           <span class="rating-texto">4.8 (43 reseñas)</span>
         </div>
 
@@ -66,25 +90,28 @@
 
         <!-- ATRIBUTOS Y LOGÍSTICA -->
         <ul class="lista-atributos">
-          <li><span class="imagen-placeholder icono-box">X</span> Disponible</li>
-          <li><span class="imagen-placeholder icono-box">X</span> Vence: 24 ago 2025</li>
-          <li><span class="imagen-placeholder icono-box">X</span> Mantener refrigerado</li>
-          <li><span class="imagen-placeholder icono-box">X</span> Entrega estimada 22–24 ago</li>
+          <li><span aria-hidden="true">✅</span> Disponible</li>
+          <li><span aria-hidden="true">📅</span> Vence: 24 ago 2025</li>
+          <li><span aria-hidden="true">❄️</span> Mantener refrigerado</li>
+          <li><span aria-hidden="true">📦</span> Entrega estimada 22–24 ago</li>
         </ul>
 
         <!-- SELECCIÓN DE CANTIDAD Y ACCIONES -->
         <div class="selector-cantidad">
-          <label>Cantidad</label>
+          <label for="cantidad">Cantidad</label>
           <div class="control-cantidad">
-            <button type="button">-</button>
-            <input type="number" value="1" readonly>
-            <button type="button">+</button>
+            <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Quitar uno">−</button>
+            <input id="cantidad" type="number" value="1" readonly>
+            <button type="button" class="boton boton-terciario boton-icono boton-sm" aria-label="Agregar uno">+</button>
           </div>
         </div>
 
         <div class="acciones-compra">
-          <button type="button" class="boton-negro boton-ancho-total">Agregar al carrito</button>
-          <button type="button" class="boton-delineado boton-ancho-total">♡ Agregar a favoritos</button>
+          <a href="../carrito/carrito.html" class="boton boton-primario boton-lg">Agregar al carrito</a>
+          <button type="button" class="boton boton-secundario boton-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+            Agregar a favoritos
+          </button>
         </div>
       </div>
 
@@ -93,77 +120,79 @@
     <!-- BLOQUE INFERIOR: PESTAÑAS Y CONTENIDO -->
     <section class="pestanas-seccion">
       <nav class="cabecera-pestanas">
-        <a href="#descripcion" class="pestana activa">Descripción</a>
+        <a href="#descripcion" class="pestana activa" aria-current="true">Descripción</a>
         <a href="#ingredientes" class="pestana">Ingredientes</a>
         <a href="#conservacion" class="pestana">Conservación</a>
         <a href="#despacho" class="pestana">Despacho</a>
       </nav>
-      <div class="contenido-pestana">
+      <div class="contenido-pestana" id="descripcion">
         <p>Queso madurado de leche de vaca, con 6 meses de maduración mínima. Sabor intenso y textura firme.</p>
       </div>
     </section>
 
     <!-- SECCIÓN CONOCE AL PRODUCTOR (TARJETA CLIQUEABLE COMPLETA) -->
-    <section class="seccion-productor-detalle">
-      <p class="titulo-bloque">Conoce a Don Pedro</p>
-      <a href="historia-productor.html" class="caja-productor-cliqueable">
-        <div class="imagen-placeholder foto-productor-mini">X</div>
+    <section class="seccion-pdp">
+      <h2>Conoce a Don Pedro</h2>
+      <a href="../Home/historia-productor.html" class="tarjeta-suave caja-productor-cliqueable">
+        <div class="imagen-placeholder foto-productor-mini" aria-hidden="true"></div>
         <div class="texto-productor-mini">
           <p>Productor de Curicó con más de 20 años elaborando quesos artesanales con leche de su propio rebaño.</p>
-          <span class="enlace-flecha">Ver su historia &rarr;</span>
+          <span class="enlace-texto">Ver su historia</span>
         </div>
       </a>
     </section>
 
     <!-- SECCIÓN RESEÑAS -->
-    <section class="seccion-resenas">
-      <p class="titulo-bloque">Reseñas (43)</p>
-      <div class="tarjeta-resena">
-        <div class="estrellas">★★★★★</div>
+    <section class="seccion-pdp">
+      <div class="cabecera-seccion">
+        <h2>Reseñas (43)</h2>
+        <a href="resenas.html" class="enlace-texto">Ver todas las reseñas</a>
+      </div>
+      <article class="tarjeta-base tarjeta-resena">
+        <div class="estrellas" aria-label="5 de 5 estrellas">★★★★★</div>
         <p class="autor-resena">María José</p>
         <p class="comentario-resena">Muy buen queso, llegó en perfecto estado y dentro del plazo. ¡Lo recomiendo!</p>
         <span class="fecha-resena">Hace 2 días</span>
-      </div>
-      <a href="resenas.html" class="enlace-flecha">Ver todas las reseñas &rarr;</a>
+      </article>
     </section>
 
   </main>
 
   <!-- FOOTER / PIE DE PÁGINA -->
   <footer class="pie-pagina">
-    <div class="columnas-footer">
-      <div class="columna-footer">
-        <h4>La Sobremesa</h4>
-        <p>Conectamos productores artesanales con tu mesa.</p>
-      </div>
+    <div class="contenedor columnas-footer">
       <div class="columna-footer">
         <h4>Ayuda</h4>
-        <a href="faq.html">Preguntas frecuentes</a>
-        <a href="envios.html">Envíos y entregas</a>
-        <a href="devoluciones.html">Devoluciones</a>
+        <a href="../Home/faq.html">Preguntas frecuentes</a>
+        <a href="../Home/envios.html">Envíos</a>
+        <a href="../Home/devoluciones.html">Devoluciones</a>
+        <a href="../Home/contacto.html">Contacto</a>
       </div>
       <div class="columna-footer">
         <h4>Legal</h4>
-        <a href="terminos.html">Términos y condiciones</a>
-        <a href="privacidad.html">Política de privacidad</a>
-        <a href="cambios.html">Política de cambios y devoluciones</a>
+        <a href="../Home/terminos.html">Términos y condiciones</a>
+        <a href="../Home/privacidad.html">Política de privacidad</a>
       </div>
       <div class="columna-footer">
         <h4>Síguenos</h4>
         <div class="iconos-redes">
-          <a href="https://instagram.com" class="imagen-placeholder icono-red" target="_blank">IG</a>
-          <a href="https://facebook.com" class="imagen-placeholder icono-red" target="_blank">FB</a>
-          <a href="https://twitter.com" class="imagen-placeholder icono-red" target="_blank">TW</a>
+          <a href="https://instagram.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://facebook.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
         </div>
-        <p class="label-boletin">Recibe novedades y ofertas</p>
+      </div>
+      <div class="columna-footer">
+        <h4>Recibe novedades</h4>
         <form action="#" class="formulario-boletin">
-          <input type="email" placeholder="Tu email" required>
-          <button type="submit">&rarr;</button>
+          <label for="email-boletin" class="sr-only">Tu email</label>
+          <input id="email-boletin" type="email" class="campo" placeholder="Tu email" required>
+          <button type="submit" class="boton boton-primario boton-icono" aria-label="Suscribirme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
         </form>
       </div>
     </div>
-    <div class="copyright">
-      <p>© 2025 La Sobremesa. Todos los derechos reservados.</p>
+    <div class="contenedor copyright">
+      <p>© 2026 La Sobremesa. Todos los derechos reservados.</p>
     </div>
   </footer>
 

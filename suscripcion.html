@@ -1,69 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css"
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Sobremesa - Suscripción</title>
+
+  <!-- Tipografía del design system: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
+  <!-- Design system global (tokens, base, botones, encabezado y pie) -->
+  <link rel="stylesheet" href="design-system/design-system.css">
+  <!-- Estilos propios de la página -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     
     <header class="encabezado">
-        <div class="icono-menu">☰</div>
-        <a href="../grupo-4-frontend/Home/index.html" class="logo">La Sobremesa</a>
-        <div class="iconos-usuario">
-            <span>🔍</span>
-            <span>🤍</span>
-            <span>👤</span>
-            <span>🛒</span>
-        </div>
-    </header>
+    <div class="contenedor encabezado-interior">
+      <a href="Home/index.html" class="logo">La Sobremesa</a>
 
-     <section class="titulo-seccion">
-        <h2>Elige tu caja mensual</h2>
-        <p>Cada mes, productos artesanales seleccionados para ti.</p>
+      <nav class="menu-navegacion" aria-label="Principal">
+        <a href="PLP/catalogo.html">Productos</a>
+        <a href="Home/productores.html">Productores</a>
+        <a href="suscripcion.html" aria-current="page">Suscripción</a>
+      </nav>
+
+      <div class="iconos-usuario">
+        <a href="PLP/catalogo.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </a>
+        <a href="Home/favoritos.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+        </a>
+        <a href="Cuenta Usuario/cuenta.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Mi cuenta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        </a>
+        <a href="carrito/carrito.html" class="boton boton-terciario boton-icono boton-sm" aria-label="Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <section class="titulo-seccion">
+      <p class="texto-eyebrow">Suscripción</p>
+      <h1>Elige tu caja mensual</h1>
+      <p>Cada mes, productos artesanales seleccionados para ti.</p>
     </section>
 
-<section class="contenedor-tarjetas-suscripcion">
+    <section class="contenedor-tarjetas-suscripcion">
 
-    <! Tarjeta 1: Básica >
-    <div class="tarjeta">
-        <h3>Básica</h3>
+      <!-- Tarjeta 1: Básica -->
+      <div class="tarjeta-base tarjeta-plan">
+        <h2>Básica</h2>
         <p class="descripcion">4 a 5 productos</p>
-        <p class="precio">$29.990 / mes</p>
-        <button class="boton-elegir">Elegir</button>
-    </div>
+        <p class="precio-plan">$29.990 <span>/ mes</span></p>
+        <a href="carrito/checkout.html" class="boton boton-secundario boton-bloque">Elegir</a>
+      </div>
 
-    <! Tarjeta 2: Plus destacada>
-    <div class="tarjeta tarjeta-destacada">
-        <div class="insignia">Más elegida</div>
-        <h3>Plus</h3>
-        <p class="descripcion">6a 8 productos</p>
-        <p class="precio">$39.990 / mes</p>
-        <button class="boton-elegir">Elegir</button>
-    </div>
+      <!-- Tarjeta 2: Plus (destacada) -->
+      <div class="tarjeta-base tarjeta-plan tarjeta-plan-destacada">
+        <span class="insignia">Más elegida</span>
+        <h2>Plus</h2>
+        <p class="descripcion">6 a 8 productos</p>
+        <p class="precio-plan">$39.990 <span>/ mes</span></p>
+        <a href="carrito/checkout.html" class="boton boton-primario boton-bloque">Elegir</a>
+      </div>
 
-     <! Tarjeta 3: Premium>
-     <div class="tarjeta">
-        <h3>Premium</h3>
-        <p class="descripcion">Elige 5 productos tú decides</p>
-        <p class="precio">$49.990 / mes</p>
-        <button class="boton-elegir">Elegir</button>
-     </div>
-</section>
+      <!-- Tarjeta 3: Premium -->
+      <div class="tarjeta-base tarjeta-plan">
+        <h2>Premium</h2>
+        <p class="descripcion">Elige 5 productos, tú decides</p>
+        <p class="precio-plan">$49.990 <span>/ mes</span></p>
+        <a href="carrito/checkout.html" class="boton boton-secundario boton-bloque">Elegir</a>
+      </div>
+    </section>
 
-<section class="contenedor-beneficios">
-    <ul class="lista-beneficios">
+    <section class="tarjeta-suave contenedor-beneficios">
+      <h2>Qué incluye</h2>
+      <ul class="lista-beneficios">
         <li>✓ Despacho refrigerado</li>
         <li>✓ Productos de temporada</li>
         <li>✓ Pausa o cancela cuando quieras</li>
         <li>✓ Ahorra comprando con precio unitario</li>
-    </ul>
-</section>
+      </ul>
+      <a href="#" class="boton boton-terciario">
+        Ver cómo funciona la suscripción
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </section>
 
-<div class="enlace-como-funciona">
-    <a href="xx">Ver cómo funciona la suscripción &rarr;</a>
-</div>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor columnas-footer">
+      <div class="columna-footer">
+        <h4>Ayuda</h4>
+        <a href="Home/faq.html">Preguntas frecuentes</a>
+        <a href="Home/envios.html">Envíos</a>
+        <a href="Home/devoluciones.html">Devoluciones</a>
+        <a href="Home/contacto.html">Contacto</a>
+      </div>
+      <div class="columna-footer">
+        <h4>Legal</h4>
+        <a href="Home/terminos.html">Términos y condiciones</a>
+        <a href="Home/privacidad.html">Política de privacidad</a>
+      </div>
+      <div class="columna-footer">
+        <h4>Síguenos</h4>
+        <div class="iconos-redes">
+          <a href="https://instagram.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://facebook.com" class="boton boton-secundario boton-icono boton-sm" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        </div>
+      </div>
+      <div class="columna-footer">
+        <h4>Recibe novedades</h4>
+        <form action="#" class="formulario-boletin">
+          <label for="email-boletin" class="sr-only">Tu email</label>
+          <input id="email-boletin" type="email" class="campo" placeholder="Tu email" required>
+          <button type="submit" class="boton boton-primario boton-icono" aria-label="Suscribirme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="contenedor copyright">
+      <p>© 2026 La Sobremesa. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 
 </body>
 </html>
