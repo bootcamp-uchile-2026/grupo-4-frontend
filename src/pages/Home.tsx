@@ -6,16 +6,21 @@ import { Footer } from "../components/footer/footer"
 import { Encabezado } from "../components/Header/header"
 import { Newsletter } from "../components/newsletter/newsletter"
 import { Destacados } from "../components/productos_destacados/productos_destacados"
+import type { AgregarAlCarrito } from "../datos/productos"
 
 
-function HomePage(){
+type HomePageProps = {
+    onAgregarAlCarrito: AgregarAlCarrito  // viene de App; la usa el botón "Agregar"
+}
+
+function HomePage({ onAgregarAlCarrito }: HomePageProps){
     return(
         <>
         <Encabezado></Encabezado>
         <Carrusel></Carrusel>
         <Confianza></Confianza>
         <Categorias></Categorias>
-        <Destacados></Destacados>
+        <Destacados onAgregarAlCarrito={onAgregarAlCarrito}></Destacados>
         <ProductoresBanner></ProductoresBanner>
         <Newsletter></Newsletter>
         <Footer></Footer>

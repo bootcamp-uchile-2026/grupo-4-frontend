@@ -9,15 +9,15 @@ function Encabezado(){
           <Link to="/" className="logo">La Sobremesa</Link>
     
           <nav className="menu-navegacion" aria-label="Principal">
-            <a href="../PLP/catalogo.html">Productos</a>
+            <Link to="/catalogo">Productos</Link>
             <a href="productores.html">Productores</a>
             <Link to="/suscripcion">Suscripción</Link>
           </nav>
     
           <div className="iconos-usuario">
-            <a href="../PLP/catalogo.html" className="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
+            <Link to="/catalogo" className="boton boton-terciario boton-icono boton-sm" aria-label="Buscar">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            </a>
+            </Link>
             <a href="favoritos.html" className="boton boton-terciario boton-icono boton-sm" aria-label="Favoritos">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
             </a>

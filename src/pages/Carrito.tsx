@@ -54,7 +54,9 @@ function CarritoPage({ productos, setProductos }: CarritoPageProps){
             {productos.map((producto) => (
               <ProductoCarrito
                 key={producto.id}
+                id={producto.id}
                 nombre={producto.nombre}
+                imagen={producto.imagen}
                 marca={producto.marca}
                 precio={producto.precio}
                 meta={producto.meta}

@@ -4,10 +4,16 @@ import { FiltrosCatalogo } from "../components/catalogo/filtros"
 import { Encabezado } from "../components/Header/header"
 import "../components/estilosPLP/estilosPLP.css"
 import { Footer } from "../components/footer/footer"
+import { productosTienda } from "../datos/productos"
+import type { AgregarAlCarrito } from "../datos/productos"
 
 
 
-function PaginaCatalogo() {
+type PaginaCatalogoProps = {
+    onAgregarAlCarrito: AgregarAlCarrito  // viene de App; se la pasamos a cada tarjeta
+}
+
+function PaginaCatalogo({ onAgregarAlCarrito }: PaginaCatalogoProps) {
     return(
     <>
     <Encabezado></Encabezado>
@@ -16,12 +22,10 @@ function PaginaCatalogo() {
     <div className="contenedor-catalogo">
     <FiltrosCatalogo></FiltrosCatalogo>
     <section className="grilla-productos" aria-label="Productos">
-    <TarjetaProductos></TarjetaProductos>
-    <TarjetaProductos></TarjetaProductos>
-    <TarjetaProductos></TarjetaProductos>
-    <TarjetaProductos></TarjetaProductos>
-    <TarjetaProductos></TarjetaProductos>
-    <TarjetaProductos></TarjetaProductos>
+    {/* Una tarjeta por cada producto de la tienda */}
+    {productosTienda.map((producto) => (
+      <TarjetaProductos key={producto.id} producto={producto} onAgregarAlCarrito={onAgregarAlCarrito}></TarjetaProductos>
+    ))}
     </section>
     </div>
     </main>
