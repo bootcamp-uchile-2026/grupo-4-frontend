@@ -1,0 +1,223 @@
+.miga-de-pan {
+    margin-block: var(--space-5);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+  
+  .miga-de-pan a:hover {
+    color: var(--color-primary);
+  }
+  
+  .miga-de-pan span {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  /* LAYOUT PRINCIPAL DE PRODUCTO */
+  .contenedor-producto {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+    margin-bottom: var(--space-7);
+  }
+  
+  /* GALERÍA */
+  .imagen-principal-producto {
+    aspect-ratio: 1 / 1;
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+  
+  .carrusel-miniaturas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  
+  .miniatura {
+    flex: 1;
+    max-width: 72px;
+    aspect-ratio: 1 / 1;
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+  }
+  
+  .miniatura.activa {
+    border-color: var(--color-primary);
+  }
+  
+  /* INFORMACIÓN Y COMPRA */
+  .info-compra-producto h1 {
+    margin-block: var(--space-2) var(--space-1);
+    font-size: var(--font-size-2xl);
+  }
+  
+  .subtitulo-productor {
+    color: var(--color-text-muted);
+  }
+  
+  .valoracion {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-block: var(--space-3) var(--space-4);
+    font-size: var(--font-size-xs);
+  }
+  
+  .estrellas {
+    color: var(--color-primary);
+    letter-spacing: 2px;
+  }
+  
+  .rating-texto {
+    color: var(--color-text-muted);
+  }
+  
+  .precio-producto {
+    margin-bottom: var(--space-5);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  /* ATRIBUTOS Y LOGÍSTICA */
+  .lista-atributos {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    padding-block: var(--space-4);
+    border-block: var(--border-width) solid var(--color-border);
+  }
+  
+  .lista-atributos li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  
+  /* CANTIDAD */
+  .selector-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .control-cantidad {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  
+  .control-cantidad input {
+    width: 40px;
+    border: none;
+    background: transparent;
+    text-align: center;
+  }
+  
+  .control-cantidad input::-webkit-inner-spin-button,
+  .control-cantidad input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+  
+  /* BOTONES DE COMPRA */
+  .acciones-compra {
+    display: grid;
+    gap: var(--space-3);
+  }
+  
+  /* PESTAÑAS */
+  .pestanas-seccion {
+    margin-bottom: var(--space-7);
+  }
+  
+  .cabecera-pestanas {
+    display: flex;
+    gap: var(--space-6);
+    overflow-x: auto;
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+  
+  .pestana {
+    padding-block: var(--space-3);
+    border-bottom: 2px solid transparent;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+  
+  .pestana:hover {
+    color: var(--color-primary);
+  }
+  
+  .pestana.activa {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+  
+  .contenido-pestana {
+    padding-block: var(--space-5);
+    max-width: 70ch;
+  }
+  
+  /* PRODUCTOR Y RESEÑAS */
+  .seccion-pdp {
+    margin-bottom: var(--space-7);
+  }
+  
+  .seccion-pdp > h2 {
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-lg);
+  }
+  
+  .seccion-pdp .cabecera-seccion h2 {
+    font-size: var(--font-size-lg);
+  }
+  
+  .caja-productor-cliqueable {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  
+  .foto-productor-mini {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+  }
+  
+  .texto-productor-mini p {
+    margin-bottom: var(--space-2);
+  }
+  
+  .tarjeta-resena {
+    padding: var(--space-5);
+  }
+  
+  .autor-resena {
+    margin-block: var(--space-1);
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  .comentario-resena {
+    margin-bottom: var(--space-2);
+  }
+  
+  .fecha-resena {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .contenedor-producto {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+  
