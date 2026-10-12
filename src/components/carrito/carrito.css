@@ -1,0 +1,186 @@
+/* =========================================================
+   CARRITO — estilos propios de la página.
+   Tokens, base, botones, encabezado y pie vienen de
+   ../estilos/estilos.css. Usar siempre var(--token).
+   ========================================================= */
+
+/* LAYOUTS */
+.contenedor-principal-dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  align-items: start;
+  gap: var(--space-6);
+  margin-top: var(--space-7);
+}
+
+/* --- VISTA: CARRITO.HTML --- */
+
+.titulo-seccion {
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-2xl);
+}
+
+.contador-productos {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+/* Tarjeta producto */
+.tarjeta-producto-carrito {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
+}
+
+.foto-carrito {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+}
+
+.info-producto {
+  display: flex;
+  flex-direction: column;
+}
+
+.encabezado-producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.encabezado-producto h2 {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.encabezado-producto h2 a:hover {
+  color: var(--color-primary);
+}
+
+.marca-autor,
+.meta-info {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.meta-info {
+  margin-top: var(--space-1);
+}
+
+.encabezado-producto .precio {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.acciones-producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+.control-cantidad {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.input-cantidad {
+  width: 32px;
+  border: none;
+  background: transparent;
+  text-align: center;
+}
+
+/* Resumen de compra lateral */
+.columna-lateral {
+  position: sticky;
+  top: 88px;
+}
+
+.tarjeta-resumen-compra {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.tarjeta-resumen-compra h2 {
+  font-size: var(--font-size-lg);
+}
+
+.linea-resumen {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.monto-subtexto {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+.divisor-resumen {
+  border: 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.linea-resumen.total {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.nota-seguridad {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Sugerencias de productos */
+.seccion-interes {
+  margin-top: var(--space-7);
+}
+
+.seccion-interes h2 {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-lg);
+}
+
+.grid-sugerencias {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.tarjeta-sugerencia {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .contenedor-principal-dos-columnas {
+    grid-template-columns: 1fr;
+  }
+
+  .columna-lateral {
+    position: static;
+  }
+
+  .grid-sugerencias {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .tarjeta-producto-carrito {
+    grid-template-columns: 80px 1fr;
+  }
+}
