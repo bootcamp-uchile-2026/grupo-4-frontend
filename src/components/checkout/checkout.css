@@ -1,0 +1,217 @@
+/* =========================================================
+   CHECKOUT — estilos propios de la página.
+   Tokens, base, botones, encabezado y pie vienen de
+   ../estilos/estilos.css. Usar siempre var(--token).
+   ========================================================= */
+
+/* LAYOUT */
+.contenedor-principal-centrado {
+  max-width: 640px;
+  margin-top: var(--space-7);
+}
+
+.titulo-checkout {
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-2xl);
+}
+
+/* Stepper de pasos */
+.pasos-checkout {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--space-7);
+}
+
+.paso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.paso.activo {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.circulo-paso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+}
+
+.paso.activo .circulo-paso {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.linea-conector {
+  flex-grow: 1;
+  height: 1px;
+  margin: 16px var(--space-2) 0;
+  background-color: var(--color-border);
+}
+
+/* Selección de modo */
+.pregunta-cuenta {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-lg);
+}
+
+.opciones-acceso {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.tarjeta-opcion-acceso {
+  padding: var(--space-5);
+}
+
+.tarjeta-opcion-acceso strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tarjeta-opcion-acceso p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.tarjeta-opcion-acceso:hover {
+  border-color: var(--color-primary);
+}
+
+/* Registro / formulario */
+.seccion-registro {
+  padding: var(--space-6);
+}
+
+.seccion-registro h2 {
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-lg);
+}
+
+.campo-form {
+  margin-bottom: var(--space-4);
+}
+
+.campo-form label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.campo-form .campo {
+  width: 100%;
+}
+
+.contenedor-password {
+  position: relative;
+}
+
+.contenedor-password .campo {
+  padding-right: var(--space-7);
+}
+
+.icono-revelar {
+  position: absolute;
+  top: 50%;
+  right: var(--space-1);
+  transform: translateY(-50%);
+}
+
+.separador-o {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--space-5);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.separador-o::before,
+.separador-o::after {
+  content: "";
+  flex: 1;
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.botones-sociales {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.texto-login-link {
+  margin-top: var(--space-5);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.footer-volver-carrito {
+  margin-top: var(--space-6);
+  text-align: center;
+}
+
+/* Las tarjetas de acceso ahora son <button>: quitamos el estilo de botón del navegador */
+.tarjeta-opcion-acceso {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tarjeta-opcion-acceso.seleccionada {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-subtle);
+}
+
+/* Compra como invitado: resumen del pedido */
+.resumen-invitado {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-sm);
+}
+
+.resumen-invitado li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.resumen-invitado-total {
+  padding-top: var(--space-2);
+  border-top: var(--border-width) solid var(--color-border);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Mensaje de compra exitosa o carrito vacío */
+.mensaje-compra {
+  display: grid;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .opciones-acceso,
+  .botones-sociales {
+    grid-template-columns: 1fr;
+  }
+}

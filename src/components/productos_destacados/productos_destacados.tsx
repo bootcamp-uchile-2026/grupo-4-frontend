@@ -1,5 +1,6 @@
 import "../estilos/estilos.css"
 import "../Header/header.css"
+import { Link } from "react-router"
 
 
 
@@ -19,7 +20,7 @@ function Destacados() {
             <p className="productor">Dirección productor</p>
             <div className="pie-tarjeta-producto">
               <p className="precio">$12.990</p>
-              <a href="../carrito/carrito.html" className="boton boton-primario boton-sm">Agregar</a>
+              <Link to="/carrito" className="boton boton-primario boton-sm">Agregar</Link>
             </div>
           </div>
         </article>
@@ -31,7 +32,7 @@ function Destacados() {
             <p className="productor">Dirección productor</p>
             <div className="pie-tarjeta-producto">
               <p className="precio">$8.990</p>
-              <a href="../carrito/carrito.html" className="boton boton-primario boton-sm">Agregar</a>
+              <Link to="/carrito" className="boton boton-primario boton-sm">Agregar</Link>
             </div>
           </div>
         </article>
@@ -43,7 +44,7 @@ function Destacados() {
             <p className="productor">Dirección productor</p>
             <div className="pie-tarjeta-producto">
               <p className="precio">$6.500</p>
-              <a href="../carrito/carrito.html" className="boton boton-primario boton-sm">Agregar</a>
+              <Link to="/carrito" className="boton boton-primario boton-sm">Agregar</Link>
             </div>
           </div>
         </article>
