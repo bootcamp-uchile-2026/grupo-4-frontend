@@ -1,5 +1,6 @@
 import "../estilos/estilos.css"
 import "../Header/header.css"
+import { Link } from "react-router"
 
 
 
@@ -11,7 +12,7 @@ function Carrusel(){
           <p className="texto-eyebrow">Productos</p>
           <h1>Productos artesanales que vale la pena descubrir</h1>
           <p className="hero-descripcion">Sabores de productores locales, seleccionados para llegar directo a tu mesa.</p>
-          <a href="../PLP/catalogo.html" className="boton boton-primario boton-lg">Ver productos</a>
+          <Link to="/catalogo" className="boton boton-primario boton-lg">Ver productos</Link>
 
           <div className="carrusel-controles">
             <button type="button" className="boton boton-secundario boton-icono boton-sm" aria-label="Anterior">
@@ -27,10 +28,10 @@ function Carrusel(){
           </div>
         </div>
 
-        <a href="../PLP/catalogo.html" className="imagen-placeholder hero-imagen">
+        <Link to="/catalogo" className="imagen-placeholder hero-imagen">
           Imagen banner
           <span className="hero-etiqueta">Quesos, vinos y conservas</span>
-        </a>
+        </Link>
       </div>
     </section>
 

@@ -1,10 +1,18 @@
 import "../estilos/estilos.css"
 import "../Header/header.css"
 import { Link } from "react-router"
+import { formatoPrecio } from "../carrito/formato_precio"
+import { productosTienda } from "../../datos/productos"
+import type { AgregarAlCarrito } from "../../datos/productos"
 
+type DestacadosProps = {
+    onAgregarAlCarrito: AgregarAlCarrito  // viene de App, pasando por HomePage
+}
 
+// Los 3 productos que mostramos en el Home (posiciones 0, 2 y 3 de la lista de la tienda).
+const destacados = [productosTienda[0], productosTienda[2], productosTienda[3]]
 
-function Destacados() {
+function Destacados({ onAgregarAlCarrito }: DestacadosProps) {
 
     return(
 <section className="contenedor seccion">
@@ -13,41 +21,24 @@ function Destacados() {
       </div>
       <div className="grilla-productos">
 
-        <article className="tarjeta-base tarjeta-producto">
-          <a href="../PDP/PDP.html" className="imagen-placeholder foto-producto">Imagen producto</a>
-          <div className="tarjeta-producto-cuerpo">
-            <h3><a href="../PDP/PDP.html">Queso maduro Don Pedro</a></h3>
-            <p className="productor">Dirección productor</p>
-            <div className="pie-tarjeta-producto">
-              <p className="precio">$12.990</p>
-              <Link to="/carrito" className="boton boton-primario boton-sm">Agregar</Link>
+        {destacados.map((producto) => (
+          <article key={producto.id} className="tarjeta-base tarjeta-producto">
+            {/* `/producto/${producto.id}` arma la dirección con el id. Ej: "/producto/3" */}
+            <Link to={`/producto/${producto.id}`} className="imagen-placeholder foto-producto">
+              {/* alt = texto que se lee si la foto no carga (y el que usan los lectores de pantalla) */}
+              <img src={producto.imagen} alt={producto.nombre} />
+            </Link>
+            <div className="tarjeta-producto-cuerpo">
+              <h3><Link to={`/producto/${producto.id}`}>{producto.nombre}</Link></h3>
+              <p className="productor">{producto.marca}</p>
+              <div className="pie-tarjeta-producto">
+                <p className="precio">{formatoPrecio(producto.precio)}</p>
+                {/* Al apretar: primero se agrega 1 unidad al carrito y luego Link nos lleva a /carrito */}
+                <Link to="/carrito" className="boton boton-primario boton-sm" onClick={() => onAgregarAlCarrito(producto, 1)}>Agregar</Link>
+              </div>
             </div>
-          </div>
-        </article>
-
-        <article className="tarjeta-base tarjeta-producto">
-          <a href="../PDP/PDP.html" className="imagen-placeholder foto-producto">Imagen producto</a>
-          <div className="tarjeta-producto-cuerpo">
-            <h3><a href="../PDP/PDP.html">Aceite de oliva Emilia</a></h3>
-            <p className="productor">Dirección productor</p>
-            <div className="pie-tarjeta-producto">
-              <p className="precio">$8.990</p>
-              <Link to="/carrito" className="boton boton-primario boton-sm">Agregar</Link>
-            </div>
-          </div>
-        </article>
-
-        <article className="tarjeta-base tarjeta-producto">
-          <a href="../PDP/PDP.html" className="imagen-placeholder foto-producto">Imagen producto</a>
-          <div className="tarjeta-producto-cuerpo">
-            <h3><a href="../PDP/PDP.html">Mermelada de frutillas</a></h3>
-            <p className="productor">Dirección productor</p>
-            <div className="pie-tarjeta-producto">
-              <p className="precio">$6.500</p>
-              <Link to="/carrito" className="boton boton-primario boton-sm">Agregar</Link>
-            </div>
-          </div>
-        </article>
+          </article>
+        ))}
 
       </div>
     </section>

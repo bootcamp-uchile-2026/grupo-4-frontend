@@ -2,6 +2,7 @@ import type { Pedido, Producto } from "../../datos/carrito"
 import { formatoPrecio } from "../carrito/formato_precio"
 import "../estilos/estilos.css"
 import "./cuenta.css"
+import { Link } from "react-router"
 
 type VuelveATuMesaProps = {
     pedidos: Pedido[]  // todas las compras hechas
@@ -25,7 +26,7 @@ function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
       <section className="seccion-cuenta">
         <div className="cabecera-seccion">
           <h2>Vuelve a tu mesa</h2>
-          <a href="../PLP/catalogo.html" className="enlace-texto">Ver todos</a>
+          <Link to="/catalogo" className="enlace-texto">Ver todos</Link>
         </div>
 
         {/* Si todavía no compró nada, mostramos un mensaje */}
@@ -35,11 +36,14 @@ function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
 
         <div className="grilla-productos-mini">
           {comprados.map((producto) => (
-            <a key={producto.id} href="../PDP/PDP.html" className="tarjeta-producto-mini">
-              <div className="imagen-placeholder foto-producto-mini" aria-hidden="true"></div>
+            <Link key={producto.id} to={`/producto/${producto.id}`} className="tarjeta-producto-mini">
+              {/* alt="" porque el nombre ya aparece escrito justo abajo */}
+              <div className="imagen-placeholder foto-producto-mini">
+                <img src={producto.imagen} alt="" />
+              </div>
               <p className="nombre-producto">{producto.nombre}</p>
               <p className="precio-producto">{formatoPrecio(producto.precio)}</p>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

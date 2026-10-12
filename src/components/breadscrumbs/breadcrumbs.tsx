@@ -1,14 +1,20 @@
 
 import "../estilos PDP/estilosPDP.css"
 import "../estilos/estilos.css"
+import { Link } from "react-router"
+import type { ProductoTienda } from "../../datos/productos"
 
-function Breadscrumbs() {
+type BreadscrumbsProps = {
+    producto: ProductoTienda  // el producto de la página, para mostrar su categoría y nombre
+}
+
+function Breadscrumbs({ producto }: BreadscrumbsProps) {
     return(
         <nav className="miga-de-pan" aria-label="Ruta de navegación">
-      <a href="../Home/index.html">Inicio</a> /
-      <a href="../PLP/catalogo.html">Productos</a> /
-      <a href="../PLP/catalogo.html">Quesos</a> /
-      <span aria-current="page">Queso Madurado</span>
+      <Link to="/">Inicio</Link> /
+      <Link to="/catalogo">Productos</Link> /
+      <Link to="/catalogo">{producto.categoria}</Link> /
+      <span aria-current="page">{producto.nombre}</span>
     </nav>
     )
 }

@@ -1,3 +1,5 @@
+import { productosTienda } from "./productos"
+
 // Forma que tiene cada producto del carrito.
 // La usan varias páginas (Carrito y Checkout), por eso vive en su propio archivo.
 type Producto = {
@@ -6,6 +8,7 @@ type Producto = {
     marca: string
     precio: number
     meta: string
+    imagen: string   // dirección de la foto
     cantidad: number
 }
 
@@ -22,9 +25,11 @@ type Pedido = {
 }
 
 // Productos con los que empieza el carrito (más adelante vendrán de una API).
+// Los sacamos de la lista de la tienda para no escribir dos veces los mismos datos:
+// "...productosTienda[0]" copia todos los datos del queso y le sumamos la cantidad.
 const productosIniciales: Producto[] = [
-    { id: 1, nombre: "Queso Maduro Artesanal", marca: "Don Pedro", precio: 12990, meta: "❄️ Refrigerado · Entrega 22-24 ago", cantidad: 1 },
-    { id: 2, nombre: "Mermelada de Frambuesa", marca: "La Emilia", precio: 6990, meta: "🌡️ Ambiente · Entrega 21-23 ago", cantidad: 2 },
+    { ...productosTienda[0], cantidad: 1 },
+    { ...productosTienda[1], cantidad: 2 },
 ]
 
 export type {Producto, Pedido}

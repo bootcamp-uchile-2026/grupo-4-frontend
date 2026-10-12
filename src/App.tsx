@@ -1,17 +1,16 @@
-import { Route, Routes } from "react-router"
-import { HomePage } from "./pages/Home"
-import { PaginaProducto } from "./pages/PDP"
-import { PaginaCatalogo } from "./pages/PLP"
 import { useState } from "react"
-import { BrowserRouter, Route, Routes } from "react-router"
+import { Route, Routes } from "react-router"
 import { productosIniciales } from "./datos/carrito"
 import type { Pedido } from "./datos/carrito"
+import type { ProductoTienda } from "./datos/productos"
 import type { Suscripcion } from "./datos/suscripcion"
 import type { Usuario } from "./datos/usuario"
 import { CarritoPage } from "./pages/Carrito"
 import { CheckoutPage } from "./pages/Checkout"
 import { CuentaPage } from "./pages/Cuenta"
 import { HomePage } from "./pages/Home"
+import { PaginaProducto } from "./pages/PDP"
+import { PaginaCatalogo } from "./pages/PLP"
 import { SuscripcionPage } from "./pages/Suscripcion"
 
 
@@ -20,7 +19,8 @@ function App() {
   // Aquí, en App, viven los datos que comparten VARIAS páginas.
   // Si vivieran dentro de una página, las demás no podrían verlos.
 
-  // El carrito: lo usan Carrito (para mostrarlo y cambiarlo) y Checkout (para comprar).
+  // El carrito: lo usan Carrito (para mostrarlo y cambiarlo), Checkout (para comprar)
+  // y Home, Catálogo y Producto (para agregar con el botón "Agregar").
   const [productos, setProductos] = useState(productosIniciales)
 
   // Lista de compras hechas. Empieza vacía y la muestra "Mi cuenta".
@@ -33,6 +33,27 @@ function App() {
 
   // La suscripción activa. null = no está suscrito.
   const [suscripcion, setSuscripcion] = useState<Suscripcion | null>(null)
+
+  // Se llama al apretar "Agregar" en Home, Catálogo o la página de un producto.
+  // Si el producto ya está en el carrito, le sumamos la cantidad.
+  // Si no está, lo agregamos al final de la lista.
+  function agregarAlCarrito(productoNuevo: ProductoTienda, cantidad: number) {
+    // "some" revisa si ALGÚN producto del carrito ya tiene ese id.
+    const yaEsta = productos.some((producto) => producto.id === productoNuevo.id)
+
+    if (yaEsta) {
+      const nuevaLista = productos.map((producto) => {
+        if (producto.id === productoNuevo.id) {
+          return { ...producto, cantidad: producto.cantidad + cantidad }
+        }
+        return producto
+      })
+      setProductos(nuevaLista)
+    } else {
+      // Copiamos los datos del producto y le agregamos la cantidad.
+      setProductos([...productos, { ...productoNuevo, cantidad: cantidad }])
+    }
+  }
 
   // Se llama cuando termina una compra:
   // 1) agrega el pedido nuevo al final de la lista
@@ -48,46 +69,40 @@ function App() {
   }
 
   return (
-    <>
-      <Routes>
-      <Route path="/" element={<HomePage/>}/>
-      <Route path="/PaginaProducto" element={<PaginaProducto/>}/>
-      <Route path="/PaginaCatalogo" element={<PaginaCatalogo/>}/>
-      </Routes>
-
-
-    </>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage></HomePage>} />
-        <Route path="/carrito" element={<CarritoPage productos={productos} setProductos={setProductos}></CarritoPage>} />
-        <Route path="/checkout" element={
-          <CheckoutPage
-            productos={productos}
-            usuario={usuario}
-            onCuentaCreada={setUsuario}
-            onCompraFinalizada={finalizarCompra}
-          ></CheckoutPage>
-        } />
-        <Route path="/suscripcion" element={
-          <SuscripcionPage
-            usuario={usuario}
-            suscripcion={suscripcion}
-            onCuentaCreada={setUsuario}
-            onSuscribirse={setSuscripcion}
-          ></SuscripcionPage>
-        } />
-        <Route path="/cuenta" element={
-          <CuentaPage
-            usuario={usuario}
-            pedidos={pedidos}
-            suscripcion={suscripcion}
-            onCuentaCreada={setUsuario}
-            onCerrarSesion={cerrarSesion}
-          ></CuentaPage>
-        } />
-      </Routes>
-    </BrowserRouter>
+    // No usamos <BrowserRouter> aquí porque ya está en main.tsx, envolviendo a <App />.
+    // Todas las rutas van en UN solo <Routes>, con nombres en minúscula.
+    <Routes>
+      <Route path="/" element={<HomePage onAgregarAlCarrito={agregarAlCarrito}></HomePage>} />
+      <Route path="/catalogo" element={<PaginaCatalogo onAgregarAlCarrito={agregarAlCarrito}></PaginaCatalogo>} />
+      {/* ":id" es una parte variable: /producto/1, /producto/2... La página la lee con useParams */}
+      <Route path="/producto/:id" element={<PaginaProducto onAgregarAlCarrito={agregarAlCarrito}></PaginaProducto>} />
+      <Route path="/carrito" element={<CarritoPage productos={productos} setProductos={setProductos}></CarritoPage>} />
+      <Route path="/checkout" element={
+        <CheckoutPage
+          productos={productos}
+          usuario={usuario}
+          onCuentaCreada={setUsuario}
+          onCompraFinalizada={finalizarCompra}
+        ></CheckoutPage>
+      } />
+      <Route path="/suscripcion" element={
+        <SuscripcionPage
+          usuario={usuario}
+          suscripcion={suscripcion}
+          onCuentaCreada={setUsuario}
+          onSuscribirse={setSuscripcion}
+        ></SuscripcionPage>
+      } />
+      <Route path="/cuenta" element={
+        <CuentaPage
+          usuario={usuario}
+          pedidos={pedidos}
+          suscripcion={suscripcion}
+          onCuentaCreada={setUsuario}
+          onCerrarSesion={cerrarSesion}
+        ></CuentaPage>
+      } />
+    </Routes>
   )
 }
 

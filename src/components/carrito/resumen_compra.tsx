@@ -26,7 +26,7 @@ function ResumenCompra({ subtotal }: ResumenCompraProps) {
           <span>{formatoPrecio(subtotal)}</span>
         </div>
         <Link to="/checkout" className="boton boton-primario boton-lg boton-bloque">Ir al checkout</Link>
-        <a href="../PLP/catalogo.html" className="boton boton-terciario boton-bloque">Seguir comprando</a>
+        <Link to="/catalogo" className="boton boton-terciario boton-bloque">Seguir comprando</Link>
         <p className="nota-seguridad">🔒 Compra 100% segura</p>
       </div>
     </aside>

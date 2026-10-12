@@ -178,6 +178,16 @@
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
   }
+
+  /* Foto real dentro de una caja de imagen: llena la caja sin deformarse.
+     object-fit: cover recorta los bordes si la foto no tiene la misma forma que la caja. */
+  .imagen-placeholder img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
   
   /* ---------------------------------------------------------
      3. BOTONES (PDF "Botones")
