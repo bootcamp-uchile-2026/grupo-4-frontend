@@ -17,6 +17,22 @@
     display: flex;
     gap: var(--space-3);
   }
+
+  /* Selector "Ordenar por": el texto arriba y el select abajo */
+  .selector-orden {
+    display: grid;
+    gap: var(--space-1);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+
+  .selector-orden .campo {
+    color: var(--color-text);
+  }
+
+  .acciones-catalogo {
+    align-items: flex-end;
+  }
   
   /* LAYOUT: FILTROS + GRILLA */
   .contenedor-catalogo {
@@ -24,6 +40,11 @@
     grid-template-columns: 220px 1fr;
     align-items: start;
     gap: var(--space-6);
+  }
+
+  /* Con el panel de filtros cerrado, la grilla ocupa todo el ancho */
+  .contenedor-catalogo.sin-filtros {
+    grid-template-columns: 1fr;
   }
   
   /* FILTROS */

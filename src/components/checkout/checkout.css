@@ -16,10 +16,13 @@
 }
 
 /* Stepper de pasos */
+/* list-style: none quita los números automáticos del <ol> ("1.", "2."...).
+   Sin esto, el navegador numeraba las líneas que unen los pasos (ver explicación en pasos_checkout.tsx). */
 .pasos-checkout {
   display: flex;
   align-items: flex-start;
   margin-bottom: var(--space-7);
+  list-style: none;
 }
 
 .paso {

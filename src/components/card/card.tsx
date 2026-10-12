@@ -1,6 +1,7 @@
 
 import "../estilosPLP/estilosPLP.css"
 import { Link } from "react-router"
+import { nombreProductor } from "../../datos/productores"
 import { formatoPrecio } from "../carrito/formato_precio"
 import type { AgregarAlCarrito, ProductoTienda } from "../../datos/productos"
 
@@ -20,7 +21,7 @@ function TarjetaProductos({ producto, onAgregarAlCarrito }: TarjetaProductosProp
             </Link>
         <div className="tarjeta-producto-cuerpo">
           <h3><Link to={`/producto/${producto.id}`}>{producto.nombre}</Link></h3>
-          <p className="productor">{producto.marca}</p>
+          <p className="productor">{nombreProductor(producto.productorId)}</p>
           <p className="envio">Envío: 2 a 3 días</p>
           <div className="pie-tarjeta-producto">
             <p className="precio">{formatoPrecio(producto.precio)}</p>

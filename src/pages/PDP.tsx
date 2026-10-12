@@ -10,6 +10,7 @@ import { TarjetaProductor } from "../components/TarjetaProductor/tarjetaProducto
 import { TarjetasReseñas } from "../components/TarjetaReseñas/tarjetasReseñas";
 import "../components/estilos PDP/estilosPDP.css"
 import { productosTienda } from "../datos/productos";
+import { buscarProductor } from "../datos/productores";
 import type { AgregarAlCarrito } from "../datos/productos";
 
 
@@ -41,6 +42,9 @@ function PaginaProducto({ onAgregarAlCarrito }: PaginaProductoProps) {
         )
     }
 
+    // Buscamos al productor de este producto usando su "productorId".
+    const productor = buscarProductor(producto.productorId)
+
     return(
 
         <>
@@ -51,7 +55,8 @@ function PaginaProducto({ onAgregarAlCarrito }: PaginaProductoProps) {
             y la cantidad vuelve a 1 (si no, se quedaría con la del producto anterior) */}
         <GaleriaImagenes key={producto.id} producto={producto} onAgregarAlCarrito={onAgregarAlCarrito}></GaleriaImagenes>
         <PestañasIngredientes></PestañasIngredientes>
-        <TarjetaProductor></TarjetaProductor>
+        {/* Solo mostramos la caja si encontramos al productor */}
+        {productor && <TarjetaProductor productor={productor}></TarjetaProductor>}
         <TarjetasReseñas></TarjetasReseñas>
         </main>
         <Footer></Footer>

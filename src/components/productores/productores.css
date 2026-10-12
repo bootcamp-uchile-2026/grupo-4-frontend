@@ -1,0 +1,77 @@
+/* =========================================================
+   PRODUCTORES — estilos de la lista y de la página de cada productor.
+   Tokens, base y botones vienen de ../estilos/estilos.css.
+   Las tarjetas (.tarjeta-productor, .avatar-productor) vienen de ../Header/header.css.
+   ========================================================= */
+
+/* La inicial del nombre dentro del círculo del avatar
+   (en el Home y en la caja "Conoce a ..." de la página de producto) */
+.avatar-productor,
+.foto-productor-mini {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.descripcion-productor {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Título de las páginas de productores */
+.titulo-productores {
+  margin-block: var(--space-7) var(--space-5);
+}
+
+.titulo-productores h1 {
+  margin-block: var(--space-2);
+  font-size: var(--font-size-2xl);
+}
+
+.titulo-productores p:last-child {
+  color: var(--color-text-muted);
+}
+
+/* Página de un productor */
+.perfil-productor {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin-block: var(--space-7) var(--space-5);
+}
+
+.perfil-productor .avatar-productor {
+  width: 96px;
+  height: 96px;
+  font-size: var(--font-size-2xl);
+}
+
+.perfil-productor h1 {
+  font-size: var(--font-size-2xl);
+}
+
+.historia-productor {
+  max-width: 720px;
+  margin-bottom: var(--space-7);
+  padding: var(--space-5);
+}
+
+.historia-productor h2,
+.productos-productor h2 {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-lg);
+}
+
+.productos-productor {
+  margin-bottom: var(--space-6);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .perfil-productor .avatar-productor {
+    width: 64px;
+    height: 64px;
+    font-size: var(--font-size-xl);
+  }
+}

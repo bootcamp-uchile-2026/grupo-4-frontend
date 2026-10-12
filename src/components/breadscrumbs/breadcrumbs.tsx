@@ -13,7 +13,8 @@ function Breadscrumbs({ producto }: BreadscrumbsProps) {
         <nav className="miga-de-pan" aria-label="Ruta de navegación">
       <Link to="/">Inicio</Link> /
       <Link to="/catalogo">Productos</Link> /
-      <Link to="/catalogo">{producto.categoria}</Link> /
+      {/* Lleva al catálogo ya filtrado por la categoría del producto. Ej: /catalogo?categoria=Quesos */}
+      <Link to={`/catalogo?categoria=${producto.categoria}`}>{producto.categoria}</Link> /
       <span aria-current="page">{producto.nombre}</span>
     </nav>
     )

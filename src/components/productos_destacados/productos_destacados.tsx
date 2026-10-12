@@ -1,6 +1,7 @@
 import "../estilos/estilos.css"
 import "../Header/header.css"
 import { Link } from "react-router"
+import { nombreProductor } from "../../datos/productores"
 import { formatoPrecio } from "../carrito/formato_precio"
 import { productosTienda } from "../../datos/productos"
 import type { AgregarAlCarrito } from "../../datos/productos"
@@ -30,7 +31,7 @@ function Destacados({ onAgregarAlCarrito }: DestacadosProps) {
             </Link>
             <div className="tarjeta-producto-cuerpo">
               <h3><Link to={`/producto/${producto.id}`}>{producto.nombre}</Link></h3>
-              <p className="productor">{producto.marca}</p>
+              <p className="productor">{nombreProductor(producto.productorId)}</p>
               <div className="pie-tarjeta-producto">
                 <p className="precio">{formatoPrecio(producto.precio)}</p>
                 {/* Al apretar: primero se agrega 1 unidad al carrito y luego Link nos lleva a /carrito */}

@@ -1,3 +1,4 @@
+import { actualizarDatosProductos } from "../../datos/carrito"
 import type { Pedido, Producto } from "../../datos/carrito"
 import { formatoPrecio } from "../carrito/formato_precio"
 import "../estilos/estilos.css"
@@ -22,6 +23,10 @@ function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
         }
     }
 
+    // Los pedidos se guardan en el navegador y sus fotos pueden quedar viejas:
+    // tomamos foto y precio actuales de la tienda (para comprarlos de nuevo al precio de hoy).
+    const paraMostrar = actualizarDatosProductos(comprados)
+
     return(
       <section className="seccion-cuenta">
         <div className="cabecera-seccion">
@@ -30,12 +35,12 @@ function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
         </div>
 
         {/* Si todavía no compró nada, mostramos un mensaje */}
-        {comprados.length === 0 && (
+        {paraMostrar.length === 0 && (
           <p className="texto-vacio">Cuando compres, tus productos aparecerán aquí.</p>
         )}
 
         <div className="grilla-productos-mini">
-          {comprados.map((producto) => (
+          {paraMostrar.map((producto) => (
             <Link key={producto.id} to={`/producto/${producto.id}`} className="tarjeta-producto-mini">
               {/* alt="" porque el nombre ya aparece escrito justo abajo */}
               <div className="imagen-placeholder foto-producto-mini">

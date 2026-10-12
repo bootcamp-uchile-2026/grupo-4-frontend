@@ -84,9 +84,11 @@
   }
   
   /* CATEGORÍAS */
+  /* auto-fit: crea tantas columnas como quepan, de mínimo 160px cada una.
+     Así la grilla se ve bien con 3 categorías o con 8, sin cambiar el CSS. */
   .grilla-categorias {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: var(--space-4);
   }
   
@@ -224,9 +226,6 @@
       grid-template-columns: 1fr;
     }
   
-    .grilla-categorias {
-      grid-template-columns: repeat(3, 1fr);
-    }
   
     .banda-newsletter-interior {
       flex-direction: column;

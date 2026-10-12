@@ -11,6 +11,10 @@ type PasosCheckoutProps = {
 }
 
 function PasosCheckout({ pasoActual }: PasosCheckoutProps) {
+    // Usamos <ol> (lista ORDENADA) porque los pasos tienen un orden.
+    // Ojo: el navegador le pone números automáticos ("1.", "2."...) a cada <li> de un <ol>.
+    // Como nosotros ya dibujamos el número dentro del círculo, esos números sobran:
+    // los quitamos en checkout.css con "list-style: none" en .pasos-checkout.
     return(
       <ol className="pasos-checkout">
         {/* Recorremos la lista de pasos. "indice" empieza en 0, por eso sumamos 1. */}
