@@ -11,7 +11,7 @@ type DatosProducto = {
     id: number        // número que identifica al producto (para el enlace a su página)
     nombre: string    // texto
     imagen: string    // dirección de la foto
-    marca: string     // texto
+    productor: string // nombre del productor (texto)
     precio: number    // número (ej: 12990)
     meta: string      // texto con tipo de envío y fecha
     cantidad: number  // número de unidades
@@ -30,7 +30,7 @@ type AccionesProducto = {
 // El símbolo "&" junta los dos types en uno solo.
 type ProductoCarritoProps = DatosProducto & AccionesProducto
 
-function ProductoCarrito({ id, nombre, imagen, marca, precio, meta, cantidad, onAgregar, onQuitar, onEliminar }: ProductoCarritoProps) {
+function ProductoCarrito({ id, nombre, imagen, productor, precio, meta, cantidad, onAgregar, onQuitar, onEliminar }: ProductoCarritoProps) {
     return(
       <article className="tarjeta-base tarjeta-producto-carrito">
         <Link to={`/producto/${id}`} className="imagen-placeholder foto-carrito">
@@ -40,7 +40,7 @@ function ProductoCarrito({ id, nombre, imagen, marca, precio, meta, cantidad, on
           <div className="encabezado-producto">
             <div>
               <h2><Link to={`/producto/${id}`}>{nombre}</Link></h2>
-              <p className="marca-autor">{marca}</p>
+              <p className="marca-autor">{productor}</p>
             </div>
             <span className="precio">{formatoPrecio(precio)}</span>
           </div>

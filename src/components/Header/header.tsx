@@ -10,7 +10,7 @@ function Encabezado(){
     
           <nav className="menu-navegacion" aria-label="Principal">
             <Link to="/catalogo">Productos</Link>
-            <a href="productores.html">Productores</a>
+            <Link to="/productores">Productores</Link>
             <Link to="/suscripcion">Suscripción</Link>
           </nav>
     

@@ -5,7 +5,7 @@ import { productosTienda } from "./productos"
 type Producto = {
     id: number
     nombre: string
-    marca: string
+    productorId: number  // el nombre se busca con nombreProductor (datos/productores.ts)
     precio: number
     meta: string
     imagen: string   // dirección de la foto
@@ -32,5 +32,23 @@ const productosIniciales: Producto[] = [
     { ...productosTienda[1], cantidad: 2 },
 ]
 
+// Pone al día una lista de productos guardada en el navegador (localStorage).
+//
+// ¿Por qué hace falta? Lo guardado puede estar viejo: si el equipo cambia un precio,
+// o publica una versión nueva del sitio (la dirección de las fotos cambia), los datos
+// guardados ya no coinciden. Por eso de lo guardado solo usamos el "id" y la "cantidad",
+// y el resto (nombre, precio, foto...) lo leemos siempre de la tienda actual.
+function actualizarDatosProductos(guardados: Producto[]): Producto[] {
+    const actualizados: Producto[] = []
+    for (const guardado of guardados) {
+        const enLaTienda = productosTienda.find((producto) => producto.id === guardado.id)
+        // Si el producto ya no existe en la tienda, no lo agregamos (desaparece del carrito).
+        if (enLaTienda) {
+            actualizados.push({ ...enLaTienda, cantidad: guardado.cantidad })
+        }
+    }
+    return actualizados
+}
+
 export type {Producto, Pedido}
-export {productosIniciales}
+export {productosIniciales, actualizarDatosProductos}

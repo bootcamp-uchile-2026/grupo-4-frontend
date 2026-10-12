@@ -3,6 +3,7 @@ import "../estilos/estilos.css"
 import { useState } from "react"
 import { Link } from "react-router"
 import { formatoPrecio } from "../carrito/formato_precio"
+import { buscarProductor } from "../../datos/productores"
 import type { AgregarAlCarrito, ProductoTienda } from "../../datos/productos"
 
 type GaleriaImagenesProps = {
@@ -11,6 +12,9 @@ type GaleriaImagenesProps = {
 }
 
 function GaleriaImagenes({ producto, onAgregarAlCarrito }: GaleriaImagenesProps) {
+    // El productor de este producto (para el texto "Don Pedro · Curicó").
+    const productor = buscarProductor(producto.productorId)
+
     // Cuántas unidades quiere agregar. Empieza en 1.
     const [cantidad, setCantidad] = useState(1)
 
@@ -55,7 +59,7 @@ function GaleriaImagenes({ producto, onAgregarAlCarrito }: GaleriaImagenesProps)
   <div className="info-compra-producto">
     <p className="texto-eyebrow">{producto.categoria}</p>
     <h1>{producto.nombre}</h1>
-    <p className="subtitulo-productor">Don Pedro · Curicó</p>
+    <p className="subtitulo-productor">{productor ? productor.nombre + " · " + productor.ubicacion : ""}</p>
 
     <div className="valoracion">
       <span className="estrellas" aria-hidden="true">★★★★★</span>
