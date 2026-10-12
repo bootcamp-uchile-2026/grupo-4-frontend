@@ -1,3 +1,7 @@
+import { Route, Routes } from "react-router"
+import { HomePage } from "./pages/Home"
+import { PaginaProducto } from "./pages/PDP"
+import { PaginaCatalogo } from "./pages/PLP"
 import { useState } from "react"
 import { BrowserRouter, Route, Routes } from "react-router"
 import { productosIniciales } from "./datos/carrito"
@@ -44,6 +48,15 @@ function App() {
   }
 
   return (
+    <>
+      <Routes>
+      <Route path="/" element={<HomePage/>}/>
+      <Route path="/PaginaProducto" element={<PaginaProducto/>}/>
+      <Route path="/PaginaCatalogo" element={<PaginaCatalogo/>}/>
+      </Routes>
+
+
+    </>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage></HomePage>} />
