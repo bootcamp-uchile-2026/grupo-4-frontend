@@ -1,6 +1,7 @@
 
 import "../estilos/estilos.css"
 import "../Header/header.css"
+import { Link } from "react-router"
 
 function Newsletter() {
 
@@ -12,7 +13,7 @@ function Newsletter() {
           <h2>Suscríbete a nuestra caja gourmet mensual</h2>
           <p>Descubre nuevos sabores cada mes.</p>
         </div>
-        <a href="../suscripcion.html" className="boton boton-secundario boton-lg">Quiero saber más</a>
+        <Link to="/suscripcion" className="boton boton-secundario boton-lg">Quiero saber más</Link>
       </div>
     </section>
     )

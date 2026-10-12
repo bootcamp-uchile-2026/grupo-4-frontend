@@ -1,0 +1,217 @@
+/* =========================================================
+   CUENTA DE USUARIO — estilos propios de la página.
+   Tokens, base, botones, encabezado y pie vienen de
+   ../estilos/estilos.css. Usar siempre var(--token).
+   ========================================================= */
+
+/* LAYOUT */
+.contenedor-perfil {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: start;
+  gap: var(--space-6);
+  margin-top: var(--space-7);
+}
+
+/* MENÚ LATERAL */
+.menu-lateral {
+  position: sticky;
+  top: 88px;
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.lista-menu-lateral {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.item-menu-lateral {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.item-menu-lateral:hover {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-text);
+}
+
+.item-menu-lateral.activo {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.item-menu-lateral.cerrar-sesion {
+  margin-top: var(--space-2);
+  border-top: var(--border-width) solid var(--color-border);
+  border-radius: 0;
+  padding-top: var(--space-3);
+}
+
+.icono-menu {
+  width: 20px;
+  text-align: center;
+}
+
+/* PANEL DERECHO */
+.panel-contenido h1 {
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-2xl);
+}
+
+/* TARJETAS DE RESUMEN */
+.grilla-resumen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-7);
+}
+
+.tarjeta-resumen {
+  padding: var(--space-5);
+}
+
+.tarjeta-resumen h2 {
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-md);
+}
+
+.etiqueta-secundaria,
+.codigo-pedido {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.destacado-fecha {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.codigo-pedido {
+  margin-bottom: var(--space-4);
+}
+
+/* SECCIONES */
+.seccion-cuenta {
+  margin-bottom: var(--space-7);
+}
+
+.seccion-cuenta h2 {
+  font-size: var(--font-size-lg);
+}
+
+.seccion-cuenta > h2 {
+  margin-bottom: var(--space-4);
+}
+
+/* ACCESOS RÁPIDOS */
+.grilla-accesos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.tarjeta-acceso-rapido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-3);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+}
+
+.tarjeta-acceso-rapido:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.icono-acceso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--color-primary-subtle);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-lg);
+}
+
+/* VUELVE A TU MESA */
+.grilla-productos-mini {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-4);
+}
+
+.foto-producto-mini {
+  aspect-ratio: 1 / 1;
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-md);
+}
+
+.nombre-producto {
+  font-size: var(--font-size-xs);
+}
+
+.tarjeta-producto-mini:hover .nombre-producto {
+  color: var(--color-primary);
+}
+
+.precio-producto {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .contenedor-perfil {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-lateral {
+    position: static;
+  }
+
+  .lista-menu-lateral {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .item-menu-lateral.cerrar-sesion {
+    margin-top: 0;
+    border-top: none;
+    border-radius: var(--radius-md);
+    padding-top: var(--space-2);
+  }
+
+  .grilla-accesos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grilla-productos-mini {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grilla-resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .grilla-productos-mini {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Texto cuando todavía no hay pedidos */
+.texto-vacio {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
