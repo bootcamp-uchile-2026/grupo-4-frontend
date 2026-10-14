@@ -4,7 +4,7 @@ import { useState } from "react"
 // Ej: en "/catalogo?categoria=Quesos&orden=precio-menor"
 import { useSearchParams } from "react-router"
 import { TarjetaProductos } from "../components/card/card"
-import { CabeceraCatalogo } from "../components/catalogo/catalogo"
+import { CabeceraCatalogo, ProductosApi } from "../components/catalogo/catalogo"
 import { FiltrosCatalogo } from "../components/catalogo/filtros"
 import { Encabezado } from "../components/Header/header"
 import "../components/estilosPLP/estilosPLP.css"
@@ -148,6 +148,10 @@ function PaginaCatalogo({ onAgregarAlCarrito }: PaginaCatalogoProps) {
     ))}
     </section>
     </div>
+
+    {/* Productos que vienen de la API (Swagger) */}
+    <h2>Productos desde la API</h2>
+    <ProductosApi></ProductosApi>
     </main>
     <Footer></Footer>
     </>

@@ -218,3 +218,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Mensaje de error que muestra Zod debajo de cada campo */
+.mensaje-error {
+    color: #c0392b;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
