@@ -33,6 +33,19 @@
   color: var(--color-text-muted);
 }
 
+/* Sección de productores que vienen de la API (debajo de la grilla principal) */
+.seccion-api-productores {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;   /* el botón no se estira a todo el ancho */
+  gap: var(--space-4);
+  margin-block: var(--space-6);
+}
+
+.seccion-api-productores .grilla-productores {
+  width: 100%;               /* la grilla sí ocupa todo el ancho */
+}
+
 /* Página de un productor */
 .perfil-productor {
   display: flex;
