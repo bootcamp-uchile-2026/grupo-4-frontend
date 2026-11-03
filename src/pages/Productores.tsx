@@ -1,80 +1,49 @@
 // useState permite que la página recuerde datos (la lista de la API, si está cargando, si hubo error).
-import { useState } from "react"
+// useEffect permite llamar a la API apenas se abre la página.
+import { useEffect, useState } from "react"
 // Componentes que arman la página. Cada uno es una parte de la pantalla.
 import { Encabezado } from "../components/Header/header"                                  // barra de navegación superior
 import { TarjetaProductorResumen } from "../components/productores/tarjeta_productor_resumen" // tarjeta de cada productor
 import { Footer } from "../components/footer/footer"                                      // pie de página
 import { productores } from "../datos/productores"
+import { URL_PROVEEDORES } from "../datos/api"          // dirección de la API de proveedores
+import type { ProveedorApi } from "../datos/api"        // forma de cada proveedor de la API
 import "../components/Header/header.css"
 import "../components/productores/productores.css"
 
-// Dirección de la API de proveedores (la que se ve en Swagger).
-const URL_PROVEEDORES = "http://3.144.233.145:3001/proveedores"
-
-// Forma de cada proveedor que devuelve la API (copiada de Swagger).
-type ProveedorApi = {
-    id: number
-    nombre: string
-    descripcion: string
-    email: string
-    telefono: string
-}
-
 // Página /productores: lista de todos los productores.
 function PaginaProductores() {
-    // Proveedores que llegan de la API. Empieza vacía: nadie ha apretado el botón aún.
+    // Proveedores que llegan de la API. Empieza vacía: todavía no llegan.
     const [proveedores, setProveedores] = useState<ProveedorApi[]>([])
-    // true mientras esperamos la respuesta. Empieza en false.
-    const [cargando, setCargando] = useState(false)
+    // true mientras esperamos la respuesta. Empieza en true: apenas se abre la página ya pedimos los datos.
+    const [cargando, setCargando] = useState(true)
     // Mensaje de error si la API falla. "" = sin error.
     const [error, setError] = useState("")
-    // true = las tarjetas de la API se ven · false = están ocultas (pero los datos siguen guardados).
-    const [mostrarApi, setMostrarApi] = useState(true)
 
-    // Se ejecuta SOLO al apretar el botón "Ver productores desde la API".
-    function cargarProveedores() {
-        setCargando(true)   // mostramos "Cargando..." y bloqueamos el botón
-        setError("")        // borramos un error anterior, si lo había
-
-        fetch(URL_PROVEEDORES)                        // 1) le pedimos los datos a la API
-            .then((respuesta) => {
-                // respuesta.ok es true si el servidor respondió bien (código 200 a 299).
+    // useEffect = "haz esto DESPUÉS de dibujar la página".
+    // El [] del final significa: hazlo UNA sola vez, cuando la página se abre.
+    useEffect(() => {
+        // Para usar "await", la función debe estar marcada con "async".
+        // useEffect no acepta "async" directo, por eso creamos la función adentro.
+        async function cargarProveedores() {
+            try {                                         // "try" = intenta hacer todo esto...
+                const respuesta = await fetch(URL_PROVEEDORES)  // 1) le pedimos los datos a la API y esperamos la respuesta
+                // Si la respuesta no fue exitosa, lanzamos un error (saltamos directo al "catch").
                 if (!respuesta.ok) {
-                    throw new Error("Error " + respuesta.status)  // saltamos directo al .catch
+                    throw new Error("La solicitud no fue exitosa")
                 }
-                return respuesta.json()               // 2) convertimos el texto JSON a datos de JavaScript
-            })
-            .then((datos: ProveedorApi[]) => {
-                setProveedores(datos)                 // 3) guardamos la lista → React dibuja las tarjetas
-                setMostrarApi(true)                   // y nos aseguramos de que se vean
-            })
-            .catch(() => {
-                // Entra aquí si no hay internet, la API está caída o hubo un error arriba.
+                const datos = await respuesta.json()      // 2) convertimos el texto JSON a datos de JavaScript
+                setProveedores(datos)                     // 3) guardamos la lista → React dibuja las tarjetas
+            } catch (error) {
+                // ...y si algo falla, entra aquí: no hay internet o la API está caída.
+                console.error("Error:", error)
                 setError("No pudimos cargar los productores. Intenta más tarde.")
-            })
-            .finally(() => {
-                setCargando(false)                    // 4) haya salido bien o mal, ya terminó de cargar
-            })
-    }
-
-    // Lo que hace el botón depende de si ya tenemos los datos o no.
-    function manejarBoton() {
-        if (proveedores.length === 0) {
-            cargarProveedores()            // primera vez (o si falló antes): pedimos a la API
-        } else {
-            setMostrarApi(!mostrarApi)     // ya los tenemos: solo mostramos u ocultamos (sin volver a llamar)
+            }
+            setCargando(false)                            // 4) haya salido bien o mal, ya terminó de cargar
         }
-    }
 
-    // Texto del botón según la situación. Lo armamos aquí para que el JSX quede más simple.
-    let textoBoton = "Ver productores desde la API"
-    if (cargando) {
-        textoBoton = "Cargando..."
-    } else if (proveedores.length > 0 && mostrarApi) {
-        textoBoton = "Ocultar productores de la API"
-    } else if (proveedores.length > 0 && !mostrarApi) {
-        textoBoton = "Mostrar productores de la API"
-    }
+        cargarProveedores()                               // la llamamos
+    }, [])
 
     return(
         <>
@@ -96,20 +65,14 @@ function PaginaProductores() {
 
           {/* ===== Productores desde la API ===== */}
           <section className="seccion-api-productores">
-            {/* onClick = qué hacer al apretar. disabled = no se puede apretar mientras carga */}
-            {/* aria-expanded le dice a los lectores de pantalla si las tarjetas están visibles */}
-            <button type="button" className="boton boton-secundario" onClick={manejarBoton} disabled={cargando}
-              aria-expanded={proveedores.length > 0 && mostrarApi}>
-              {textoBoton}
-            </button>
+            {/* Mientras esperamos a la API mostramos un aviso */}
+            {cargando && <p className="texto-muted">Cargando productores...</p>}
 
             {/* Si hubo error, mostramos el mensaje */}
             {error && <p className="texto-muted">{error}</p>}
 
             {/* Usamos la misma grilla y el mismo estilo de tarjeta que arriba, para que se vean iguales.
-                Si la lista está vacía, map no dibuja nada.
-                mostrarApi && (...) = la grilla solo se dibuja si mostrarApi es true. */}
-            {mostrarApi && (
+                Si la lista está vacía, map no dibuja nada. */}
             <div className="grilla-productores">
               {proveedores.map((proveedor) => (
                 // <article> y no <Link>: estos productores aún no tienen página propia en nuestro sitio.
@@ -126,7 +89,6 @@ function PaginaProductores() {
                 </article>
               ))}
             </div>
-            )}
           </section>
         </main>
 

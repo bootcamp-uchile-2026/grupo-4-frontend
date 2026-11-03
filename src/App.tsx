@@ -81,7 +81,7 @@ function App() {
     // Todas las rutas van en UN solo <Routes>, con nombres en minúscula.
     <Routes>
       <Route path="/" element={<HomePage onAgregarAlCarrito={agregarAlCarrito}></HomePage>} />
-      <Route path="/catalogo" element={<PaginaCatalogo onAgregarAlCarrito={agregarAlCarrito}></PaginaCatalogo>} />
+      <Route path="/catalogo" element={<PaginaCatalogo></PaginaCatalogo>} />
       {/* ":id" es una parte variable: /producto/1, /producto/2... La página la lee con useParams */}
       <Route path="/producto/:id" element={<PaginaProducto onAgregarAlCarrito={agregarAlCarrito}></PaginaProducto>} />
       <Route path="/productores" element={<PaginaProductores></PaginaProductores>} />
