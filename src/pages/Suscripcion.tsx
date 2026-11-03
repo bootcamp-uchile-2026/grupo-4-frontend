@@ -1,5 +1,6 @@
 // useState permite que la página recuerde qué plan se eligió.
-import { useState } from "react"
+// useEffect permite llamar a la API apenas se abre la página.
+import { useEffect, useState } from "react"
 // Link es como un <a>, pero cambia de página sin recargar el navegador.
 import { Link } from "react-router"
 
@@ -43,49 +44,51 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
     // true justo después de confirmar, para mostrar el mensaje de éxito.
     const [recienSuscrito, setRecienSuscrito] = useState(false)
 
-    // Los planes que se muestran. Empiezan siendo los locales (los de siempre).
+    // Los planes que se muestran. Empiezan siendo los locales (los de siempre),
+    // y se reemplazan por los de la API cuando lleguen.
     const [listaPlanes, setListaPlanes] = useState<Plan[]>(planes)
-    // true mientras esperamos a la API. Empieza en false: nadie ha apretado el botón aún.
-    const [cargando, setCargando] = useState(false)
+    // true mientras esperamos a la API. Empieza en true: apenas se abre la página ya pedimos los planes.
+    const [cargando, setCargando] = useState(true)
     // Mensaje de error si la API falla. "" = sin error.
     const [error, setError] = useState("")
 
-    // Se ejecuta SOLO al apretar el botón "Ver planes desde la API".
-    function cargarPlanesApi() {
-        setCargando(true)   // mostramos "Cargando..." y bloqueamos el botón
-        setError("")        // borramos un error anterior, si lo había
-
-        fetch(URL_SUSCRIPCIONES)                      // 1) le pedimos los datos a la API
-            .then((respuesta) => {
-                // respuesta.ok es true si el servidor respondió bien (código 200 a 299).
+    // useEffect = "haz esto DESPUÉS de dibujar la página".
+    // El [] del final significa: hazlo UNA sola vez, cuando la página se abre.
+    useEffect(() => {
+        // Para usar "await", la función debe estar marcada con "async".
+        // useEffect no acepta "async" directo, por eso creamos la función adentro.
+        async function cargarPlanesApi() {
+            try {                                         // "try" = intenta hacer todo esto...
+                const respuesta = await fetch(URL_SUSCRIPCIONES)  // 1) le pedimos los datos a la API y esperamos la respuesta
+                // Si la respuesta no fue exitosa, lanzamos un error (saltamos directo al "catch").
                 if (!respuesta.ok) {
-                    throw new Error("Error " + respuesta.status)  // saltamos directo al .catch
+                    throw new Error("La solicitud no fue exitosa")
                 }
-                return respuesta.json()               // 2) convertimos el texto JSON a datos de JavaScript
-            })
-            .then((datos: SuscripcionApi[]) => {
+                const datos: SuscripcionApi[] = await respuesta.json()  // 2) convertimos el texto JSON a datos de JavaScript
+
                 // 3) "Traducimos" los datos de la API al formato Plan que usan nuestras tarjetas.
                 const traducidos: Plan[] = datos
-                    .filter((s) => s.activa)          // filter: nos quedamos solo con los planes activos
-                    .map((s) => ({                    // map: armamos un Plan por cada uno
+                    .filter((s) => s.activa)              // filter: nos quedamos solo con los planes activos
+                    .map((s) => ({                        // map: armamos un Plan por cada uno
                         id: s.id,
                         nombre: s.nombre,
                         descripcion: s.descripcion,
                         precio: s.precio,
-                        destacado: false,             // la API no dice cuál es el destacado
+                        destacado: false,                 // la API no dice cuál es el destacado
                     }))
-                setListaPlanes(traducidos)            // 4) mostramos los planes nuevos
-                // Si había un plan elegido de la lista anterior, ya no está en pantalla: lo olvidamos.
+                setListaPlanes(traducidos)                // 4) mostramos los planes nuevos
+                // Si alcanzó a elegir un plan local antes de que llegara la API, ya no está en pantalla: lo olvidamos.
                 setPlanElegido(null)
-            })
-            .catch(() => {
-                // Entra aquí si no hay internet, la API está caída o hubo un error arriba.
+            } catch (error) {
+                // ...y si algo falla, entra aquí: no hay internet o la API está caída.
+                console.error("Error:", error)
                 setError("No pudimos cargar los planes. Se muestran los planes de siempre.")
-            })
-            .finally(() => {
-                setCargando(false)                    // haya salido bien o mal, ya terminó de cargar
-            })
-    }
+            }
+            setCargando(false)                            // haya salido bien o mal, ya terminó de cargar
+        }
+
+        cargarPlanesApi()                                 // la llamamos
+    }, [])
 
     // Al apretar "Elegir" en una tarjeta.
     function elegirPlan(plan: Plan) {
@@ -115,10 +118,8 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
             <p>Cada mes, productos artesanales seleccionados para ti.</p>
           </section>
 
-          {/* onClick = qué hacer al apretar. disabled = no se puede apretar mientras carga */}
-          <button type="button" className="boton boton-secundario" onClick={cargarPlanesApi} disabled={cargando}>
-            {cargando ? "Cargando..." : "Ver planes desde la API"}
-          </button>
+          {/* Mientras esperamos a la API mostramos un aviso */}
+          {cargando && <p className="texto-muted">Cargando planes...</p>}
           {/* Si hubo error, mostramos el mensaje */}
           {error && <p className="texto-muted">{error}</p>}
 
