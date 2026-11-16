@@ -12,12 +12,13 @@ import { ConfirmarSuscripcion } from "../components/suscripcion/confirmar_suscri
 import { Beneficios } from "../components/suscripcion/beneficios"                  // "Qué incluye"
 import { Footer } from "../components/footer/footer"                               // pie de página
 import { fechaEnDias } from "../datos/fechas"
+import { leerJson } from "../datos/api"      // lee la respuesta y arregla las tildes
 import { planes } from "../datos/suscripcion"
 import type { Plan, Suscripcion } from "../datos/suscripcion"
 import type { Usuario } from "../datos/usuario"
 
 // Dirección de la API de suscripciones (la que se ve en Swagger).
-const URL_SUSCRIPCIONES = "http://3.144.233.145:3001/suscripciones"
+const URL_SUSCRIPCIONES = "http://13.184.190.150:3000/suscripciones"
 
 // Forma de cada suscripción que devuelve la API (copiada de Swagger).
 type SuscripcionApi = {
@@ -64,7 +65,7 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
                 if (!respuesta.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datos: SuscripcionApi[] = await respuesta.json()  // 2) convertimos el texto JSON a datos de JavaScript
+                const datos: SuscripcionApi[] = await leerJson(respuesta)  // 2) convertimos el texto JSON a datos de JavaScript
 
                 // 3) "Traducimos" los datos de la API al formato Plan que usan nuestras tarjetas.
                 const traducidos: Plan[] = datos
@@ -76,9 +77,13 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
                         precio: s.precio,
                         destacado: false,                 // la API no dice cuál es el destacado
                     }))
-                setListaPlanes(traducidos)                // 4) mostramos los planes nuevos
-                // Si alcanzó a elegir un plan local antes de que llegara la API, ya no está en pantalla: lo olvidamos.
-                setPlanElegido(null)
+                // 4) Solo si la API trajo planes, reemplazamos los locales.
+                // Si viene vacía, dejamos los planes de siempre (si no, la página quedaría sin planes).
+                if (traducidos.length > 0) {
+                    setListaPlanes(traducidos)            // mostramos los planes nuevos
+                    // Si alcanzó a elegir un plan local antes de que llegara la API, ya no está en pantalla: lo olvidamos.
+                    setPlanElegido(null)
+                }
             } catch (error) {
                 // ...y si algo falla, entra aquí: no hay internet o la API está caída.
                 console.error("Error:", error)

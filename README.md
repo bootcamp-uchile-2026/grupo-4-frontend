@@ -1,75 +1,133 @@
-# React + TypeScript + Vite
+# 🧺 LaSobremesa — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ecommerce de productos artesanales chilenos (mermeladas, quesos, aceites)
+con suscripción mensual de cajas. Proyecto del Bootcamp DCC 2026 — Grupo 4.
 
-Currently, two official plugins are available:
+<!-- Pendiente: agregar una captura del Home en docs/captura-home.png y descomentar la línea de abajo -->
+<!-- ![Captura del Home](docs/captura-home.png) -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tecnologías
 
-## React Compiler
+- [React 19](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
+- [Vite](https://vite.dev) — servidor de desarrollo y build
+- [React Router 8](https://reactrouter.com) — navegación entre páginas
+- [Zod](https://zod.dev) — validación de formularios
+- ESLint — revisión de estilo de código
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📋 Requisitos previos
 
-## Expanding the ESLint configuration
+- Node.js 20 o superior
+- npm (o pnpm, según lo que acuerde el equipo)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Instalación
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+git clone https://github.com/bootcamp-uchile-2026/grupo-4-frontend.git
+cd grupo-4-frontend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Abre http://localhost:5173 en el navegador.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📜 Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Comando           | Qué hace                                          |
+|-------------------|---------------------------------------------------|
+| `npm run dev`     | Levanta el sitio en modo desarrollo               |
+| `npm run build`   | Revisa tipos y genera la versión final en `dist/` |
+| `npm run preview` | Muestra la versión final localmente               |
+| `npm run lint`    | Revisa el código con ESLint                       |
+
+## 🔌 API (backend)
+
+El frontend consume la API **LaSobremesa API**.
+URL base: http://13.184.190.150:3000/
+Documentación Swagger: http://13.184.190.150:3000/api
+
+| Página      | Endpoint                             | Cómo se usa                              |
+|-------------|--------------------------------------|------------------------------------------|
+| Catálogo    | `GET /productos`, `GET /proveedores` | Se cargan solos al abrir la página       |
+| Productores | `GET /proveedores`                   | Se cargan solos al abrir la página       |
+| Suscripción | `GET /suscripciones`                 | Se cargan solos; si viene vacía, se usan los planes locales |
+| Categorías  | `GET /categorias`, `POST /categorias` | Lista de categorías y formulario para crear una |
+| Admin       | `POST /autenticacion/login`          | Login; devuelve `{ access_token }` (dura 15 minutos) |
+| Admin       | `/productos`, `/proveedores`, `/usuarios` | CRUD completo con `Authorization: Bearer <token>` (solo rol ADMIN) |
+
+## 🔐 Panel de administración
+
+Solo pueden entrar los usuarios con rol **ADMIN**. La cuenta ADMIN la entrega el equipo de backend
+(las cuentas creadas con `/registro` quedan como `CLIENTE`).
 
 ```
+Cliente escribe /admin/productos
+   └─ RutaAdmin: ¿sesion es null? → sí → <Navigate to="/admin/login" />
+
+En /admin/login escribe email + contraseña
+   ├─ POST /autenticacion/login → { access_token }
+   ├─ GET /usuarios con el token
+   │     ├─ 403 → "Tu cuenta no tiene permisos de administrador"  (CLIENTE / PROVEEDOR)
+   │     └─ 200 → es ADMIN → onIngresar → App guarda la sesión
+   └─ LoginAdmin ve sesion ≠ null → <Navigate to="/admin/productos" />
+
+Dentro del panel, cada acción envía "Authorization: Bearer <token>"
+   ├─ Crear  → POST
+   ├─ Editar → PATCH /…/id
+   ├─ Borrar → DELETE /…/id
+   └─ Después de 15 min → 401 → "Tu sesión expiró…"
+```
+
+## 📁 Estructura
+
+```
+src/
+├── pages/        # Una página por ruta (Home, PLP, PDP, Carrito...)
+├── components/   # Piezas reutilizables, agrupadas por sección
+├── datos/        # Datos locales y tipos (productos, planes, usuario)
+├── hooks/        # Hooks propios (useEstadoGuardado → localStorage)
+├── assets/       # Imágenes
+├── App.tsx       # Todas las rutas
+└── main.tsx      # Punto de entrada
+```
+
+## 🗺️ Páginas
+
+| Ruta               | Página                    |
+|--------------------|---------------------------|
+| `/`                | Home                      |
+| `/catalogo`        | Catálogo (PLP)            |
+| `/producto/:id`    | Detalle de producto (PDP) |
+| `/productores`     | Productores               |
+| `/productores/:id` | Perfil de un productor    |
+| `/carrito`         | Carrito                   |
+| `/checkout`        | Pago                      |
+| `/suscripcion`     | Suscripción               |
+| `/cuenta`          | Mi cuenta                 |
+| `/categorias`      | Categorías (ver y crear)  |
+| `/admin/login`     | Ingreso de administrador  |
+| `/admin/productos` | Admin: CRUD de productos (solo ADMIN)   |
+| `/admin/proveedores` | Admin: CRUD de productores (solo ADMIN) |
+| `/admin/usuarios`  | Admin: CRUD de usuarios (solo ADMIN)    |
+
+## 🌿 Flujo de trabajo
+
+- `main`: versión estable · `develop`: integración
+- Cada tarea en su rama: `feature/<número-de-issue>` (ej: `feature/53`)
+- Pull Request hacia `develop`, con al menos 1 revisión del equipo
+- Mensajes de commit en español, en presente: "Se agrega el componente Productor"
+
+## ✍️ Convenciones
+
+- Componentes en PascalCase (`TarjetaPlan`), archivos en snake_case (`tarjeta_plan.tsx`)
+- Comentarios en español, explicando el "por qué"
+- Correr `npm run lint` antes de abrir un PR
+
+## 👥 Equipo
+
+| Nombre   | GitHub     |
+|----------|------------|
+| [Nombre] | [@usuario] |
+
+## 📄 Licencia
+
+MIT — ver [LICENSE](LICENSE).
