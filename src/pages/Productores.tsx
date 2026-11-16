@@ -6,7 +6,7 @@ import { Encabezado } from "../components/Header/header"                        
 import { TarjetaProductorResumen } from "../components/productores/tarjeta_productor_resumen" // tarjeta de cada productor
 import { Footer } from "../components/footer/footer"                                      // pie de página
 import { productores } from "../datos/productores"
-import { URL_PROVEEDORES } from "../datos/api"          // dirección de la API de proveedores
+import { URL_PROVEEDORES, leerJson } from "../datos/api"          // dirección de la API de proveedores
 import type { ProveedorApi } from "../datos/api"        // forma de cada proveedor de la API
 import "../components/Header/header.css"
 import "../components/productores/productores.css"
@@ -32,7 +32,7 @@ function PaginaProductores() {
                 if (!respuesta.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datos = await respuesta.json()      // 2) convertimos el texto JSON a datos de JavaScript
+                const datos = await leerJson(respuesta)      // 2) convertimos el texto JSON a datos de JavaScript
                 setProveedores(datos)                     // 3) guardamos la lista → React dibuja las tarjetas
             } catch (error) {
                 // ...y si algo falla, entra aquí: no hay internet o la API está caída.

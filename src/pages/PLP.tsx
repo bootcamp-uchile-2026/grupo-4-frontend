@@ -9,7 +9,7 @@ import { FiltrosCatalogo } from "../components/catalogo/filtros"
 import { Encabezado } from "../components/Header/header"
 import "../components/estilosPLP/estilosPLP.css"
 import { Footer } from "../components/footer/footer"
-import { URL_PRODUCTOS, URL_PROVEEDORES } from "../datos/api"
+import { URL_PRODUCTOS, URL_PROVEEDORES, leerJson } from "../datos/api"
 import type { ProductoApi, ProveedorApi } from "../datos/api"
 
 
@@ -49,14 +49,14 @@ function PaginaCatalogo() {
                 if (!respuestaProductos.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datosProductos = await respuestaProductos.json()  // texto JSON → datos
+                const datosProductos = await leerJson(respuestaProductos)  // texto JSON → datos
 
                 // 2) Pedimos los proveedores (para el filtro y para el nombre en cada tarjeta).
                 const respuestaProveedores = await fetch(URL_PROVEEDORES)
                 if (!respuestaProveedores.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datosProveedores = await respuestaProveedores.json()
+                const datosProveedores = await leerJson(respuestaProveedores)
 
                 // 3) Guardamos todo → React vuelve a dibujar la página.
                 setProductos(datosProductos)

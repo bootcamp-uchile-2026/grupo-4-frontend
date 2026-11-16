@@ -1,0 +1,69 @@
+/* Estilos del panel de administración (/admin). */
+
+/* Espacio entre el menú, las tablas y los formularios */
+.panel-admin section {
+    margin-top: 1.5rem;
+}
+
+.menu-admin {
+    margin: 1rem 0;
+}
+
+/* Tablas del panel: ocupan todo el ancho y se pueden deslizar en el celular */
+.panel-admin table {
+    width: 100%;
+    border-collapse: collapse;   /* une los bordes de las celdas */
+    margin-bottom: 1.5rem;
+    display: block;
+    overflow-x: auto;            /* si no cabe, aparece una barra para deslizar */
+}
+
+.panel-admin th,
+.panel-admin td {
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom: 1px solid #e5e0d5;
+}
+
+/* Separación entre los botones "Editar" y "Eliminar" */
+.panel-admin td button {
+    margin-right: 0.25rem;
+}
+
+/* Margen interior para los formularios del panel (sin esto el texto queda pegado al borde) */
+.panel-admin .tarjeta-base {
+    padding: 1.5rem;
+}
+
+/* ===== Login ===== */
+/* Tarjeta angosta y centrada: los campos no se estiran a todo el ancho de la pantalla */
+.login-admin {
+    max-width: 420px;          /* ancho máximo; en el celular usa el ancho disponible */
+    margin: 3rem auto;         /* "auto" a los lados la centra */
+    padding: 2rem;
+}
+
+.login-admin h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+}
+
+/* ===== Productos ===== */
+/* Buscador: no tan ancho como la página */
+.buscador-admin {
+    max-width: 420px;
+    margin-bottom: 1rem;
+}
+
+/* Botones Anterior / Siguiente con el texto "Página X de Y" al medio */
+.paginacion-admin {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* El formulario que se abre debajo del botón "Ingresar nuevo producto" */
+.acordeon-admin {
+    margin-top: 1rem;
+}
