@@ -1,6 +1,7 @@
+// RESUMEN: sección /admin/usuarios: listar, crear, editar (incluido su rol) y eliminar usuarios.
 import { useEffect, useState } from "react"
-import { URL_USUARIOS } from "../../datos/api"
-import type { UsuarioApi } from "../../datos/api"
+import { URL_USUARIOS, URL_ROLES } from "../../datos/api"
+import type { UsuarioApi, RolApi } from "../../datos/api"
 import "../../components/checkout/checkout.css"
 
 type AdminUsuariosProps = {
@@ -17,7 +18,13 @@ const formularioVacio = {
     rol: "CLIENTE",
 }
 
-// Sección /admin/usuarios: listar, crear, editar y eliminar usuarios.
+// Los 3 roles que conocemos. Se usan mientras llega la lista de la API (o si falla).
+const rolesIniciales: RolApi[] = [
+    { id: 1, nombre: "CLIENTE" },
+    { id: 2, nombre: "ADMIN" },
+    { id: 3, nombre: "PROVEEDOR" },
+]
+
 function AdminUsuarios({ token }: AdminUsuariosProps) {
     const [usuarios, setUsuarios] = useState<UsuarioApi[]>([])
     const [formulario, setFormulario] = useState(formularioVacio)
@@ -26,6 +33,8 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
     const [mensaje, setMensaje] = useState("")
     // true = el formulario está abierto (acordeón, igual que en Productos).
     const [mostrarFormulario, setMostrarFormulario] = useState(false)
+    // Los roles para el selector. Empiezan con los 3 conocidos y se reemplazan por los de la API.
+    const [roles, setRoles] = useState<RolApi[]>(rolesIniciales)
 
     // READ: al abrir la sección, pedimos la lista (con token, porque /usuarios está protegida).
     useEffect(() => {
@@ -39,6 +48,16 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                 }
                 const datos = await respuesta.json()
                 setUsuarios(datos)
+
+                // Los roles que existen (GET /roles, también con token).
+                // Si falla, no es grave: el selector sigue con los 3 roles conocidos.
+                const respuestaRoles = await fetch(URL_ROLES, {
+                    headers: { "Authorization": "Bearer " + token },
+                })
+                if (respuestaRoles.ok) {
+                    const datosRoles = await respuestaRoles.json()
+                    setRoles(datosRoles)
+                }
             } catch (error) {
                 console.error("Error:", error)
                 setMensaje("No pudimos cargar los usuarios. " + error)
@@ -51,6 +70,14 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
     async function guardar(evento: React.FormEvent<HTMLFormElement>) {
         evento.preventDefault()
         setMensaje("")
+
+        // ¿Cambió el rol? Solo puede pasar al editar: comparamos con el rol que tenía en la lista.
+        const usuarioOriginal = usuarios.find((u) => u.id === editandoId)
+        const cambioDeRol = usuarioOriginal !== undefined && usuarioOriginal.rol !== formulario.rol
+        // Cambiar un rol da o quita permisos: pedimos confirmación antes de guardar nada.
+        if (cambioDeRol && !confirm("¿Cambiar el rol de " + formulario.nombre + " de " + usuarioOriginal.rol + " a " + formulario.rol + "?")) {
+            return
+        }
 
         // Si estamos editando: PATCH a /usuarios/ID. Si estamos creando: POST a /usuarios.
         let url = URL_USUARIOS
@@ -68,7 +95,7 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
             email: formulario.email || undefined,
             telefono: formulario.telefono || undefined,
             password: formulario.password || undefined,
-            // El rol solo se puede elegir al CREAR (la API no permite cambiarlo al editar).
+            // Al CREAR el rol va aquí. Al EDITAR no: la API lo cambia con otra dirección (/usuarios/ID/rol, más abajo).
             rol: editandoId === null ? formulario.rol : undefined,
         }
 
@@ -88,7 +115,27 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                 const datosError = await respuesta.json()
                 throw new Error("Error " + respuesta.status + ": " + datosError.message)
             }
-            const usuarioGuardado = await respuesta.json()
+            let usuarioGuardado: UsuarioApi = await respuesta.json()
+
+            // Si cambió el rol: PATCH /usuarios/ID/rol con { rol: "ADMIN" } (solo un ADMIN puede hacerlo).
+            // Si falla, los otros datos YA quedaron guardados: avisamos solo del rol.
+            let textoRol = ""
+            if (cambioDeRol) {
+                const respuestaRol = await fetch(URL_USUARIOS + "/" + editandoId + "/rol", {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token,
+                    },
+                    body: JSON.stringify({ rol: formulario.rol }),
+                })
+                if (respuestaRol.ok) {
+                    usuarioGuardado = await respuestaRol.json()   // el usuario ya con su rol nuevo
+                    textoRol = " Rol cambiado a " + usuarioGuardado.rol + "."
+                } else {
+                    textoRol = " Pero el rol no se pudo cambiar (error " + respuestaRol.status + ")."
+                }
+            }
 
             if (editandoId === null) {
                 // Creado: lo agregamos al final de la lista (spread, sin modificar la original).
@@ -97,7 +144,7 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
             } else {
                 // Editado: reemplazamos solo ese usuario en la lista.
                 setUsuarios(usuarios.map((u) => (u.id === editandoId ? usuarioGuardado : u)))
-                setMensaje("Usuario actualizado.")
+                setMensaje("Usuario actualizado." + textoRol)
                 setMostrarFormulario(false)   // terminó de editar: cerramos el formulario
             }
             setFormulario(formularioVacio)
@@ -233,19 +280,18 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                                     value={formulario.password}
                                     onChange={(evento) => setFormulario({ ...formulario, password: evento.target.value })} />
                             </div>
-                            {/* El rol solo aparece al crear */}
-                            {editandoId === null && (
-                                <div className="campo-form">
-                                    <label htmlFor="usuario-rol">Rol</label>
-                                    <select id="usuario-rol" className="campo"
-                                        value={formulario.rol}
-                                        onChange={(evento) => setFormulario({ ...formulario, rol: evento.target.value })}>
-                                        <option value="CLIENTE">Cliente</option>
-                                        <option value="PROVEEDOR">Proveedor</option>
-                                        <option value="ADMIN">Administrador</option>
-                                    </select>
-                                </div>
-                            )}
+                            {/* El rol se elige al crear y también se puede cambiar al editar.
+                                Las opciones salen de GET /roles (CLIENTE, ADMIN, PROVEEDOR). */}
+                            <div className="campo-form">
+                                <label htmlFor="usuario-rol">Rol</label>
+                                <select id="usuario-rol" className="campo"
+                                    value={formulario.rol}
+                                    onChange={(evento) => setFormulario({ ...formulario, rol: evento.target.value })}>
+                                    {roles.map((rol) => (
+                                        <option key={rol.id} value={rol.nombre}>{rol.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
                             <button type="submit" className="boton boton-primario">
                                 {editandoId === null ? "Crear usuario" : "Guardar cambios"}
                             </button>

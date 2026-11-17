@@ -60,6 +60,14 @@ type CategoriaApi = {
 // Direcciones para el login y para los usuarios (esta última solo la puede usar un ADMIN).
 const URL_LOGIN = "http://13.184.190.150:3000/autenticacion/login"
 const URL_USUARIOS = "http://13.184.190.150:3000/usuarios"
+// Lista de roles que existen (solo la puede pedir un ADMIN).
+const URL_ROLES = "http://13.184.190.150:3000/roles"
+
+// Forma de cada rol que devuelve GET /roles. Ej: { id: 2, nombre: "ADMIN" }
+type RolApi = {
+    id: number
+    nombre: string
+}
 
 // Forma de cada usuario que devuelve la API (copiada de Swagger).
 type UsuarioApi = {
@@ -196,5 +204,5 @@ async function iniciarSesion(email: string, password: string) {
     return usuario
 }
 
-export type {ProductoApi, ImagenApi, ProveedorApi, CategoriaApi, UsuarioApi}
-export {URL_PRODUCTOS, URL_PROVEEDORES, URL_CATEGORIAS, URL_LOGIN, URL_USUARIOS, URL_REGISTRO, iniciarSesion, fotoPrincipal, subirImagen, reemplazarImagen}
+export type {ProductoApi, ImagenApi, ProveedorApi, CategoriaApi, UsuarioApi, RolApi}
+export {URL_PRODUCTOS, URL_PROVEEDORES, URL_CATEGORIAS, URL_LOGIN, URL_USUARIOS, URL_ROLES, URL_REGISTRO, iniciarSesion, fotoPrincipal, subirImagen, reemplazarImagen}
