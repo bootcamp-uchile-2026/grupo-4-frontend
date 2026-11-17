@@ -1,4 +1,3 @@
-import { actualizarDatosProductos } from "../../datos/carrito"
 import type { Pedido, Producto } from "../../datos/carrito"
 import { formatoPrecio } from "../carrito/formato_precio"
 import "../estilos/estilos.css"
@@ -8,6 +7,8 @@ import { Link } from "react-router"
 type VuelveATuMesaProps = {
     pedidos: Pedido[]  // todas las compras hechas
 }
+
+// RESUMEN: "Vuelve a tu mesa" en Mi cuenta: productos que el usuario ya compró, para comprarlos otra vez.
 
 // "Vuelve a tu mesa": productos que el usuario ya compró, para comprarlos otra vez.
 function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
@@ -23,9 +24,8 @@ function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
         }
     }
 
-    // Los pedidos se guardan en el navegador y sus fotos pueden quedar viejas:
-    // tomamos foto y precio actuales de la tienda (para comprarlos de nuevo al precio de hoy).
-    const paraMostrar = actualizarDatosProductos(comprados)
+    // Mostramos los productos tal como se guardaron al comprarlos (nombre, foto y precio de ese día).
+    const paraMostrar = comprados
 
     return(
       <section className="seccion-cuenta">
@@ -44,7 +44,7 @@ function VuelveATuMesa({ pedidos }: VuelveATuMesaProps) {
             <Link key={producto.id} to={`/producto/${producto.id}`} className="tarjeta-producto-mini">
               {/* alt="" porque el nombre ya aparece escrito justo abajo */}
               <div className="imagen-placeholder foto-producto-mini">
-                <img src={producto.imagen} alt="" />
+                {producto.imagen && <img src={producto.imagen} alt="" />}
               </div>
               <p className="nombre-producto">{producto.nombre}</p>
               <p className="precio-producto">{formatoPrecio(producto.precio)}</p>

@@ -3,10 +3,9 @@ import { ProductoresBanner } from "../components/banner_productores/banner_produ
 import { Carrusel } from "../components/carrusel/carrusel"
 import { Categorias } from "../components/categorias_principales/categorias"
 import { Footer } from "../components/footer/footer"
-import { Encabezado } from "../components/Header/header"
 import { Newsletter } from "../components/newsletter/newsletter"
 import { Destacados } from "../components/productos_destacados/productos_destacados"
-import type { AgregarAlCarrito } from "../datos/productos"
+import type { AgregarAlCarrito } from "../datos/carrito"
 
 
 type HomePageProps = {
@@ -16,7 +15,6 @@ type HomePageProps = {
 function HomePage({ onAgregarAlCarrito }: HomePageProps){
     return(
         <>
-        <Encabezado></Encabezado>
         <Carrusel></Carrusel>
         <Confianza></Confianza>
         <Categorias></Categorias>

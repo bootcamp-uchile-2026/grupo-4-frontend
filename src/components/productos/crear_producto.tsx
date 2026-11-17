@@ -1,11 +1,15 @@
+// RESUMEN: formulario "Nuevo producto" del panel de administración.
+// Crea el producto en la API (POST /productos) y después sube su foto desde el computador
+// (POST /productos/{id}/imagenes) y la marca como principal si hace falta.
 import { useState } from "react"
-import { URL_PRODUCTOS, leerJson } from "../../datos/api"
-import type { ProductoApi, ProveedorApi } from "../../datos/api"
+import { URL_PRODUCTOS, subirImagen } from "../../datos/api"
+import type { ProductoApi, ProveedorApi, CategoriaApi } from "../../datos/api"
 // Reutilizamos los estilos de formulario que ya existen (campo-form, campo, boton...).
 import "../checkout/checkout.css"
 
 type CrearProductoProps = {
     proveedores: ProveedorApi[]                           // para llenar el selector "Productor"
+    categorias: CategoriaApi[]                            // para llenar el selector "Categoría"
     token: string                                         // la "pulsera" del ADMIN: sin ella la API responde 401
     onProductoCreado: (producto: ProductoApi) => void     // avisa al panel para que lo agregue a la tabla
 }
@@ -26,23 +30,27 @@ const formularioVacio = {
     precio: "",
     descuento: "0",
     tipoConservacion: "Ambiente",
-    imagen: "",
     fechaVencimiento: "",
 }
 
 // Formulario para crear un producto nuevo en la API.
-function CrearProducto({ proveedores, token, onProductoCreado }: CrearProductoProps) {
+function CrearProducto({ proveedores, categorias, token, onProductoCreado }: CrearProductoProps) {
     // Un estado que guarda un OBJETO con todos los campos del formulario.
     const [producto, setProducto] = useState(formularioVacio)
     // true mientras esperamos a la API (para desactivar el botón).
     const [enviando, setEnviando] = useState(false)
     // Mensaje para el usuario: éxito o error. "" = sin mensaje.
     const [mensaje, setMensaje] = useState("")
+    // El archivo de foto elegido desde el computador. null = todavía no elige.
+    // (File es el tipo que usa el navegador para un archivo. No está en los PDFs del curso.)
+    const [archivo, setArchivo] = useState<File | null>(null)
 
     // Se ejecuta al apretar "Crear producto".
     // Es "async" porque adentro esperamos a la API con "await".
     async function enviarFormulario(evento: React.FormEvent<HTMLFormElement>) {
         evento.preventDefault()   // evita que el navegador recargue la página
+        // Guardamos el formulario ahora: después de un "await" React ya no lo deja leer desde el evento.
+        const formulario = evento.currentTarget
         setEnviando(true)
         setMensaje("")
 
@@ -57,7 +65,7 @@ function CrearProducto({ proveedores, token, onProductoCreado }: CrearProductoPr
             precio: Number(producto.precio),
             descuento: Number(producto.descuento),
             tipoConservacion: producto.tipoConservacion,
-            imagen: producto.imagen,
+            // La foto NO va aquí: la API ya no acepta "imagen". Se sube aparte, después de crear el producto.
             // La fecha es opcional: si está vacía mandamos undefined,
             // y JSON.stringify deja ese campo FUERA (la API no acepta una fecha vacía "").
             fechaVencimiento: producto.fechaVencimiento || undefined,
@@ -85,15 +93,30 @@ function CrearProducto({ proveedores, token, onProductoCreado }: CrearProductoPr
                 throw new Error("Error " + respuesta.status + ": " + datosError.message)
             }
             // La API devuelve el producto creado, ya con su id.
-            const productoNuevo = await leerJson(respuesta)
+            const productoNuevo = await respuesta.json()
             // Si no viene con id, no se guardó de verdad.
             if (!productoNuevo.id) {
                 throw new Error("La API no devolvió el producto creado")
             }
 
+            // 2 y 3) Subimos la foto. Si falla, el producto YA quedó creado: avisamos sin perderlo.
+            let textoFoto = " con su foto."
+            if (archivo) {
+                try {
+                    // subirImagen vive en api.ts (la comparte con la tabla de productos).
+                    const imagen = await subirImagen(URL_PRODUCTOS, productoNuevo.id, archivo, token)
+                    productoNuevo.imagenes = [imagen]
+                } catch (errorFoto) {
+                    console.error("Error al subir la foto:", errorFoto)
+                    textoFoto = ", pero la foto no se pudo subir. " + errorFoto
+                }
+            }
+
             onProductoCreado(productoNuevo)            // le avisamos al panel
-            setMensaje("Producto creado con id " + productoNuevo.id + ": " + productoNuevo.nombre)
+            setMensaje("Producto creado con id " + productoNuevo.id + " (" + productoNuevo.nombre + ")" + textoFoto)
             setProducto(formularioVacio)               // limpiamos el formulario para crear otro
+            setArchivo(null)
+            formulario.reset()   // limpia también el campo de archivo (React no puede vaciarlo con un estado)
         } catch (error) {
             // ...y si algo falla, entra aquí (la API está caída, no hay internet o un dato no era válido).
             console.error("Error:", error)
@@ -149,11 +172,17 @@ function CrearProducto({ proveedores, token, onProductoCreado }: CrearProductoPr
                 </div>
 
                 <div className="campo-form">
-                    {/* Número y no selector: la API de categorías todavía está vacía */}
-                    <label htmlFor="producto-categoria">N° de categoría</label>
-                    <input id="producto-categoria" type="number" className="campo" required min={1}
+                    <label htmlFor="producto-categoria">Categoría</label>
+                    {/* Las opciones salen de la API de categorías (igual que "Productor").
+                        Se ve el nombre, pero lo que se guarda es el id (value). */}
+                    <select id="producto-categoria" className="campo" required
                         value={producto.categoriaId}
-                        onChange={(evento) => setProducto({ ...producto, categoriaId: evento.target.value })} />
+                        onChange={(evento) => setProducto({ ...producto, categoriaId: evento.target.value })}>
+                        <option value="">Elige una categoría</option>
+                        {categorias.map((categoria) => (
+                            <option key={categoria.id} value={categoria.id}>{categoria.nombre}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="campo-form">
@@ -183,12 +212,16 @@ function CrearProducto({ proveedores, token, onProductoCreado }: CrearProductoPr
                 </div>
 
                 <div className="campo-form">
-                    {/* required: la API lo deja opcional, pero sin imagen la tarjeta del catálogo se vería vacía */}
-                    <label htmlFor="producto-imagen">Imagen (URL)</label>
-                    <input id="producto-imagen" type="url" className="campo" required
-                        placeholder="https://..."
-                        value={producto.imagen}
-                        onChange={(evento) => setProducto({ ...producto, imagen: evento.target.value })} />
+                    {/* required: la API deja crear sin foto, pero la tarjeta del catálogo se vería vacía */}
+                    <label htmlFor="producto-imagen">Imagen</label>
+                    {/* type="file": abre el explorador de archivos del computador.
+                        accept: solo deja elegir fotos jpg, png o webp.
+                        files es la lista de archivos elegidos: tomamos el primero ([0]). */}
+                    <input id="producto-imagen" type="file" className="campo" required
+                        accept="image/jpeg, image/png, image/webp"
+                        onChange={(evento) => setArchivo(evento.target.files ? evento.target.files[0] : null)} />
+                    {/* Mostramos qué archivo eligió y cuánto pesa (size viene en bytes: / 1024 = KB) */}
+                    {archivo && <p className="texto-muted">{archivo.name} ({Math.round(archivo.size / 1024)} KB)</p>}
                 </div>
 
                 <div className="campo-form">

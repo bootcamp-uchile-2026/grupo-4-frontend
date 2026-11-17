@@ -1,5 +1,10 @@
 /* Estilos del panel de administración (/admin). */
 
+/* Espacio arriba y abajo del panel (si no, el título queda pegado al header) */
+.panel-admin {
+    padding-block: 2rem;
+}
+
 /* Espacio entre el menú, las tablas y los formularios */
 .panel-admin section {
     margin-top: 1.5rem;
@@ -35,20 +40,27 @@
     padding: 1.5rem;
 }
 
-/* ===== Login ===== */
-/* Tarjeta angosta y centrada: los campos no se estiran a todo el ancho de la pantalla */
-.login-admin {
-    max-width: 420px;          /* ancho máximo; en el celular usa el ancho disponible */
-    margin: 3rem auto;         /* "auto" a los lados la centra */
-    padding: 2rem;
-}
-
-.login-admin h1 {
-    font-size: 1.75rem;
-    margin-bottom: 0.25rem;
-}
-
 /* ===== Productos ===== */
+/* Columna "Foto": miniatura cuadrada y, al editar, el botón para elegir otra foto debajo */
+.celda-foto-admin {
+    min-width: 72px;
+}
+
+.miniatura-admin {
+    display: block;
+    width: 56px;
+    height: 56px;
+    object-fit: cover;        /* llena el cuadrado sin deformar la foto */
+    border-radius: 6px;
+}
+
+.campo-foto-admin {
+    display: block;
+    max-width: 220px;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+
 /* Buscador: no tan ancho como la página */
 .buscador-admin {
     max-width: 420px;

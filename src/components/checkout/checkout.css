@@ -225,3 +225,12 @@
     font-size: 0.85rem;
     margin-top: 4px;
 }
+
+/* Botón que se ve como un enlace ("Inicia sesión" / "Crea una"):
+   le quitamos el fondo, el borde y el relleno que el navegador le pone a los botones */
+.boton-como-enlace {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;   /* la "manito" al pasar el mouse */
+}

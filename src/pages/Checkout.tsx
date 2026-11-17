@@ -1,13 +1,16 @@
+// RESUMEN: página de pago (/checkout), paso 1 "Datos".
+// Con sesión muestra el formulario de compra; sin sesión deja elegir entre
+// iniciar sesión (o crear cuenta) y comprar como invitado.
+
 // useState permite que la página recuerde qué opción eligió el usuario.
 import { useState } from "react"
 // Link es como un <a>, pero cambia de página sin recargar el navegador.
 import { Link } from "react-router"
 
 // Componentes que arman la página. Cada uno es una parte de la pantalla.
-import { Encabezado } from "../components/Header/header"                  // barra de navegación superior
 import { PasosCheckout } from "../components/checkout/pasos_checkout"     // pasos 1-2-3-4
 import { OpcionesAcceso } from "../components/checkout/opciones_acceso"   // "¿Tienes cuenta?"
-import { CrearCuenta } from "../components/cuenta/crear_cuenta"           // formulario "Crear cuenta"
+import { AccesoCuenta } from "../components/cuenta/acceso_cuenta"         // "Crear cuenta" o "Iniciar sesión"
 import { FormularioCompra } from "../components/checkout/formulario_compra" // datos de entrega y confirmar
 import { Footer } from "../components/footer/footer"                      // pie de página
 import type { Pedido, Producto } from "../datos/carrito"                  // forma de producto y pedido
@@ -28,7 +31,6 @@ function CheckoutPage({ productos, usuario, onCuentaCreada, onCompraFinalizada }
 
     return(
         <>
-        <Encabezado></Encabezado>
 
         <main className="contenedor contenedor-principal-centrado">
           <section className="seccion-checkout">
@@ -50,8 +52,9 @@ function CheckoutPage({ productos, usuario, onCuentaCreada, onCompraFinalizada }
               <>
                 <OpcionesAcceso opcionElegida={opcion} onElegir={setOpcion}></OpcionesAcceso>
 
-                {/* Al crear la cuenta, App guarda el usuario y esta página pasa al CASO A */}
-                {opcion === "cuenta" && <CrearCuenta titulo="Crear cuenta" onCuentaCreada={onCuentaCreada}></CrearCuenta>}
+                {/* Al ingresar (o crear la cuenta), App guarda el usuario y esta página pasa al CASO A.
+                    La tarjeta dice "Iniciar sesión", por eso parte en ese formulario. */}
+                {opcion === "cuenta" && <AccesoCuenta titulo="Crear cuenta" modoInicial="ingresar" onCuentaCreada={onCuentaCreada}></AccesoCuenta>}
                 {opcion === "invitado" && <FormularioCompra productos={productos} usuario={null} onCompraFinalizada={onCompraFinalizada}></FormularioCompra>}
               </>
             )}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { URL_USUARIOS, leerJson } from "../../datos/api"
+import { URL_USUARIOS } from "../../datos/api"
 import type { UsuarioApi } from "../../datos/api"
 import "../../components/checkout/checkout.css"
 
@@ -24,6 +24,8 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
     // null = el formulario está CREANDO. Un número = está EDITANDO el usuario con ese id.
     const [editandoId, setEditandoId] = useState<number | null>(null)
     const [mensaje, setMensaje] = useState("")
+    // true = el formulario está abierto (acordeón, igual que en Productos).
+    const [mostrarFormulario, setMostrarFormulario] = useState(false)
 
     // READ: al abrir la sección, pedimos la lista (con token, porque /usuarios está protegida).
     useEffect(() => {
@@ -35,7 +37,7 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                 if (!respuesta.ok) {
                     throw new Error("Error " + respuesta.status)
                 }
-                const datos = await leerJson(respuesta)
+                const datos = await respuesta.json()
                 setUsuarios(datos)
             } catch (error) {
                 console.error("Error:", error)
@@ -86,7 +88,7 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                 const datosError = await respuesta.json()
                 throw new Error("Error " + respuesta.status + ": " + datosError.message)
             }
-            const usuarioGuardado = await leerJson(respuesta)
+            const usuarioGuardado = await respuesta.json()
 
             if (editandoId === null) {
                 // Creado: lo agregamos al final de la lista (spread, sin modificar la original).
@@ -96,6 +98,7 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                 // Editado: reemplazamos solo ese usuario en la lista.
                 setUsuarios(usuarios.map((u) => (u.id === editandoId ? usuarioGuardado : u)))
                 setMensaje("Usuario actualizado.")
+                setMostrarFormulario(false)   // terminó de editar: cerramos el formulario
             }
             setFormulario(formularioVacio)
             setEditandoId(null)
@@ -108,6 +111,7 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
     // Al apretar "Editar": llenamos el formulario con los datos de ese usuario.
     function empezarEdicion(usuario: UsuarioApi) {
         setEditandoId(usuario.id)
+        setMostrarFormulario(true)    // abrimos el acordeón para que se vea el formulario
         setFormulario({
             nombre: usuario.nombre,
             apellido: usuario.apellido,
@@ -121,6 +125,16 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
     function cancelarEdicion() {
         setEditandoId(null)
         setFormulario(formularioVacio)
+        setMostrarFormulario(false)
+    }
+
+    // Botón del acordeón: si está abierto lo cierra (y cancela la edición si había una); si está cerrado lo abre.
+    function alternarFormulario() {
+        if (mostrarFormulario) {
+            cancelarEdicion()
+        } else {
+            setMostrarFormulario(true)
+        }
     }
 
     // DELETE
@@ -171,64 +185,77 @@ function AdminUsuarios({ token }: AdminUsuariosProps) {
                 </tbody>
             </table>
 
-            <div className="tarjeta-base">
-                {/* El título cambia según si estamos creando o editando */}
-                <h3>{editandoId === null ? "Nuevo usuario" : "Editar usuario " + editandoId}</h3>
-                <form onSubmit={guardar}>
-                    <div className="campo-form">
-                        <label htmlFor="usuario-nombre">Nombre</label>
-                        {/* required solo al crear: al editar, vacío = no cambiar */}
-                        <input id="usuario-nombre" type="text" className="campo" required={editandoId === null}
-                            value={formulario.nombre}
-                            onChange={(evento) => setFormulario({ ...formulario, nombre: evento.target.value })} />
+            {/* CREATE y EDIT tipo acordeón: el botón abre y cierra el formulario.
+                "Editar" en la tabla también lo abre, ya lleno con los datos. */}
+            <button type="button" className="boton boton-primario"
+                aria-expanded={mostrarFormulario}
+                onClick={alternarFormulario}>
+                {mostrarFormulario ? "▲ Cerrar formulario" : "▼ Ingresar nuevo usuario"}
+            </button>
+
+            {/* Solo se dibuja si está abierto */}
+            {mostrarFormulario && (
+                <div className="acordeon-admin">
+                    <div className="tarjeta-base">
+                        {/* El título cambia según si estamos creando o editando */}
+                        <h3>{editandoId === null ? "Nuevo usuario" : "Editar usuario " + editandoId}</h3>
+                        <form onSubmit={guardar}>
+                            <div className="campo-form">
+                                <label htmlFor="usuario-nombre">Nombre</label>
+                                {/* required solo al crear: al editar, vacío = no cambiar */}
+                                <input id="usuario-nombre" type="text" className="campo" required={editandoId === null}
+                                    value={formulario.nombre}
+                                    onChange={(evento) => setFormulario({ ...formulario, nombre: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="usuario-apellido">Apellido</label>
+                                <input id="usuario-apellido" type="text" className="campo" required={editandoId === null}
+                                    value={formulario.apellido}
+                                    onChange={(evento) => setFormulario({ ...formulario, apellido: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="usuario-email">Email</label>
+                                <input id="usuario-email" type="email" className="campo" required={editandoId === null}
+                                    value={formulario.email}
+                                    onChange={(evento) => setFormulario({ ...formulario, email: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="usuario-telefono">Teléfono</label>
+                                <input id="usuario-telefono" type="tel" className="campo" placeholder="+56912345678" required={editandoId === null}
+                                    value={formulario.telefono}
+                                    onChange={(evento) => setFormulario({ ...formulario, telefono: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="usuario-password">
+                                    {editandoId === null ? "Contraseña" : "Nueva contraseña (vacía = no cambiar)"}
+                                </label>
+                                <input id="usuario-password" type="password" className="campo" minLength={8} required={editandoId === null}
+                                    value={formulario.password}
+                                    onChange={(evento) => setFormulario({ ...formulario, password: evento.target.value })} />
+                            </div>
+                            {/* El rol solo aparece al crear */}
+                            {editandoId === null && (
+                                <div className="campo-form">
+                                    <label htmlFor="usuario-rol">Rol</label>
+                                    <select id="usuario-rol" className="campo"
+                                        value={formulario.rol}
+                                        onChange={(evento) => setFormulario({ ...formulario, rol: evento.target.value })}>
+                                        <option value="CLIENTE">Cliente</option>
+                                        <option value="PROVEEDOR">Proveedor</option>
+                                        <option value="ADMIN">Administrador</option>
+                                    </select>
+                                </div>
+                            )}
+                            <button type="submit" className="boton boton-primario">
+                                {editandoId === null ? "Crear usuario" : "Guardar cambios"}
+                            </button>
+                            {editandoId !== null && (
+                                <button type="button" className="boton boton-terciario" onClick={cancelarEdicion}>Cancelar</button>
+                            )}
+                        </form>
                     </div>
-                    <div className="campo-form">
-                        <label htmlFor="usuario-apellido">Apellido</label>
-                        <input id="usuario-apellido" type="text" className="campo" required={editandoId === null}
-                            value={formulario.apellido}
-                            onChange={(evento) => setFormulario({ ...formulario, apellido: evento.target.value })} />
-                    </div>
-                    <div className="campo-form">
-                        <label htmlFor="usuario-email">Email</label>
-                        <input id="usuario-email" type="email" className="campo" required={editandoId === null}
-                            value={formulario.email}
-                            onChange={(evento) => setFormulario({ ...formulario, email: evento.target.value })} />
-                    </div>
-                    <div className="campo-form">
-                        <label htmlFor="usuario-telefono">Teléfono</label>
-                        <input id="usuario-telefono" type="tel" className="campo" placeholder="+56912345678" required={editandoId === null}
-                            value={formulario.telefono}
-                            onChange={(evento) => setFormulario({ ...formulario, telefono: evento.target.value })} />
-                    </div>
-                    <div className="campo-form">
-                        <label htmlFor="usuario-password">
-                            {editandoId === null ? "Contraseña" : "Nueva contraseña (vacía = no cambiar)"}
-                        </label>
-                        <input id="usuario-password" type="password" className="campo" minLength={8} required={editandoId === null}
-                            value={formulario.password}
-                            onChange={(evento) => setFormulario({ ...formulario, password: evento.target.value })} />
-                    </div>
-                    {/* El rol solo aparece al crear */}
-                    {editandoId === null && (
-                        <div className="campo-form">
-                            <label htmlFor="usuario-rol">Rol</label>
-                            <select id="usuario-rol" className="campo"
-                                value={formulario.rol}
-                                onChange={(evento) => setFormulario({ ...formulario, rol: evento.target.value })}>
-                                <option value="CLIENTE">Cliente</option>
-                                <option value="PROVEEDOR">Proveedor</option>
-                                <option value="ADMIN">Administrador</option>
-                            </select>
-                        </div>
-                    )}
-                    <button type="submit" className="boton boton-primario">
-                        {editandoId === null ? "Crear usuario" : "Guardar cambios"}
-                    </button>
-                    {editandoId !== null && (
-                        <button type="button" className="boton boton-terciario" onClick={cancelarEdicion}>Cancelar</button>
-                    )}
-                </form>
-            </div>
+                </div>
+            )}
         </section>
     )
 }

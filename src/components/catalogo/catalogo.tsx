@@ -1,4 +1,7 @@
+import { fotoPrincipal } from "../../datos/api"      // dirección completa de la foto principal
 import type { ProductoApi } from "../../datos/api"  // forma de un producto de la API
+import type { AgregarAlCarrito } from "../../datos/carrito"
+import { Link } from "react-router"
 import "../estilosPLP/estilosPLP.css"
 import { formatoPrecio } from "../carrito/formato_precio"  // convierte 5000 en "$5.000"
 
@@ -50,18 +53,24 @@ function CabeceraCatalogo({ titulo, cantidad, orden, onCambiarOrden, filtrosAbie
 type TarjetaProductoApiProps = {
     producto: ProductoApi      // el producto (de la API) que muestra esta tarjeta
     nombreProveedor: string    // el nombre de quien lo hace, ej: "Mermeladas del Valle"
+    onAgregarAlCarrito: AgregarAlCarrito  // viene de App, pasando por PaginaCatalogo
 }
 
 // Tarjeta de un producto que viene de la API.
 // No pide nada a la API: solo muestra lo que le pasa la página del catálogo.
-function TarjetaProductoApi({ producto, nombreProveedor }: TarjetaProductoApiProps) {
+function TarjetaProductoApi({ producto, nombreProveedor, onAgregarAlCarrito }: TarjetaProductoApiProps) {
+    // La foto principal del producto ("" si todavía no tiene fotos).
+    const foto = fotoPrincipal(producto)
+
     return (
         <article className="tarjeta-base tarjeta-producto">
-            <div className="imagen-placeholder foto-producto">
-                <img src={producto.imagen} alt={producto.nombre} />
-            </div>
+            {/* `/producto/${producto.id}` arma la dirección con el id. Ej: "/producto/8" */}
+            <Link to={`/producto/${producto.id}`} className="imagen-placeholder foto-producto">
+                {/* Si tiene foto la mostramos; si no, el cuadro gris con un aviso */}
+                {foto ? <img src={foto} alt={producto.nombre} /> : "Sin foto"}
+            </Link>
             <div className="tarjeta-producto-cuerpo">
-                <h3>{producto.nombre}</h3>
+                <h3><Link to={`/producto/${producto.id}`}>{producto.nombre}</Link></h3>
                 <p className="productor">{nombreProveedor}</p>
                 <p className="texto-muted">{producto.descripcion}</p>
                 <p className="envio">Conservación: {producto.tipoConservacion}</p>
@@ -74,6 +83,9 @@ function TarjetaProductoApi({ producto, nombreProveedor }: TarjetaProductoApiPro
                         {/* Si tiene descuento (mayor a 0) mostramos también el % */}
                         {producto.descuento > 0 && <small> (-{producto.descuento}%)</small>}
                     </p>
+                    {/* Al apretar: primero se agrega 1 unidad al carrito y luego Link nos lleva a /carrito */}
+                    <Link to="/carrito" className="boton boton-primario boton-sm"
+                        onClick={() => onAgregarAlCarrito(producto, nombreProveedor, 1)}>Agregar</Link>
                 </div>
             </div>
         </article>

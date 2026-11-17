@@ -1,14 +1,13 @@
 // useState: para recordar la lista de categorías, si está cargando y si hubo error.
 // useEffect: para llamar a la API apenas se abre la página.
 import { useEffect, useState } from "react"
-import { Encabezado } from "../components/Header/header"
 import { Footer } from "../components/footer/footer"
-import { CrearCategoria } from "../components/categorias/crear_categoria"
-import { URL_CATEGORIAS, leerJson } from "../datos/api"
+import { URL_CATEGORIAS } from "../datos/api"
 import type { CategoriaApi } from "../datos/api"
 import "../components/Header/header.css"
 
-// Página /categorias: muestra las categorías de la API y permite crear nuevas.
+// RESUMEN: página pública /categorias: muestra la lista de categorías de la API.
+// Crear, editar y eliminar categorías se hace en el panel (/admin/categorias), porque necesita token de ADMIN.
 function PaginaCategorias() {
     // Categorías que llegan de la API. Empieza vacía: todavía no llegan.
     const [categorias, setCategorias] = useState<CategoriaApi[]>([])
@@ -26,7 +25,7 @@ function PaginaCategorias() {
                 if (!respuesta.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datos = await leerJson(respuesta)      // 2) texto JSON → datos
+                const datos = await respuesta.json()      // 2) texto JSON → datos
                 setCategorias(datos)                      // 3) guardamos la lista → React la dibuja
             } catch (error) {
                 // ...y si algo falla, entra aquí: no hay internet o la API está caída.
@@ -39,19 +38,10 @@ function PaginaCategorias() {
         cargarCategorias()                                // la llamamos
     }, [])
 
-    // La llama el formulario cuando la API confirma que creó una categoría.
-    // Copiamos la lista con [...] y agregamos la nueva al final (sin modificar la original).
-    function agregarCategoria(categoriaNueva: CategoriaApi) {
-        setCategorias([...categorias, categoriaNueva])
-    }
-
     return (
         <>
-        <Encabezado></Encabezado>
         <main className="contenedor">
             <h1>Categorías</h1>
-
-            <CrearCategoria onCategoriaCreada={agregarCategoria}></CrearCategoria>
 
             {cargando && <p className="texto-muted">Cargando categorías...</p>}
             {error && <p className="texto-muted">{error}</p>}

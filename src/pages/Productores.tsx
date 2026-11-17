@@ -1,12 +1,13 @@
+// RESUMEN: página /productores: pide los productores a la API y muestra una tarjeta por cada uno
+// (cada tarjeta lleva al perfil del productor).
+
 // useState permite que la página recuerde datos (la lista de la API, si está cargando, si hubo error).
 // useEffect permite llamar a la API apenas se abre la página.
 import { useEffect, useState } from "react"
 // Componentes que arman la página. Cada uno es una parte de la pantalla.
-import { Encabezado } from "../components/Header/header"                                  // barra de navegación superior
 import { TarjetaProductorResumen } from "../components/productores/tarjeta_productor_resumen" // tarjeta de cada productor
 import { Footer } from "../components/footer/footer"                                      // pie de página
-import { productores } from "../datos/productores"
-import { URL_PROVEEDORES, leerJson } from "../datos/api"          // dirección de la API de proveedores
+import { URL_PROVEEDORES } from "../datos/api"          // dirección de la API de proveedores
 import type { ProveedorApi } from "../datos/api"        // forma de cada proveedor de la API
 import "../components/Header/header.css"
 import "../components/productores/productores.css"
@@ -32,7 +33,7 @@ function PaginaProductores() {
                 if (!respuesta.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datos = await leerJson(respuesta)      // 2) convertimos el texto JSON a datos de JavaScript
+                const datos = await respuesta.json()      // 2) convertimos el texto JSON a datos de JavaScript
                 setProveedores(datos)                     // 3) guardamos la lista → React dibuja las tarjetas
             } catch (error) {
                 // ...y si algo falla, entra aquí: no hay internet o la API está caída.
@@ -47,7 +48,6 @@ function PaginaProductores() {
 
     return(
         <>
-        <Encabezado></Encabezado>
 
         <main className="contenedor">
           <section className="titulo-productores">
@@ -56,40 +56,19 @@ function PaginaProductores() {
             <p>Productores locales que elaboran cada producto a mano y en pequeñas cantidades.</p>
           </section>
 
+          {/* Mientras esperamos a la API mostramos un aviso */}
+          {cargando && <p className="texto-muted">Cargando productores...</p>}
+
+          {/* Si hubo error, mostramos el mensaje */}
+          {error && <p className="texto-muted">{error}</p>}
+
           <div className="grilla-productores">
-            {/* conDescripcion={true}: aquí sí mostramos la frase corta de cada uno */}
-            {productores.map((productor) => (
-              <TarjetaProductorResumen key={productor.id} productor={productor} conDescripcion={true}></TarjetaProductorResumen>
+            {/* Una tarjeta por productor. conDescripcion={true}: aquí sí mostramos su descripción.
+                Si la lista está vacía, map no dibuja nada. */}
+            {proveedores.map((proveedor) => (
+              <TarjetaProductorResumen key={proveedor.id} productor={proveedor} conDescripcion={true}></TarjetaProductorResumen>
             ))}
           </div>
-
-          {/* ===== Productores desde la API ===== */}
-          <section className="seccion-api-productores">
-            {/* Mientras esperamos a la API mostramos un aviso */}
-            {cargando && <p className="texto-muted">Cargando productores...</p>}
-
-            {/* Si hubo error, mostramos el mensaje */}
-            {error && <p className="texto-muted">{error}</p>}
-
-            {/* Usamos la misma grilla y el mismo estilo de tarjeta que arriba, para que se vean iguales.
-                Si la lista está vacía, map no dibuja nada. */}
-            <div className="grilla-productores">
-              {proveedores.map((proveedor) => (
-                // <article> y no <Link>: estos productores aún no tienen página propia en nuestro sitio.
-                <article key={proveedor.id} className="tarjeta-base tarjeta-productor">
-                  {/* La primera letra del nombre como avatar, igual que en las tarjetas de arriba */}
-                  <div className="imagen-placeholder avatar-productor" aria-hidden="true">{proveedor.nombre[0]}</div>
-                  <div>
-                    <h3>{proveedor.nombre}</h3>
-                    <p className="descripcion-productor">{proveedor.descripcion}</p>
-                    {/* mailto: abre el programa de correo · tel: abre el marcador en el celular */}
-                    <p className="productor"><a href={"mailto:" + proveedor.email}>{proveedor.email}</a></p>
-                    <p className="productor"><a href={"tel:" + proveedor.telefono}>{proveedor.telefono}</a></p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
         </main>
 
         <Footer></Footer>
