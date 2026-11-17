@@ -34,7 +34,8 @@ function ProductoCarrito({ id, nombre, imagen, productor, precio, meta, cantidad
     return(
       <article className="tarjeta-base tarjeta-producto-carrito">
         <Link to={`/producto/${id}`} className="imagen-placeholder foto-carrito">
-          <img src={imagen} alt={nombre} />
+          {/* Si el producto no tiene foto ("") no dibujamos la imagen: queda el cuadro gris */}
+          {imagen && <img src={imagen} alt={nombre} />}
         </Link>
         <div className="info-producto">
           <div className="encabezado-producto">

@@ -1,3 +1,7 @@
+// RESUMEN: página de suscripción (/suscripcion).
+// Carga los planes de la API (si vienen vacíos usa los locales), deja elegir uno,
+// pide iniciar sesión o crear cuenta si hace falta, y confirma la suscripción.
+
 // useState permite que la página recuerde qué plan se eligió.
 // useEffect permite llamar a la API apenas se abre la página.
 import { useEffect, useState } from "react"
@@ -5,14 +9,12 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router"
 
 // Componentes que arman la página. Cada uno es una parte de la pantalla.
-import { Encabezado } from "../components/Header/header"                           // barra de navegación superior
 import { TarjetaPlan } from "../components/suscripcion/tarjeta_plan"               // tarjeta de cada plan
-import { CrearCuenta } from "../components/cuenta/crear_cuenta"                    // formulario "Crear cuenta"
+import { AccesoCuenta } from "../components/cuenta/acceso_cuenta"                  // "Crear cuenta" o "Iniciar sesión"
 import { ConfirmarSuscripcion } from "../components/suscripcion/confirmar_suscripcion" // botón de confirmar
 import { Beneficios } from "../components/suscripcion/beneficios"                  // "Qué incluye"
 import { Footer } from "../components/footer/footer"                               // pie de página
 import { fechaEnDias } from "../datos/fechas"
-import { leerJson } from "../datos/api"      // lee la respuesta y arregla las tildes
 import { planes } from "../datos/suscripcion"
 import type { Plan, Suscripcion } from "../datos/suscripcion"
 import type { Usuario } from "../datos/usuario"
@@ -65,7 +67,7 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
                 if (!respuesta.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datos: SuscripcionApi[] = await leerJson(respuesta)  // 2) convertimos el texto JSON a datos de JavaScript
+                const datos: SuscripcionApi[] = await respuesta.json()  // 2) convertimos el texto JSON a datos de JavaScript
 
                 // 3) "Traducimos" los datos de la API al formato Plan que usan nuestras tarjetas.
                 const traducidos: Plan[] = datos
@@ -114,7 +116,6 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
 
     return(
         <>
-        <Encabezado></Encabezado>
 
         <main className="contenedor">
           <section className="titulo-suscripcion">
@@ -152,12 +153,13 @@ function SuscripcionPage({ usuario, suscripcion, onCuentaCreada, onSuscribirse }
               </div>
             )}
 
-            {/* PASO 1: eligió plan pero no tiene cuenta → crear cuenta */}
+            {/* PASO 1: eligió plan pero no ha ingresado → crear cuenta o iniciar sesión */}
             {!recienSuscrito && planElegido && !usuario && (
-              <CrearCuenta
+              <AccesoCuenta
                 titulo={"Crea tu cuenta para suscribirte al plan " + planElegido.nombre}
+                modoInicial="crear"
                 onCuentaCreada={onCuentaCreada}
-              ></CrearCuenta>
+              ></AccesoCuenta>
             )}
 
             {/* PASO 2: eligió plan y tiene cuenta → confirmar */}

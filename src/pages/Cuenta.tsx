@@ -1,7 +1,10 @@
+// RESUMEN: página "Mi cuenta" (/cuenta).
+// Sin sesión muestra el ingreso (crear cuenta o iniciar sesión). Con sesión muestra el resumen
+// del usuario, y si su rol es ADMIN, el menú agrega el enlace al panel de administración.
+
 // Componentes que arman la página. Cada uno es una parte de la pantalla.
-import { Encabezado } from "../components/Header/header"                    // barra de navegación superior
 import { MenuLateral } from "../components/cuenta/menu_lateral"            // menú de la izquierda
-import { CrearCuenta } from "../components/cuenta/crear_cuenta"            // formulario "Crear cuenta"
+import { AccesoCuenta } from "../components/cuenta/acceso_cuenta"          // "Crear cuenta" o "Iniciar sesión"
 import { ProximoPedido } from "../components/cuenta/proximo_pedido"        // tarjeta del último pedido
 import { TarjetaSuscripcion } from "../components/cuenta/tarjeta_suscripcion" // tarjeta de suscripción
 import { AccesosRapidos } from "../components/cuenta/accesos_rapidos"      // 4 accesos directos
@@ -21,14 +24,13 @@ type CuentaPageProps = {
 }
 
 function CuentaPage({ usuario, pedidos, suscripcion, onCuentaCreada, onCerrarSesion }: CuentaPageProps){
-    // Si nadie ha creado cuenta, en vez del panel mostramos el formulario.
+    // Si nadie ha iniciado sesión, en vez del panel mostramos el ingreso.
     if (!usuario) {
         return (
             <>
-            <Encabezado></Encabezado>
             {/* Reusamos el estilo centrado del checkout */}
             <main className="contenedor contenedor-principal-centrado">
-              <CrearCuenta titulo="Crea tu cuenta para ver tus pedidos" onCuentaCreada={onCuentaCreada}></CrearCuenta>
+              <AccesoCuenta titulo="Crea tu cuenta para ver tus pedidos" modoInicial="ingresar" onCuentaCreada={onCuentaCreada}></AccesoCuenta>
             </main>
             <Footer></Footer>
             </>
@@ -41,10 +43,10 @@ function CuentaPage({ usuario, pedidos, suscripcion, onCuentaCreada, onCerrarSes
 
     return(
         <>
-        <Encabezado></Encabezado>
 
         <main className="contenedor contenedor-perfil">
-          <MenuLateral onCerrarSesion={onCerrarSesion}></MenuLateral>
+          {/* esAdmin: true solo si el rol del usuario es ADMIN */}
+          <MenuLateral esAdmin={usuario.rol === "ADMIN"} onCerrarSesion={onCerrarSesion}></MenuLateral>
 
           <section className="panel-contenido">
             <h1>Hola, {usuario.nombre}</h1>

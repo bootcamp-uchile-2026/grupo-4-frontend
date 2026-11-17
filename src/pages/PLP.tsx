@@ -1,19 +1,25 @@
+// RESUMEN: catálogo (/catalogo): pide productos, productores y categorías a la API, y los muestra
+// filtrados (por categoría y productor) y ordenados según lo que diga la URL.
+
 // useState: para recordar datos (productos, proveedores, si está cargando, si hubo error, filtros abiertos).
 // useEffect: para llamar a la API apenas se abre la página.
 import { useEffect, useState } from "react"
 // useSearchParams lee y cambia lo que va después del "?" en la dirección.
-// Ej: en "/catalogo?productor=2&orden=precio-menor"
+// Ej: en "/catalogo?categoria=1&productor=2&orden=precio-menor"
 import { useSearchParams } from "react-router"
 import { CabeceraCatalogo, TarjetaProductoApi } from "../components/catalogo/catalogo"
 import { FiltrosCatalogo } from "../components/catalogo/filtros"
-import { Encabezado } from "../components/Header/header"
 import "../components/estilosPLP/estilosPLP.css"
 import { Footer } from "../components/footer/footer"
-import { URL_PRODUCTOS, URL_PROVEEDORES, leerJson } from "../datos/api"
-import type { ProductoApi, ProveedorApi } from "../datos/api"
+import { URL_PRODUCTOS, URL_PROVEEDORES, URL_CATEGORIAS } from "../datos/api"
+import type { ProductoApi, ProveedorApi, CategoriaApi } from "../datos/api"
+import type { AgregarAlCarrito } from "../datos/carrito"
 
+type PaginaCatalogoProps = {
+    onAgregarAlCarrito: AgregarAlCarrito  // viene de App; se la pasamos a cada tarjeta de producto
+}
 
-function PaginaCatalogo() {
+function PaginaCatalogo({ onAgregarAlCarrito }: PaginaCatalogoProps) {
     // Los filtros y el orden NO viven en useState: viven en la dirección (la URL).
     // Así se mantienen al ir a un producto y volver atrás, y se pueden compartir con un link.
     const [parametros, setParametros] = useSearchParams()
@@ -21,6 +27,8 @@ function PaginaCatalogo() {
     // Los valores de la URL siempre son texto ("1"), así que los pasamos a número.
     // getAll("productor") devuelve TODOS los valores con ese nombre. Ej: "?productor=1&productor=3" → [1, 3]
     const productoresElegidos = parametros.getAll("productor").map((id) => Number(id))
+    // Lo mismo con las categorías. Ej: "?categoria=1" → [1] (así llegan los links del Home y de la ficha).
+    const categoriasElegidas = parametros.getAll("categoria").map((id) => Number(id))
 
     // get("orden") devuelve un solo valor, o null si no está. Si no está, usamos "destacados".
     const orden = parametros.get("orden") || "destacados"
@@ -31,6 +39,7 @@ function PaginaCatalogo() {
     // Datos que llegan de la API. Empiezan vacíos porque todavía no llegan.
     const [productos, setProductos] = useState<ProductoApi[]>([])
     const [proveedores, setProveedores] = useState<ProveedorApi[]>([])
+    const [categorias, setCategorias] = useState<CategoriaApi[]>([])
     // true mientras esperamos a la API. Empieza en true: apenas se abre la página ya pedimos los datos.
     const [cargando, setCargando] = useState(true)
     // Mensaje de error si algo falla. "" = no hay error.
@@ -49,33 +58,44 @@ function PaginaCatalogo() {
                 if (!respuestaProductos.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datosProductos = await leerJson(respuestaProductos)  // texto JSON → datos
+                const datosProductos = await respuestaProductos.json()  // texto JSON → datos
 
                 // 2) Pedimos los proveedores (para el filtro y para el nombre en cada tarjeta).
                 const respuestaProveedores = await fetch(URL_PROVEEDORES)
                 if (!respuestaProveedores.ok) {
                     throw new Error("La solicitud no fue exitosa")
                 }
-                const datosProveedores = await leerJson(respuestaProveedores)
+                const datosProveedores = await respuestaProveedores.json()
 
-                // 3) Guardamos todo → React vuelve a dibujar la página.
+                // 3) Pedimos las categorías (para el filtro y el título).
+                const respuestaCategorias = await fetch(URL_CATEGORIAS)
+                if (!respuestaCategorias.ok) {
+                    throw new Error("La solicitud no fue exitosa")
+                }
+                const datosCategorias = await respuestaCategorias.json()
+
+                // 4) Guardamos todo → React vuelve a dibujar la página.
                 setProductos(datosProductos)
                 setProveedores(datosProveedores)
+                setCategorias(datosCategorias)
             } catch (error) {
                 // ...y si algo falla, entra aquí (la API está caída o no hay internet).
                 console.error("Error:", error)
                 setError("No pudimos cargar los productos. Intenta más tarde.")
             }
-            setCargando(false)                                // 4) haya salido bien o mal, ya terminó de cargar
+            setCargando(false)                                // 5) haya salido bien o mal, ya terminó de cargar
         }
 
         cargarCatalogo()                                      // la llamamos
     }, [])
 
-    // Escribe en la URL los productores y el orden que le pasemos.
+    // Escribe en la URL las categorías, los productores y el orden que le pasemos.
     // Las funciones de abajo la usan cada vez que algo cambia.
-    function actualizarUrl(productores: number[], nuevoOrden: string) {
+    function actualizarUrl(categoriasUrl: number[], productores: number[], nuevoOrden: string) {
         const nuevos = new URLSearchParams()
+        for (const id of categoriasUrl) {
+            nuevos.append("categoria", String(id))
+        }
         for (const id of productores) {
             nuevos.append("productor", String(id))  // la URL guarda texto, por eso String(id)
         }
@@ -95,17 +115,28 @@ function PaginaCatalogo() {
         } else {
             nuevos = [...productoresElegidos, id]
         }
-        actualizarUrl(nuevos, orden)
+        actualizarUrl(categoriasElegidas, nuevos, orden)
+    }
+
+    // Marca o desmarca una categoría (igual que con los productores).
+    function cambiarCategoria(id: number) {
+        let nuevas
+        if (categoriasElegidas.includes(id)) {
+            nuevas = categoriasElegidas.filter((c) => c !== id)
+        } else {
+            nuevas = [...categoriasElegidas, id]
+        }
+        actualizarUrl(nuevas, productoresElegidos, orden)
     }
 
     // Cambia el orden (lo llama el selector "Ordenar por").
     function cambiarOrden(nuevoOrden: string) {
-        actualizarUrl(productoresElegidos, nuevoOrden)
+        actualizarUrl(categoriasElegidas, productoresElegidos, nuevoOrden)
     }
 
     // Desmarca todos los filtros, pero mantiene el orden elegido.
     function limpiarFiltros() {
-        actualizarUrl([], orden)
+        actualizarUrl([], [], orden)
     }
 
     // Busca el nombre del proveedor por su id. Si todavía no llega (o no existe), devuelve "".
@@ -117,10 +148,21 @@ function PaginaCatalogo() {
         return ""
     }
 
-    // 1) FILTRAR: nos quedamos solo con los productos de los productores marcados.
-    // Si no hay ninguno marcado, el filtro no hace nada (deja pasar todo).
+    // Busca el nombre de la categoría por su id. Si todavía no llega (o no existe), devuelve "".
+    function nombreCategoria(id: number) {
+        const categoria = categorias.find((c) => c.id === id)
+        if (categoria) {
+            return categoria.nombre
+        }
+        return ""
+    }
+
+    // 1) FILTRAR: un producto pasa si cumple LOS DOS filtros (categoría y productor).
+    // Si un filtro no tiene nada marcado, no hace nada (deja pasar todo).
     const productosFiltrados = productos.filter((producto) => {
-        return productoresElegidos.length === 0 || productoresElegidos.includes(producto.proveedorId)
+        const pasaCategoria = categoriasElegidas.length === 0 || categoriasElegidas.includes(producto.categoriaId)
+        const pasaProductor = productoresElegidos.length === 0 || productoresElegidos.includes(producto.proveedorId)
+        return pasaCategoria && pasaProductor
     })
 
     // 2) ORDENAR: "sort" cambia la lista original, por eso primero hacemos una copia con [...].
@@ -137,15 +179,22 @@ function PaginaCatalogo() {
     }
     // "destacados": se queda en el orden en que llegan de la API.
 
-    // Título: si hay UN solo productor marcado, usamos su nombre.
-    let titulo = "Todos los productos"
+    // Título: si hay UNA sola categoría o UN solo productor marcado, usamos su nombre.
+    // Ej: "Lácteos", "Lácteos del Campo" o "Lácteos · Lácteos del Campo".
+    const partesTitulo = []
+    if (categoriasElegidas.length === 1 && nombreCategoria(categoriasElegidas[0]) !== "") {
+        partesTitulo.push(nombreCategoria(categoriasElegidas[0]))
+    }
     if (productoresElegidos.length === 1 && nombreProveedor(productoresElegidos[0]) !== "") {
-        titulo = nombreProveedor(productoresElegidos[0])
+        partesTitulo.push(nombreProveedor(productoresElegidos[0]))
+    }
+    let titulo = "Todos los productos"
+    if (partesTitulo.length > 0) {
+        titulo = partesTitulo.join(" · ")   // join pega los textos con " · " entre medio
     }
 
     return(
     <>
-    <Encabezado></Encabezado>
     <main className="contenedor">
     <CabeceraCatalogo
       titulo={titulo}
@@ -159,6 +208,9 @@ function PaginaCatalogo() {
     <div className={mostrarFiltros ? "contenedor-catalogo" : "contenedor-catalogo sin-filtros"}>
     {mostrarFiltros && (
       <FiltrosCatalogo
+        categorias={categorias}
+        categoriasElegidas={categoriasElegidas}
+        onCambiarCategoria={cambiarCategoria}
         proveedores={proveedores}
         productoresElegidos={productoresElegidos}
         onCambiarProductor={cambiarProductor}
@@ -176,7 +228,12 @@ function PaginaCatalogo() {
     )}
     {/* Una tarjeta por cada producto que pasó los filtros, ya ordenados */}
     {productosVisibles.map((producto) => (
-      <TarjetaProductoApi key={producto.id} producto={producto} nombreProveedor={nombreProveedor(producto.proveedorId)}></TarjetaProductoApi>
+      <TarjetaProductoApi
+        key={producto.id}
+        producto={producto}
+        nombreProveedor={nombreProveedor(producto.proveedorId)}
+        onAgregarAlCarrito={onAgregarAlCarrito}
+      ></TarjetaProductoApi>
     ))}
     </section>
     </div>

@@ -238,3 +238,44 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+/* ===== Menú "Administrar" (solo lo ven los ADMIN) ===== */
+/* "relative": la lista desplegable se ubica justo debajo de este contenedor */
+.menu-administrar {
+  position: relative;
+}
+
+/* El botón se ve como los otros enlaces del menú, pero en verde para destacarlo */
+.boton-administrar {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;              /* la "manito" al pasar el mouse */
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+
+/* La lista desplegable: flota encima de la página ("absolute") */
+.submenu-administrar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;                  /* queda por encima del resto de la página */
+  min-width: 180px;
+  margin-top: var(--space-2);
+  padding: var(--space-2) 0;
+  list-style: none;             /* sin puntitos */
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(46, 26, 7, 0.12);
+}
+
+.submenu-administrar a {
+  display: block;               /* toda la fila se puede apretar, no solo el texto */
+  padding: var(--space-2) var(--space-4);
+}
+
+.submenu-administrar a:hover {
+  background-color: var(--color-primary-subtle);
+}

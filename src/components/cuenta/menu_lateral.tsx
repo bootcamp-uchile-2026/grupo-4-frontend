@@ -1,3 +1,5 @@
+// RESUMEN: menú de la izquierda en "Mi cuenta".
+// Si el usuario es ADMIN, agrega el enlace "Panel de administración".
 import { Link } from "react-router"
 import "../estilos/estilos.css"
 import "./cuenta.css"
@@ -14,11 +16,12 @@ const opciones = [
 ]
 
 type MenuLateralProps = {
+    esAdmin: boolean            // true = mostrar el enlace al panel de administración
     onCerrarSesion: () => void  // se llama al apretar "Cerrar sesión"
 }
 
 // Menú de la izquierda en "Mi cuenta".
-function MenuLateral({ onCerrarSesion }: MenuLateralProps) {
+function MenuLateral({ esAdmin, onCerrarSesion }: MenuLateralProps) {
     return(
     <aside className="menu-lateral">
       <nav className="lista-menu-lateral" aria-label="Mi cuenta">
@@ -35,6 +38,14 @@ function MenuLateral({ onCerrarSesion }: MenuLateralProps) {
             <span>{opcion.texto}</span>
           </a>
         ))}
+
+        {/* Solo los ADMIN ven este enlace (&& = "si lo de la izquierda es true, dibuja lo de la derecha") */}
+        {esAdmin && (
+          <Link to="/admin/productos" className="item-menu-lateral">
+            <span className="icono-menu" aria-hidden="true">🔐</span>
+            <span>Panel de administración</span>
+          </Link>
+        )}
 
         <Link to="/" className="item-menu-lateral cerrar-sesion" onClick={onCerrarSesion}>
           <span className="icono-menu" aria-hidden="true">↩</span>

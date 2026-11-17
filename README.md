@@ -47,28 +47,41 @@ Documentación Swagger: http://13.184.190.150:3000/api
 
 | Página      | Endpoint                             | Cómo se usa                              |
 |-------------|--------------------------------------|------------------------------------------|
-| Catálogo    | `GET /productos`, `GET /proveedores` | Se cargan solos al abrir la página       |
+| Catálogo    | `GET /productos`, `GET /proveedores`, `GET /categorias` | Filtros por categoría y productor (`?categoria=1&productor=2`) |
+| Home        | `GET /categorias`, `GET /productos/top-ventas`, `GET /proveedores` | Categorías principales, productos y productores destacados |
+| Producto    | `GET /productos/{id}`, `GET /proveedores/{id}`, `GET /categorias/{id}` | Ficha del producto con "Agregar al carrito" |
 | Productores | `GET /proveedores`                   | Se cargan solos al abrir la página       |
+| Productor   | `GET /proveedores/{id}`, `GET /productos?proveedorId={id}` | Perfil y sus productos con "Agregar" |
+| Admin       | `POST /productos/{id}/imagenes`, `POST /proveedores/{id}/imagenes` | Subir fotos (archivo con FormData) |
 | Suscripción | `GET /suscripciones`                 | Se cargan solos; si viene vacía, se usan los planes locales |
-| Categorías  | `GET /categorias`, `POST /categorias` | Lista de categorías y formulario para crear una |
-| Admin       | `POST /autenticacion/login`          | Login; devuelve `{ access_token }` (dura 15 minutos) |
-| Admin       | `/productos`, `/proveedores`, `/usuarios` | CRUD completo con `Authorization: Bearer <token>` (solo rol ADMIN) |
+| Categorías  | `GET /categorias`                    | Lista pública de categorías              |
+| Mi cuenta   | `POST /registro`                     | Crear cuenta (siempre rol CLIENTE)       |
+| Mi cuenta   | `POST /autenticacion/login`          | Iniciar sesión; devuelve `{ access_token }` (dura 15 minutos) |
+| Mi cuenta   | `GET /usuarios/me`                   | Datos de quien inició sesión (nombre, apellido, email, rol) |
+| Admin       | `/productos`, `/categorias`, `/proveedores`, `/usuarios` | CRUD completo con `Authorization: Bearer <token>` (solo rol ADMIN) |
 
-## 🔐 Panel de administración
+## 🔐 Cuentas y panel de administración
 
-Solo pueden entrar los usuarios con rol **ADMIN**. La cuenta ADMIN la entrega el equipo de backend
-(las cuentas creadas con `/registro` quedan como `CLIENTE`).
+Hay **un solo ingreso** para todos, en `/cuenta` (también aparece en Checkout y Suscripción).
+Las cuentas creadas desde la web quedan siempre como **CLIENTE**: solo un ADMIN puede cambiar roles.
 
 ```
-Cliente escribe /admin/productos
-   └─ RutaAdmin: ¿sesion es null? → sí → <Navigate to="/admin/login" />
+Crear cuenta ── POST /registro (rol CLIENTE) ──┐
+      ↕ (enlace "Inicia sesión" / "Crea una") │
+Iniciar sesión ────────────────────────────────┤
+                                               ▼
+                    iniciarSesion() en datos/api.ts
+                       ├─ POST /autenticacion/login → { access_token }
+                       └─ GET /usuarios/me (con el token) → nombre, apellido, email, rol
+                                               ▼
+                    App guarda el usuario (con rol y token) → "Hola, Camilo"
+                                               │
+                    ¿rol === "ADMIN"? → el header muestra "Administrar ▼"
+                                         (Productos / Categorías / Productores / Usuarios)
+                                         y el menú de Mi cuenta, "🔐 Panel de administración"
 
-En /admin/login escribe email + contraseña
-   ├─ POST /autenticacion/login → { access_token }
-   ├─ GET /usuarios con el token
-   │     ├─ 403 → "Tu cuenta no tiene permisos de administrador"  (CLIENTE / PROVEEDOR)
-   │     └─ 200 → es ADMIN → onIngresar → App guarda la sesión
-   └─ LoginAdmin ve sesion ≠ null → <Navigate to="/admin/productos" />
+Alguien escribe /admin/productos
+   └─ RutaAdmin: ¿no hay usuario o su rol no es ADMIN? → <Navigate to="/cuenta" />
 
 Dentro del panel, cada acción envía "Authorization: Bearer <token>"
    ├─ Crear  → POST
@@ -83,7 +96,7 @@ Dentro del panel, cada acción envía "Authorization: Bearer <token>"
 src/
 ├── pages/        # Una página por ruta (Home, PLP, PDP, Carrito...)
 ├── components/   # Piezas reutilizables, agrupadas por sección
-├── datos/        # Datos locales y tipos (productos, planes, usuario)
+├── datos/        # Conexión con la API (api.ts), carrito, planes de suscripción y tipos
 ├── hooks/        # Hooks propios (useEstadoGuardado → localStorage)
 ├── assets/       # Imágenes
 ├── App.tsx       # Todas las rutas
@@ -102,10 +115,10 @@ src/
 | `/carrito`         | Carrito                   |
 | `/checkout`        | Pago                      |
 | `/suscripcion`     | Suscripción               |
-| `/cuenta`          | Mi cuenta                 |
-| `/categorias`      | Categorías (ver y crear)  |
-| `/admin/login`     | Ingreso de administrador  |
+| `/cuenta`          | Mi cuenta (crear cuenta / iniciar sesión) |
+| `/categorias`      | Categorías (solo ver)     |
 | `/admin/productos` | Admin: CRUD de productos (solo ADMIN)   |
+| `/admin/categorias` | Admin: CRUD de categorías (solo ADMIN) |
 | `/admin/proveedores` | Admin: CRUD de productores (solo ADMIN) |
 | `/admin/usuarios`  | Admin: CRUD de usuarios (solo ADMIN)    |
 

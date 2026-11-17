@@ -150,6 +150,17 @@
     white-space: nowrap;
   }
   
+  /* Las pestañas ahora son botones: les quitamos el fondo y el borde que pone el navegador
+     (dejamos solo la línea de abajo, que marca la pestaña activa) */
+  button.pestana {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+  }
+
   .pestana:hover {
     color: var(--color-primary);
   }
