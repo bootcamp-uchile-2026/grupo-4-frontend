@@ -1,14 +1,17 @@
-import { productosTienda } from "./productos"
+// RESUMEN: forma de los productos del carrito y de los pedidos, y la función que convierte
+// un producto de la API en un producto del carrito (aProductoCarrito).
+import { fotoPrincipal } from "./api"
+import type { ProductoApi } from "./api"
 
-// Forma que tiene cada producto del carrito.
-// La usan varias páginas (Carrito y Checkout), por eso vive en su propio archivo.
+// Forma de cada producto DENTRO del carrito: una copia de los datos al momento de agregarlo.
+// La usan varias páginas (Carrito, Checkout y Mi cuenta), por eso vive en su propio archivo.
 type Producto = {
-    id: number
+    id: number          // el id del producto en la API (para el enlace a su página)
     nombre: string
-    productorId: number  // el nombre se busca con nombreProductor (datos/productores.ts)
-    precio: number
-    meta: string
-    imagen: string   // dirección de la foto
+    productor: string   // el nombre del productor, ya escrito
+    precio: number      // precio final (con descuento si tiene)
+    meta: string        // ej: "❄️ Refrigerado"
+    imagen: string      // dirección de la foto principal
     cantidad: number
 }
 
@@ -24,31 +27,36 @@ type Pedido = {
     direccion: string
 }
 
-// Productos con los que empieza el carrito (más adelante vendrán de una API).
-// Los sacamos de la lista de la tienda para no escribir dos veces los mismos datos:
-// "...productosTienda[0]" copia todos los datos del queso y le sumamos la cantidad.
-const productosIniciales: Producto[] = [
-    { ...productosTienda[0], cantidad: 1 },
-    { ...productosTienda[1], cantidad: 2 },
-]
+// Forma de la función "agregar al carrito" que App pasa a las páginas.
+// Le ponemos nombre para no repetir "(producto: ProductoApi, ...) => void" en cada archivo.
+type AgregarAlCarrito = (producto: ProductoApi, nombreProveedor: string, cantidad: number) => void
 
-// Pone al día una lista de productos guardada en el navegador (localStorage).
-//
-// ¿Por qué hace falta? Lo guardado puede estar viejo: si el equipo cambia un precio,
-// o publica una versión nueva del sitio (la dirección de las fotos cambia), los datos
-// guardados ya no coinciden. Por eso de lo guardado solo usamos el "id" y la "cantidad",
-// y el resto (nombre, precio, foto...) lo leemos siempre de la tienda actual.
-function actualizarDatosProductos(guardados: Producto[]): Producto[] {
-    const actualizados: Producto[] = []
-    for (const guardado of guardados) {
-        const enLaTienda = productosTienda.find((producto) => producto.id === guardado.id)
-        // Si el producto ya no existe en la tienda, no lo agregamos (desaparece del carrito).
-        if (enLaTienda) {
-            actualizados.push({ ...enLaTienda, cantidad: guardado.cantidad })
-        }
+// Convierte un producto de la API en un producto del carrito.
+// Guardamos una COPIA de los datos: así el carrito no depende de volver a preguntarle a la API.
+function aProductoCarrito(producto: ProductoApi, nombreProveedor: string, cantidad: number) {
+    // Si tiene descuento, se cobra el precio rebajado.
+    let precio = producto.precio
+    if (producto.descuento > 0) {
+        precio = producto.precioDescuento
     }
-    return actualizados
+
+    // Ícono según cómo se conserva: ambiente o frío (refrigerado / congelado).
+    let icono = "🌡️"
+    if (producto.tipoConservacion !== "Ambiente") {
+        icono = "❄️"
+    }
+
+    const nuevo: Producto = {
+        id: producto.id,
+        nombre: producto.nombre,
+        productor: nombreProveedor,
+        precio: Math.round(precio),       // Math.round redondea: 2327,5 → 2328 (no hay medio peso)
+        meta: icono + " " + producto.tipoConservacion,
+        imagen: fotoPrincipal(producto),
+        cantidad: cantidad,
+    }
+    return nuevo
 }
 
-export type {Producto, Pedido}
-export {productosIniciales, actualizarDatosProductos}
+export type {Producto, Pedido, AgregarAlCarrito}
+export {aProductoCarrito}

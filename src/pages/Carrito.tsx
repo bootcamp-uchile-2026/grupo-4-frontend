@@ -1,10 +1,10 @@
+// RESUMEN: página del carrito (/carrito): los productos agregados, sus cantidades y el total.
+
 // Componentes que arman la página. Cada uno es una parte de la pantalla.
-import { Encabezado } from "../components/Header/header"            // barra de navegación superior
 import { ProductoCarrito } from "../components/carrito/producto_carrito" // tarjeta de un producto
 import { Sugerencias } from "../components/carrito/sugerencias"     // "También te puede interesar"
 import { ResumenCompra } from "../components/carrito/resumen_compra" // panel con el total
 import { Footer } from "../components/footer/footer"                // pie de página
-import { nombreProductor } from "../datos/productores"                // busca el nombre del productor
 import type { Producto } from "../datos/carrito"                    // forma de cada producto ("import type" = solo traemos un type)
 
 // La lista de productos ya no se crea aquí: la recibimos desde App.tsx.
@@ -42,7 +42,6 @@ function CarritoPage({ productos, setProductos }: CarritoPageProps){
 
     return(
         <>
-        <Encabezado></Encabezado>
 
         <main className="contenedor contenedor-principal-dos-columnas">
           {/* Columna izquierda: los productos */}
@@ -58,7 +57,7 @@ function CarritoPage({ productos, setProductos }: CarritoPageProps){
                 id={producto.id}
                 nombre={producto.nombre}
                 imagen={producto.imagen}
-                productor={nombreProductor(producto.productorId)}
+                productor={producto.productor}
                 precio={producto.precio}
                 meta={producto.meta}
                 cantidad={producto.cantidad}

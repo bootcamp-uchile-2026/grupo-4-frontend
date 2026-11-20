@@ -1,0 +1,301 @@
+// RESUMEN: sección /admin/proveedores: listar, crear, editar (incluida su foto) y eliminar productores.
+import { useEffect, useState } from "react"
+import { URL_PROVEEDORES, fotoPrincipal, subirImagen, reemplazarImagen } from "../../datos/api"
+import type { ProveedorApi } from "../../datos/api"
+import "../../components/checkout/checkout.css"
+
+type AdminProveedoresProps = {
+    token: string
+}
+
+// El formulario vacío. Sirve para CREAR y también para EDITAR.
+const formularioVacio = {
+    nombre: "",               // nombre del negocio, ej: "Mermeladas del Valle"
+    nombreResponsable: "",    // la persona a cargo
+    apellido: "",
+    descripcion: "",
+    email: "",
+    telefono: "",
+    password: "",             // al crear un productor, la API también le crea su cuenta
+}
+
+// Sección /admin/proveedores: listar, crear, editar y eliminar productores.
+// Sigue la misma receta que AdminUsuarios.
+function AdminProveedores({ token }: AdminProveedoresProps) {
+    const [proveedores, setProveedores] = useState<ProveedorApi[]>([])
+    const [formulario, setFormulario] = useState(formularioVacio)
+    // null = el formulario está CREANDO. Un número = está EDITANDO el productor con ese id.
+    const [editandoId, setEditandoId] = useState<number | null>(null)
+    const [mensaje, setMensaje] = useState("")
+    // true = el formulario está abierto (acordeón, igual que en Productos).
+    const [mostrarFormulario, setMostrarFormulario] = useState(false)
+    // La foto elegida en el formulario. null = no se sube / no se cambia la foto.
+    // (File es el tipo que usa el navegador para un archivo. No está en los PDFs del curso.)
+    const [fotoNueva, setFotoNueva] = useState<File | null>(null)
+
+    // READ: /proveedores es pública, no necesita token.
+    useEffect(() => {
+        async function cargarProveedores() {
+            try {
+                const respuesta = await fetch(URL_PROVEEDORES)
+                if (!respuesta.ok) {
+                    throw new Error("La solicitud no fue exitosa")
+                }
+                const datos = await respuesta.json()
+                setProveedores(datos)
+            } catch (error) {
+                console.error("Error:", error)
+                setMensaje("No pudimos cargar los productores. " + error)
+            }
+        }
+        cargarProveedores()
+    }, [])
+
+    // CREATE y UPDATE: el mismo formulario hace las dos cosas.
+    async function guardar(evento: React.FormEvent<HTMLFormElement>) {
+        evento.preventDefault()
+        // Guardamos el <form> ahora: después de un "await" React ya no lo deja leer desde el evento.
+        // (Se llama formularioHtml para no confundirlo con el estado "formulario", que guarda los textos.)
+        const formularioHtml = evento.currentTarget
+        setMensaje("")
+
+        // Si estamos editando: PATCH a /proveedores/ID. Si estamos creando: POST a /proveedores.
+        let url = URL_PROVEEDORES
+        let metodo = "POST"
+        if (editandoId !== null) {
+            url = URL_PROVEEDORES + "/" + editandoId
+            metodo = "PATCH"
+        }
+
+        // Los campos vacíos van como undefined → JSON.stringify los deja FUERA (= no se cambian).
+        const datos = {
+            nombre: formulario.nombre || undefined,
+            nombreResponsable: formulario.nombreResponsable || undefined,
+            apellido: formulario.apellido || undefined,
+            descripcion: formulario.descripcion || undefined,
+            email: formulario.email || undefined,
+            telefono: formulario.telefono || undefined,
+            password: formulario.password || undefined,
+        }
+
+        try {
+            const respuesta = await fetch(url, {
+                method: metodo,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
+                },
+                body: JSON.stringify(datos),
+            })
+            if (respuesta.status === 401) {
+                throw new Error("Tu sesión expiró (dura 15 minutos). Cierra sesión y vuelve a ingresar.")
+            }
+            if (!respuesta.ok) {
+                const datosError = await respuesta.json()
+                throw new Error("Error " + respuesta.status + ": " + datosError.message)
+            }
+            const proveedorGuardado: ProveedorApi = await respuesta.json()
+
+            // FOTO (opcional). Si falla, el productor YA quedó guardado: solo avisamos.
+            let textoFoto = ""
+            if (fotoNueva) {
+                try {
+                    if (editandoId === null) {
+                        // Productor nuevo: solo subimos la foto.
+                        const imagen = await subirImagen(URL_PROVEEDORES, proveedorGuardado.id, fotoNueva, token)
+                        proveedorGuardado.imagenes = [imagen]
+                    } else {
+                        // Productor existente: subimos la nueva y borramos las anteriores.
+                        const resultado = await reemplazarImagen(URL_PROVEEDORES, proveedorGuardado, fotoNueva, token)
+                        proveedorGuardado.imagenes = [resultado.nueva]
+                        textoFoto = resultado.aviso
+                    }
+                    textoFoto = " Foto guardada." + textoFoto
+                } catch (errorFoto) {
+                    console.error("Error al subir la foto:", errorFoto)
+                    textoFoto = " Pero la foto no se pudo subir. " + errorFoto
+                }
+            }
+
+            if (editandoId === null) {
+                setProveedores([...proveedores, proveedorGuardado])
+                setMensaje("Productor creado." + textoFoto)
+            } else {
+                setProveedores(proveedores.map((p) => (p.id === editandoId ? proveedorGuardado : p)))
+                setMensaje("Productor actualizado." + textoFoto)
+                setMostrarFormulario(false)   // terminó de editar: cerramos el formulario
+            }
+            setFormulario(formularioVacio)
+            setEditandoId(null)
+            setFotoNueva(null)
+            formularioHtml.reset()   // limpia también el campo de archivo (React no puede vaciarlo con un estado)
+        } catch (error) {
+            console.error("Error:", error)
+            setMensaje("No pudimos guardar. " + error)
+        }
+    }
+
+    // La lista de la API no trae nombreResponsable ni apellido: quedan vacíos (= no se cambian).
+    function empezarEdicion(proveedor: ProveedorApi) {
+        setEditandoId(proveedor.id)
+        setFotoNueva(null)            // empieza sin foto nueva elegida
+        setMostrarFormulario(true)    // abrimos el acordeón para que se vea el formulario
+        setFormulario({
+            ...formularioVacio,
+            nombre: proveedor.nombre,
+            descripcion: proveedor.descripcion,
+            email: proveedor.email,
+            telefono: proveedor.telefono,
+        })
+    }
+
+    function cancelarEdicion() {
+        setEditandoId(null)
+        setFormulario(formularioVacio)
+        setFotoNueva(null)
+        setMostrarFormulario(false)
+    }
+
+    // Botón del acordeón: si está abierto lo cierra (y cancela la edición si había una); si está cerrado lo abre.
+    function alternarFormulario() {
+        if (mostrarFormulario) {
+            cancelarEdicion()
+        } else {
+            setMostrarFormulario(true)
+        }
+    }
+
+    // DELETE
+    async function eliminar(proveedor: ProveedorApi) {
+        if (!confirm("¿Eliminar a " + proveedor.nombre + "?")) {
+            return
+        }
+        try {
+            const respuesta = await fetch(URL_PROVEEDORES + "/" + proveedor.id, {
+                method: "DELETE",
+                headers: { "Authorization": "Bearer " + token },
+            })
+            if (!respuesta.ok) {
+                throw new Error("Error " + respuesta.status)
+            }
+            setProveedores(proveedores.filter((p) => p.id !== proveedor.id))
+            setMensaje("Productor eliminado.")
+        } catch (error) {
+            console.error("Error:", error)
+            setMensaje("No pudimos eliminar. " + error)
+        }
+    }
+
+    return (
+        <section>
+            <h2>Productores</h2>
+            {mensaje && <p className="texto-muted">{mensaje}</p>}
+
+            <table>
+                <thead>
+                    <tr><th>Id</th><th>Foto</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                    {proveedores.map((proveedor) => (
+                        <tr key={proveedor.id}>
+                            <td>{proveedor.id}</td>
+                            <td className="celda-foto-admin">
+                                {/* Miniatura de la foto principal, o "Sin foto" */}
+                                {fotoPrincipal(proveedor)
+                                    ? <img src={fotoPrincipal(proveedor)} alt="" className="miniatura-admin" />
+                                    : <span className="texto-muted">Sin foto</span>}
+                            </td>
+                            <td>{proveedor.nombre}</td>
+                            <td>{proveedor.email}</td>
+                            <td>{proveedor.telefono}</td>
+                            <td>
+                                <button type="button" className="boton boton-secundario boton-sm" onClick={() => empezarEdicion(proveedor)}>Editar</button>
+                                <button type="button" className="boton boton-terciario boton-sm" onClick={() => eliminar(proveedor)}>Eliminar</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            {/* CREATE y EDIT tipo acordeón: el botón abre y cierra el formulario.
+                "Editar" en la tabla también lo abre, ya lleno con los datos. */}
+            <button type="button" className="boton boton-primario"
+                aria-expanded={mostrarFormulario}
+                onClick={alternarFormulario}>
+                {mostrarFormulario ? "▲ Cerrar formulario" : "▼ Ingresar nuevo productor"}
+            </button>
+
+            {/* Solo se dibuja si está abierto */}
+            {mostrarFormulario && (
+                <div className="acordeon-admin">
+                    <div className="tarjeta-base">
+                        <h3>{editandoId === null ? "Nuevo productor" : "Editar productor " + editandoId}</h3>
+                        <form onSubmit={guardar}>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-nombre">Nombre del negocio</label>
+                                <input id="proveedor-nombre" type="text" className="campo" required={editandoId === null}
+                                    value={formulario.nombre}
+                                    onChange={(evento) => setFormulario({ ...formulario, nombre: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-responsable">Nombre del responsable</label>
+                                <input id="proveedor-responsable" type="text" className="campo" required={editandoId === null}
+                                    value={formulario.nombreResponsable}
+                                    onChange={(evento) => setFormulario({ ...formulario, nombreResponsable: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-apellido">Apellido del responsable</label>
+                                <input id="proveedor-apellido" type="text" className="campo" required={editandoId === null}
+                                    value={formulario.apellido}
+                                    onChange={(evento) => setFormulario({ ...formulario, apellido: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-descripcion">Descripción</label>
+                                <textarea id="proveedor-descripcion" className="campo" required={editandoId === null}
+                                    value={formulario.descripcion}
+                                    onChange={(evento) => setFormulario({ ...formulario, descripcion: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-email">Email</label>
+                                <input id="proveedor-email" type="email" className="campo" required={editandoId === null}
+                                    value={formulario.email}
+                                    onChange={(evento) => setFormulario({ ...formulario, email: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-telefono">Teléfono</label>
+                                <input id="proveedor-telefono" type="tel" className="campo" placeholder="+56912345678" required={editandoId === null}
+                                    value={formulario.telefono}
+                                    onChange={(evento) => setFormulario({ ...formulario, telefono: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-password">
+                                    {editandoId === null ? "Contraseña de su cuenta" : "Nueva contraseña (vacía = no cambiar)"}
+                                </label>
+                                <input id="proveedor-password" type="password" className="campo" minLength={8} required={editandoId === null}
+                                    value={formulario.password}
+                                    onChange={(evento) => setFormulario({ ...formulario, password: evento.target.value })} />
+                            </div>
+                            <div className="campo-form">
+                                <label htmlFor="proveedor-foto">
+                                    {editandoId === null ? "Foto (opcional)" : "Cambiar foto (vacía = no cambiar)"}
+                                </label>
+                                {/* type="file": abre el explorador de archivos. accept: solo fotos jpg, png o webp */}
+                                <input id="proveedor-foto" type="file" className="campo"
+                                    accept="image/jpeg, image/png, image/webp"
+                                    onChange={(evento) => setFotoNueva(evento.target.files ? evento.target.files[0] : null)} />
+                            </div>
+                            <button type="submit" className="boton boton-primario">
+                                {editandoId === null ? "Crear productor" : "Guardar cambios"}
+                            </button>
+                            {editandoId !== null && (
+                                <button type="button" className="boton boton-terciario" onClick={cancelarEdicion}>Cancelar</button>
+                            )}
+                        </form>
+                    </div>
+                </div>
+            )}
+        </section>
+    )
+}
+
+export {AdminProveedores}

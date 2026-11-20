@@ -61,10 +61,10 @@
     border: none;
   }
   
+  /* Espacio entre grupos (Categorías / Productores).
+     Sin línea: en un <fieldset> el título (<legend>) se dibuja ENCIMA del borde y lo corta. */
   .grupo-filtros + .grupo-filtros {
     margin-top: var(--space-5);
-    padding-top: var(--space-5);
-    border-top: var(--border-width) solid var(--color-border);
   }
   
   .grupo-filtros legend {
